@@ -1,1 +1,4 @@
-
+4-3-2026 - Chris
+- Changed starters, starter diagluoe.
+- Added Npc to give exp share 1 only in Oaks lab Pallet Town. 
+- 
