@@ -16,3 +16,8 @@
 - Changed Spawn Location 
 4-5-2026 - Chris ended around 5:32 pm
 - Changed all Rival teams to have respected pokemon.
+4-6-2026 - Chris ended around 5:30 pm
+-God Bidoof is added just missing some sprites, textbox, and stats.
+- Added Bidoofite
+- Added Npc to give lvl 100 Bidoof for testing
+-Added Item balls to give bidoofite and mega Ring.
