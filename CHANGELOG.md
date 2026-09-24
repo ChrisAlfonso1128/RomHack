@@ -10,6 +10,8 @@ This file tracks source-based decomp development. Legacy Hex Maniac Advance work
 - Documentation for local setup, branching, playtesting, and legacy migration.
 
 ### Migration
+- Verified the vanilla decomp base builds successfully in GitHub Actions.
+- Promoted the source-based decomp project to `main`.
 - Legacy HMA features are not yet considered ported. See `docs/LEGACY_MIGRATION.md`.
 
 ## Versioning convention
