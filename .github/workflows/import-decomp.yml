@@ -34,7 +34,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan decomp-source
           git rm -rf . || true
-          rsync -a --exclude='.git' /tmp/pokefirered/ ./
+          rsync -a --exclude='.git' --exclude='.github/workflows' /tmp/pokefirered/ ./
           mkdir -p docs
           cp /tmp/legacy-hma-changelog.txt docs/legacy-hma-changelog.txt 2>/dev/null || true
           {
