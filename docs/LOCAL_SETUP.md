@@ -9,12 +9,6 @@ git clone https://github.com/ChrisAlfonso1128/RomHack.git
 cd RomHack
 ```
 
-During migration, use the active decomp branch if `main` has not yet been promoted:
-
-```bash
-git checkout decomp-source
-```
-
 ## Install build prerequisites
 
 On Windows, follow the WSL/MSYS2 guidance in `INSTALL.md`. On Linux/macOS, follow the matching upstream section.
