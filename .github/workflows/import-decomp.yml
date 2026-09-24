@@ -1,0 +1,53 @@
+name: One-time decomp migration
+
+on:
+  push:
+    branches:
+      - setup/decomp-migration
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out legacy repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preserve legacy project notes
+        run: |
+          cp Changelog.txt /tmp/legacy-hma-changelog.txt 2>/dev/null || true
+
+      - name: Fetch current pret/pokefirered
+        run: |
+          git clone --depth 1 https://github.com/pret/pokefirered.git /tmp/pokefirered
+          git -C /tmp/pokefirered rev-parse HEAD > /tmp/upstream-revision.txt
+
+      - name: Build clean source-only branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan decomp-source
+          git rm -rf . || true
+          rsync -a --exclude='.git' /tmp/pokefirered/ ./
+          mkdir -p docs
+          cp /tmp/legacy-hma-changelog.txt docs/legacy-hma-changelog.txt 2>/dev/null || true
+          {
+            echo "# Upstream base"
+            echo
+            echo "This project was migrated from the legacy HMA/binary workflow to pret/pokefirered."
+            echo
+            echo "Imported pret/pokefirered commit:"
+            echo
+            echo "\`\`\`"
+            cat /tmp/upstream-revision.txt
+            echo "\`\`\`"
+          } > docs/UPSTREAM.md
+          git add -A
+          git commit -m "Import pret/pokefirered decomp base"
+          git push --force origin HEAD:decomp-source
