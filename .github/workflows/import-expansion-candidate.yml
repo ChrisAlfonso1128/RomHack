@@ -1,0 +1,77 @@
+name: One-time expansion candidate import
+
+on:
+  push:
+    branches:
+      - setup/expansion-candidate
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out current project
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preserve RomHack project files
+        run: |
+          mkdir -p /tmp/romhack/docs /tmp/romhack/github
+          cp README.md /tmp/romhack/README.md
+          cp CHANGELOG.md /tmp/romhack/CHANGELOG.md
+          cp CONTRIBUTING.md /tmp/romhack/CONTRIBUTING.md
+          cp docs/WORKFLOW.md /tmp/romhack/docs/WORKFLOW.md
+          cp docs/LEGACY_MIGRATION.md /tmp/romhack/docs/LEGACY_MIGRATION.md
+          cp docs/LOCAL_SETUP.md /tmp/romhack/docs/LOCAL_SETUP.md
+          cp docs/legacy-hma-changelog.txt /tmp/romhack/docs/legacy-hma-changelog.txt
+          cp .github/PULL_REQUEST_TEMPLATE.md /tmp/romhack/github/PULL_REQUEST_TEMPLATE.md
+          cp .github/CODEOWNERS /tmp/romhack/github/CODEOWNERS
+
+      - name: Fetch RHH Expansion 1.17.0
+        run: |
+          git clone --depth 1 --branch expansion/1.17.0 https://github.com/rh-hideout/pokeemerald-expansion.git /tmp/expansion
+          git -C /tmp/expansion rev-parse HEAD > /tmp/expansion-revision.txt
+
+      - name: Build clean candidate source branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan candidate-frlg-expansion
+          git rm -rf . || true
+          rsync -a --exclude='.git' --exclude='.github/workflows' /tmp/expansion/ ./
+
+          mkdir -p docs .github
+          cp /tmp/romhack/README.md README.md
+          cp /tmp/romhack/CHANGELOG.md CHANGELOG.md
+          cp /tmp/romhack/CONTRIBUTING.md CONTRIBUTING.md
+          cp /tmp/romhack/docs/WORKFLOW.md docs/WORKFLOW.md
+          cp /tmp/romhack/docs/LEGACY_MIGRATION.md docs/LEGACY_MIGRATION.md
+          cp /tmp/romhack/docs/LOCAL_SETUP.md docs/LOCAL_SETUP.md
+          cp /tmp/romhack/docs/legacy-hma-changelog.txt docs/legacy-hma-changelog.txt
+          cp /tmp/romhack/github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+          cp /tmp/romhack/github/CODEOWNERS .github/CODEOWNERS
+
+          {
+            echo "# Upstream base"
+            echo
+            echo "RomHack uses RHH pokeemerald-expansion's FireRed/LeafGreen build support."
+            echo
+            echo "Pinned release: expansion/1.17.0"
+            echo
+            echo "Imported commit:"
+            echo
+            echo "\`\`\`"
+            cat /tmp/expansion-revision.txt
+            echo "\`\`\`"
+            echo
+            echo "Target game: FireRed (FRLG build mode)"
+          } > docs/UPSTREAM.md
+
+          git add -A
+          git commit -m "Import RHH Expansion 1.17.0 FRLG base"
+          git push --force origin HEAD:candidate/frlg-expansion
