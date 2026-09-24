@@ -4,7 +4,7 @@ A collaborative Pokémon FireRed ROM-hack project built on the [pret/pokefirered
 
 ## Project status
 
-The repository is being migrated from an older Hex Maniac Advance (binary-ROM) workflow to a source-based decomp workflow. The imported decomp base is recorded in [docs/UPSTREAM.md](docs/UPSTREAM.md).
+The repository now uses a source-based decomp workflow migrated from the older Hex Maniac Advance (binary-ROM) project. The imported decomp base is recorded in [docs/UPSTREAM.md](docs/UPSTREAM.md).
 
 **Important:** old HMA changes were not automatically converted into source. They are tracked in [docs/LEGACY_MIGRATION.md](docs/LEGACY_MIGRATION.md) and should be ported deliberately, feature by feature.
 
