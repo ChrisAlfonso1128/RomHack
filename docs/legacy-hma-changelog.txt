@@ -1,0 +1,23 @@
+4-3-2026 - Chris Ended around 1:00 pm
+- Changed starters(Honedge, Trapinch, Impidimp), starter diagluoe.
+- Starter Honedge evo to doublade to lvl 25, Doublade evo Aegislash to lvl 45.
+- Added Npc to give exp share 1 only in Oaks lab Pallet Town. 
+- Changed rival team trainer id in oaks lab
+- Added map to Chris's & Sam's House.
+- Added Sam to the house.
+4-3-2026 - Chris ended around 9:32 pm
+- Added Chris to the Chris's & Sam's house.(Please Double Check the map, i dont know what im doing there)
+4/4/2026 - Mike ended ~1430 
+- Touched up Pallet Town new houses
+- WIP Oak's intro
+- WIP Viridian City Meteor Crashsite
+4/5/26 - Mike ended around ~1055
+- Worked on Viridian Crashsite
+- Changed Spawn Location 
+4-5-2026 - Chris ended around 5:32 pm
+- Changed all Rival teams to have respected pokemon.
+4-6-2026 - Chris ended around 5:30 pm
+-God Bidoof is added just missing some sprites, textbox, and stats.
+- Added Bidoofite
+- Added Npc to give lvl 100 Bidoof for testing
+-Added Item balls to give bidoofite and mega Ring.
