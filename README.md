@@ -1,16 +1,56 @@
-# Pokémon FireRed and LeafGreen
+# RomHack
 
-This is a decompilation of English Pokémon FireRed and LeafGreen.
+A collaborative Pokémon FireRed ROM-hack project built on the [pret/pokefirered](https://github.com/pret/pokefirered) decompilation.
 
-It builds the following ROM images:
+## Project status
 
-* [**pokefirered.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1616) `sha1: 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc`
-* [**pokeleafgreen.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1617) `sha1: 574fa542ffebb14be69902d1d36f1ec0a4afd71e`
-* [**pokefirered_rev1.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1672) `sha1: dd5945db9b930750cb39d00c84da8571feebf417`
-* [**pokeleafgreen_rev1.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1668) `sha1: 7862c67bdecbe21d1d69ce082ce34327e1c6ed5e`
-* [**pokefirered_switch.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=x550) `sha1: baa452d0b24629dd7782cfc07a8984085dde1311`
-* [**pokeleafgreen_switch.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=x551) `sha1: 62b9fc77549dbc67032eb6cbd0ea6ad3b825690f`
+The repository is being migrated from an older Hex Maniac Advance (binary-ROM) workflow to a source-based decomp workflow. The imported decomp base is recorded in [docs/UPSTREAM.md](docs/UPSTREAM.md).
 
-To set up the repository, see [INSTALL.md](INSTALL.md).
+**Important:** old HMA changes were not automatically converted into source. They are tracked in [docs/LEGACY_MIGRATION.md](docs/LEGACY_MIGRATION.md) and should be ported deliberately, feature by feature.
 
-For contacts and other pret projects, see [pret.github.io](https://pret.github.io/).
+## Core workflow
+
+1. Start from the latest stable source.
+2. Create a focused branch such as `feature/v0.5-brock-rework`.
+3. Make source/data/script changes.
+4. Update [CHANGELOG.md](CHANGELOG.md) for player-visible changes.
+5. Open a pull request.
+6. GitHub Actions verifies that the project builds.
+7. Mike/Chris perform local gameplay and visual testing in an emulator/Porymap.
+8. Revise as needed, then merge.
+
+See [docs/WORKFLOW.md](docs/WORKFLOW.md) for the full remote-first workflow.
+
+## Local tools
+
+- Git / GitHub
+- A supported build environment from [INSTALL.md](INSTALL.md)
+- [Porymap](https://github.com/huderlem/porymap) for visual map editing
+- A GBA emulator such as mGBA for gameplay testing
+- Optional graphics tools for sprites, tiles, palettes, and other art assets
+
+For a project-specific quick start, see [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md).
+
+## Build
+
+Follow [INSTALL.md](INSTALL.md) to install the required build tools and `agbcc`, then run:
+
+```bash
+make
+```
+
+A successful local build creates `pokefirered.gba`. Build outputs and commercial ROM images must not be committed. The upstream `data/*.gba` files are intentional decomp source assets and are the exception already handled by the upstream `.gitignore`.
+
+## Collaboration with ChatGPT
+
+Repository-side source work can be handled through GitHub feature branches: trainer data, encounters, text, event scripts, constants, C code, documentation, changelogs, and similar source-controlled changes.
+
+Local interactive work still requires Mike or Chris, especially gameplay testing, visual map-layout editing in Porymap, and pixel/palette work that needs visual judgment.
+
+## Legacy work
+
+The previous HMA changelog is preserved at [docs/legacy-hma-changelog.txt](docs/legacy-hma-changelog.txt). Do not assume a feature listed there exists in the decomp until it is marked as ported in [docs/LEGACY_MIGRATION.md](docs/LEGACY_MIGRATION.md).
+
+## Upstream
+
+This project derives from pret/pokefirered. The imported upstream revision is recorded in [docs/UPSTREAM.md](docs/UPSTREAM.md). Keep upstream-sync work separate from gameplay feature branches.
