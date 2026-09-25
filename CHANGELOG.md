@@ -68,6 +68,16 @@ This file tracks source-based decomp development and also serves as a troublesho
     - Commit: `67bad6b`
     - Notes: Internal trainer/script labels retain their vanilla names for compatibility; the actual species used in-game are the custom trio.
 
+
+- Completed the rival's starter progression across the full FireRed story and Champion rematch. Each internal Squirtle/Bulbasaur/Charmander route now consistently follows the corresponding Trapinch/Honedge/Impidimp family, including the level-18 and level-36 evolutions.
+  - Early rival starter moves were updated to match the custom level-up learnsets, and the late Route 22 / Champion starter movesets were replaced with role-appropriate moves from each custom line.
+  - Change trace:
+    - File: `src/data/trainers_frlg.party`
+    - Lines: 4470-4649, 7356-7952, 13597-13773
+    - Anchors: `TRAINER_RIVAL_ROUTE22_EARLY_SQUIRTLE` through `TRAINER_CHAMPION_FIRST_CHARMANDER`, plus `TRAINER_CHAMPION_REMATCH_SQUIRTLE`, `TRAINER_CHAMPION_REMATCH_BULBASAUR`, and `TRAINER_CHAMPION_REMATCH_CHARMANDER`
+    - Commit: `f19ee87`
+    - Notes: Internal trainer labels retain their vanilla starter names for compatibility. The mapping is Squirtle-label -> Trapinch line, Bulbasaur-label -> Honedge line, and Charmander-label -> Impidimp line.
+
 ### Tested
 - Starter-selection Poké Balls correctly award Honedge, Trapinch, and Impidimp in Oak's Lab.
 - The opening rival battle selects the intended opposing starter.
