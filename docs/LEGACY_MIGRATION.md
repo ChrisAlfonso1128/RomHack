@@ -12,7 +12,7 @@ The original changelog is preserved in `docs/legacy-hma-changelog.txt`.
 - [x] Doublade -> Aegislash evolution ported and intentionally redesigned to level 36 instead of a Dusk Stone.
 - [ ] Oak's Lab NPC that gives one Exp. Share.
 - [x] Oak's Lab opening rival trainer/team changes.
-- [ ] All later rival teams updated for the custom starter choices.
+- [x] All later rival teams updated for the custom starter choices.
 - [ ] Chris's & Sam's House map.
 - [ ] Sam NPC in the house.
 - [ ] Chris NPC in the house.
