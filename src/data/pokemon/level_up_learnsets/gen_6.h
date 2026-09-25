@@ -15822,7 +15822,7 @@ static const struct LevelUpMove sHonedgeLevelUpLearnset[] = {
     LEVEL_UP_MOVE(40, MOVE_IRON_HEAD),
     LEVEL_UP_MOVE(44, MOVE_SACRED_SWORD),
     LEVEL_UP_END
-}
+};
 
 static const struct LevelUpMove sDoubladeLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_SHADOW_CLAW),
@@ -15841,7 +15841,7 @@ static const struct LevelUpMove sDoubladeLevelUpLearnset[] = {
     LEVEL_UP_MOVE(40, MOVE_IRON_HEAD),
     LEVEL_UP_MOVE(44, MOVE_SACRED_SWORD),
     LEVEL_UP_END
-}
+};
 
 static const struct LevelUpMove sAegislashLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_KINGS_SHIELD),
@@ -15860,7 +15860,7 @@ static const struct LevelUpMove sAegislashLevelUpLearnset[] = {
     LEVEL_UP_MOVE(40, MOVE_IRON_HEAD),
     LEVEL_UP_MOVE(44, MOVE_SACRED_SWORD),
     LEVEL_UP_END
-}
+};
 #endif //P_FAMILY_HONEDGE
 
 #if P_FAMILY_SPRITZEE
