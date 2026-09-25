@@ -4482,11 +4482,13 @@ IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 - Tackle
 - Sand Attack
 
-Squirtle
+Trapinch
 Level: 9
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
-- Tackle
-- Tail Whip
+- Bite
+- Sand Attack
+- Mud Slap
+- Sand Tomb
 
 === TRAINER_RIVAL_ROUTE22_EARLY_BULBASAUR ===
 Name: TERRY
@@ -4503,11 +4505,13 @@ IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 - Tackle
 - Sand Attack
 
-Bulbasaur
+Honedge
 Level: 9
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 - Tackle
-- Growl
+- Fury Cutter
+- Shadow Sneak
+- Metal Sound
 
 === TRAINER_RIVAL_ROUTE22_EARLY_CHARMANDER ===
 Name: TERRY
@@ -4524,11 +4528,13 @@ IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 - Tackle
 - Sand Attack
 
-Charmander
+Impidimp
 Level: 9
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
-- Scratch
-- Growl
+- Fake Out
+- Confide
+- Bite
+- Flatter
 
 === TRAINER_RIVAL_CERULEAN_SQUIRTLE ===
 Name: TERRY
@@ -4559,13 +4565,13 @@ IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 - Tail Whip
 - Quick Attack
 
-Squirtle
+Vibrava
 Level: 18
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Tackle
-- Tail Whip
-- Withdraw
-- Water Gun
+- Sand Tomb
+- Feint Attack
+- Bulldoze
+- Dragon Breath
 
 === TRAINER_RIVAL_CERULEAN_BULBASAUR ===
 Name: TERRY
@@ -4596,13 +4602,13 @@ IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 - Tail Whip
 - Quick Attack
 
-Bulbasaur
+Doublade
 Level: 18
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Sleep Powder
-- Poison Powder
-- Vine Whip
-- Leech Seed
+- Metal Sound
+- Metal Claw
+- Aerial Ace
+- Shadow Claw
 
 === TRAINER_RIVAL_CERULEAN_CHARMANDER ===
 Name: TERRY
@@ -4633,13 +4639,13 @@ IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 - Tail Whip
 - Quick Attack
 
-Charmander
+Morgrem
 Level: 18
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
-- Metal Claw
-- Ember
-- Growl
-- Scratch
+- Flatter
+- Disarming Voice
+- Assurance
+- False Surrender
 
 === TRAINER_SCIENTIST_TED ===
 Name: TED
@@ -7368,7 +7374,7 @@ Kadabra
 Level: 18
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 
-Wartortle
+Vibrava
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
@@ -7393,7 +7399,7 @@ Kadabra
 Level: 18
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 
-Ivysaur
+Doublade
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
@@ -7418,7 +7424,7 @@ Kadabra
 Level: 18
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 
-Charmeleon
+Morgrem
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
@@ -7447,7 +7453,7 @@ Kadabra
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Wartortle
+Vibrava
 Level: 25
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
@@ -7476,7 +7482,7 @@ Kadabra
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Ivysaur
+Doublade
 Level: 25
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
@@ -7505,7 +7511,7 @@ Kadabra
 Level: 20
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Charmeleon
+Morgrem
 Level: 25
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
@@ -7534,7 +7540,7 @@ Alakazam
 Level: 35
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Blastoise
+Flygon
 Level: 40
 IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 
@@ -7563,7 +7569,7 @@ Alakazam
 Level: 35
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Venusaur
+Aegislash Shield
 Level: 40
 IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 
@@ -7592,7 +7598,7 @@ Alakazam
 Level: 35
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
-Charizard
+Grimmsnarl
 Level: 40
 IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 
@@ -7645,13 +7651,13 @@ IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 - Future Sight
 - Disable
 
-Blastoise
+Flygon
 Level: 53
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Water Gun
-- Rain Dance
-- Bite
-- Rapid Spin
+- Dragon Claw
+- Earth Power
+- Sandstorm
+- Earthquake
 
 === TRAINER_RIVAL_ROUTE22_LATE_BULBASAUR ===
 Name: TERRY
@@ -7702,13 +7708,13 @@ IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 - Future Sight
 - Disable
 
-Venusaur
+Aegislash Shield
 Level: 53
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Razor Leaf
-- Sweet Scent
-- Growth
-- Synthesis
+- King's Shield
+- Shadow Claw
+- Iron Head
+- Sacred Sword
 
 === TRAINER_RIVAL_ROUTE22_LATE_CHARMANDER ===
 Name: TERRY
@@ -7759,13 +7765,13 @@ IVs: 18 HP / 18 Atk / 18 Def / 18 SpA / 18 SpD / 18 Spe
 - Future Sight
 - Disable
 
-Charizard
+Grimmsnarl
 Level: 53
 IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Flamethrower
-- Wing Attack
-- Slash
-- Scary Face
+- Bulk Up
+- Play Rough
+- Foul Play
+- Hammer Arm
 
 === TRAINER_CHAMPION_FIRST_SQUIRTLE ===
 Name: TERRY
@@ -7818,13 +7824,13 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Sleep Powder
 - Light Screen
 
-Blastoise @ Sitrus Berry
+Flygon @ Sitrus Berry
 Level: 63
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Hydro Pump
-- Rain Dance
-- Skull Bash
-- Bite
+- Dragon Claw
+- Earth Power
+- Sandstorm
+- Earthquake
 
 === TRAINER_CHAMPION_FIRST_BULBASAUR ===
 Name: TERRY
@@ -7877,13 +7883,13 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Roar
 - Bite
 
-Venusaur @ Sitrus Berry
+Aegislash Shield @ Sitrus Berry
 Level: 63
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Solar Beam
-- Synthesis
-- Sunny Day
-- Growth
+- King's Shield
+- Shadow Claw
+- Iron Head
+- Sacred Sword
 
 === TRAINER_CHAMPION_FIRST_CHARMANDER ===
 Name: TERRY
@@ -7936,13 +7942,13 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Bite
 - Thrash
 
-Charizard @ Sitrus Berry
+Grimmsnarl @ Sitrus Berry
 Level: 63
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Fire Blast
-- Aerial Ace
-- Slash
-- Fire Spin
+- Bulk Up
+- Play Rough
+- Foul Play
+- Hammer Arm
 
 === TRAINER_CHANNELER_PATRICIA ===
 Name: PATRICIA
@@ -13639,13 +13645,13 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Sleep Powder
 - Light Screen
 
-Blastoise @ Sitrus Berry
+Flygon @ Sitrus Berry
 Level: 75
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Hydro Pump
-- Ice Beam
+- Dragon Claw
+- Earth Power
+- Sandstorm
 - Earthquake
-- Rain Dance
 
 === TRAINER_CHAMPION_REMATCH_BULBASAUR ===
 Name: TERRY
@@ -13698,13 +13704,13 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Aerial Ace
 - Iron Tail
 
-Venusaur @ Sitrus Berry
+Aegislash Shield @ Sitrus Berry
 Level: 75
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Solar Beam
-- Sludge Bomb
-- Earthquake
-- Sunny Day
+- King's Shield
+- Shadow Claw
+- Iron Head
+- Sacred Sword
 
 === TRAINER_CHAMPION_REMATCH_CHARMANDER ===
 Name: TERRY
@@ -13757,13 +13763,13 @@ IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 - Earthquake
 - Hyper Beam
 
-Charizard @ Sitrus Berry
+Grimmsnarl @ Sitrus Berry
 Level: 75
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Fire Blast
-- Dragon Claw
-- Aerial Ace
-- Earthquake
+- Bulk Up
+- Play Rough
+- Foul Play
+- Hammer Arm
 
 === TRAINER_CUE_BALL_PAXTON ===
 Name: PAXTON
