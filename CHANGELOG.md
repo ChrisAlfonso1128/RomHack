@@ -68,6 +68,13 @@ This file tracks source-based decomp development and also serves as a troublesho
     - Commit: `67bad6b`
     - Notes: Internal trainer/script labels retain their vanilla names for compatibility; the actual species used in-game are the custom trio.
 
+### Tested
+- Starter-selection Poké Balls correctly award Honedge, Trapinch, and Impidimp in Oak's Lab.
+- The opening rival battle selects the intended opposing starter.
+- All three starter lines were verified in-game to evolve at levels 18 and 36.
+- Starter learnset progression was spot-checked through evolution, including Honedge-line moves such as Aerial Ace, Metal Sound, Slash, Night Slash, and Retaliate.
+- The game builds and runs normally with the starter package applied.
+
 ### Migration
 - Pinned RHH Expansion release `expansion/1.17.0` at commit `e8bd1cd7b03fc032ea37e3ecd38b379b5d01a1e7`.
 - Verified the FireRed target builds successfully in GitHub Actions.
