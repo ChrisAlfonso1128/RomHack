@@ -24,7 +24,7 @@ RHH Expansion gives the project FireRed/Kanto support while also providing the m
 8. Mike/Chris perform local gameplay and visual testing in an emulator/Porymap.
 9. Revise as needed, then merge.
 
-See [docs/WORKFLOW.md](docs/WORKFLOW.md) and [docs/CHANGELOG_GUIDE.md](docs/CHANGELOG_GUIDE.md).
+See [docs/WORKFLOW.md](docs/WORKFLOW.md), [docs/CHANGELOG_GUIDE.md](docs/CHANGELOG_GUIDE.md), and [docs/SOURCE_MAP.md](docs/SOURCE_MAP.md).
 
 ## Local tools
 
