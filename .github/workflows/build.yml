@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - candidate/frlg-expansion
     paths-ignore:
       - "**/*.md"
       - "docs/**"
