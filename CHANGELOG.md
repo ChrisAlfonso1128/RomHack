@@ -39,6 +39,19 @@ This file tracks source-based decomp development and also serves as a troublesho
     - Commit: `1283c2f`
     - Notes: Final-stage base stats were intentionally left unchanged; the balance pass targets starter progression rather than global Pokédex rebalance.
 
+- Ported the custom starter trio into FireRed's Oak's Lab starter scene: Honedge, Trapinch, and Impidimp now replace the vanilla starter choices, with matching confirmation text and the first rival battle updated to use the corresponding custom starter.
+  - Starter/rival cycle: Honedge -> rival Impidimp; Trapinch -> rival Honedge; Impidimp -> rival Trapinch.
+  - Change trace:
+    - File: `data/maps/PalletTown_ProfessorOaksLab_Frlg/scripts.inc`
+    - Lines: 1071-1073, 1214-1216, 1227-1229, 1404-1419
+    - Anchors: `PalletTown_ProfessorOaksLab_EventScript_BulbasaurPokeBall`, `PalletTown_ProfessorOaksLab_EventScript_SquirtlePokeBall`, `PalletTown_ProfessorOaksLab_EventScript_CharmanderPokeBall`, `PalletTown_ProfessorOaksLab_Text_OakChoosingCharmander`
+    - Commit: `8bfc9a1`
+    - File: `src/data/trainers_frlg.party`
+    - Lines: 4431-4473
+    - Anchors: `TRAINER_RIVAL_OAKS_LAB_SQUIRTLE`, `TRAINER_RIVAL_OAKS_LAB_BULBASAUR`, `TRAINER_RIVAL_OAKS_LAB_CHARMANDER`
+    - Commit: `67bad6b`
+    - Notes: Internal trainer/script labels retain their vanilla names for compatibility; the actual species used in-game are the custom trio.
+
 ### Migration
 - Pinned RHH Expansion release `expansion/1.17.0` at commit `e8bd1cd7b03fc032ea37e3ecd38b379b5d01a1e7`.
 - Verified the FireRed target builds successfully in GitHub Actions.
