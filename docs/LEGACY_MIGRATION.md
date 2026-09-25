@@ -6,13 +6,13 @@ The original changelog is preserved in `docs/legacy-hma-changelog.txt`.
 
 ## Features to review and port
 
-- [ ] Starter trio: Honedge / Trapinch / Impidimp.
-- [ ] Starter-selection dialogue changes.
-- [ ] Honedge -> Doublade at level 25.
-- [ ] Doublade -> Aegislash at level 45.
+- [x] Starter trio: Honedge / Trapinch / Impidimp.
+- [x] Starter-selection dialogue changes.
+- [x] Honedge -> Doublade evolution ported and intentionally redesigned to level 18.
+- [x] Doublade -> Aegislash evolution ported and intentionally redesigned to level 36 instead of a Dusk Stone.
 - [ ] Oak's Lab NPC that gives one Exp. Share.
-- [ ] Oak's Lab rival trainer-ID/team changes.
-- [ ] All rival teams updated for the custom starter choices.
+- [x] Oak's Lab opening rival trainer/team changes.
+- [ ] All later rival teams updated for the custom starter choices.
 - [ ] Chris's & Sam's House map.
 - [ ] Sam NPC in the house.
 - [ ] Chris NPC in the house.
