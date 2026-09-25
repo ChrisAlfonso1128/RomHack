@@ -10,6 +10,35 @@ This file tracks source-based decomp development and also serves as a troublesho
 - Added documentation for local setup, branching, playtesting, legacy migration, and source-location tracing.
 - Added a changelog **Change trace** standard so gameplay changes point back to the files and source locations that implement them.
 
+### Changed
+- Rebalanced the three planned starter lines so their early- and mid-game progression is comparable while preserving their distinct roles.
+  - Honedge line:
+    - Honedge is now 310 BST (45/75/90/35/40/25), uses Medium Slow growth, and evolves at level 18.
+    - Doublade is now 410 BST (59/95/120/40/61/35), uses Medium Slow growth, and evolves into Aegislash at level 36 instead of requiring a Dusk Stone.
+    - Aegislash keeps its existing battle stats and now uses Medium Slow growth.
+  - Trapinch line:
+    - Trapinch is now 310 BST (45/90/50/35/55/35), uses Medium Slow growth, and evolves at level 18.
+    - Vibrava is now 410 BST (55/80/65/70/70/70), uses Medium Slow growth, and evolves into Flygon at level 36.
+    - Flygon keeps its existing battle stats and Medium Slow growth.
+  - Impidimp line:
+    - Impidimp is now 310 BST (45/60/45/60/50/50), uses Medium Slow growth, and evolves at level 18.
+    - Morgrem is now 410 BST (65/75/55/80/60/75), uses Medium Slow growth, and evolves into Grimmsnarl at level 36.
+    - Grimmsnarl keeps its existing battle stats and now uses Medium Slow growth.
+  - Change trace:
+    - File: `src/data/pokemon/species_info/gen_3_families.h`
+    - Lines: 7330-7552
+    - Anchors: `SPECIES_TRAPINCH`, `SPECIES_VIBRAVA`, `SPECIES_FLYGON`
+    - Commit: `0609c8d`
+    - File: `src/data/pokemon/species_info/gen_6_families.h`
+    - Lines: 3045-3328
+    - Anchors: `SPECIES_HONEDGE`, `SPECIES_DOUBLADE`, `SPECIES_AEGISLASH_SHIELD`, `SPECIES_AEGISLASH_BLADE`
+    - Commit: `2538515`
+    - File: `src/data/pokemon/species_info/gen_8_families.h`
+    - Lines: 4536-4729
+    - Anchors: `SPECIES_IMPIDIMP`, `SPECIES_MORGREM`, `SPECIES_GRIMMSNARL`
+    - Commit: `1283c2f`
+    - Notes: Final-stage base stats were intentionally left unchanged; the balance pass targets starter progression rather than global Pokédex rebalance.
+
 ### Migration
 - Pinned RHH Expansion release `expansion/1.17.0` at commit `e8bd1cd7b03fc032ea37e3ecd38b379b5d01a1e7`.
 - Verified the FireRed target builds successfully in GitHub Actions.
