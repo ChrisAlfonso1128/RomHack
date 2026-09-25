@@ -8,11 +8,12 @@ This project is designed so planning and most source changes can happen without 
 2. A dedicated GitHub feature branch is created from the current stable source.
 3. Source files are inspected and modified.
 4. Relevant documentation and `CHANGELOG.md` are updated.
-5. A pull request is opened.
-6. GitHub Actions performs a clean build check.
-7. Mike or Chris checks out the branch locally and performs gameplay/visual testing.
-8. Feedback is applied to the same branch.
-9. Once approved and build-tested, the pull request is merged.
+5. The changelog entry records a change trace: file path, line range, stable anchor, and commit/PR reference.
+6. A pull request is opened.
+7. GitHub Actions performs a clean `make firered` build check.
+8. Mike or Chris checks out the branch locally and performs gameplay/visual testing.
+9. Feedback is applied to the same branch.
+10. Once approved and build-tested, the pull request is merged.
 
 ## Work that can usually be handled directly in the repository
 
@@ -36,6 +37,21 @@ This project is designed so planning and most source changes can happen without 
 - pixel-art and palette editing where visual judgment is required;
 - checking sprite alignment/animations;
 - emulator-specific behavior and save-file testing.
+
+## Change-trace standard
+
+Each meaningful change should point back to the implementation location. Use both exact lines and a stable anchor because line numbers can drift after later edits.
+
+Example:
+
+```text
+File: src/data/trainers.party
+Lines: 410-438
+Anchor: TRAINER_BROCK
+Commit: abc1234
+```
+
+For multi-file features, list every file that materially controls the feature. Full details are in `docs/CHANGELOG_GUIDE.md`.
 
 ## Review standard
 
