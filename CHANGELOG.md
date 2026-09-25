@@ -1,18 +1,38 @@
 # Changelog
 
-This file tracks source-based decomp development. Legacy Hex Maniac Advance work is preserved separately in `docs/legacy-hma-changelog.txt`.
+This file tracks source-based decomp development and also serves as a troubleshooting/learning map for Mike and Chris. Legacy Hex Maniac Advance work is preserved separately in `docs/legacy-hma-changelog.txt`.
 
 ## Unreleased
 
 ### Added
-- Source-based project baseline using pret/pokefirered.
-- GitHub collaboration workflow and build verification.
-- Documentation for local setup, branching, playtesting, and legacy migration.
+- Migrated the project to RHH pokeemerald-expansion 1.17.0 using the supported FireRed/FRLG build mode.
+- Added GitHub collaboration workflow and FireRed build verification.
+- Added documentation for local setup, branching, playtesting, legacy migration, and source-location tracing.
+- Added a changelog **Change trace** standard so gameplay changes point back to the files and source locations that implement them.
 
 ### Migration
-- Verified the vanilla decomp base builds successfully in GitHub Actions.
-- Promoted the source-based decomp project to `main`.
-- Legacy HMA features are not yet considered ported. See `docs/LEGACY_MIGRATION.md`.
+- Pinned RHH Expansion release `expansion/1.17.0` at commit `e8bd1cd7b03fc032ea37e3ecd38b379b5d01a1e7`.
+- Verified the FireRed target builds successfully in GitHub Actions.
+- Preserved the earlier vanilla pokefirered setup on an archive branch.
+- Legacy HMA gameplay features are not yet considered ported. See `docs/LEGACY_MIGRATION.md`.
+
+## Change-trace format
+
+Gameplay-facing and troubleshooting-relevant entries should use this structure:
+
+```md
+- Description of the change.
+  - Change trace:
+    - File: `path/to/file`
+    - Lines: 100-125
+    - Anchor: `SEARCHABLE_SYMBOL_OR_SCRIPT_LABEL`
+    - Commit: `abc1234`
+    - Notes: Optional troubleshooting context.
+```
+
+For multi-file features, list each materially involved file. Line ranges describe the implementing commit and may drift later, so the **Anchor** is the durable lookup reference.
+
+See `docs/CHANGELOG_GUIDE.md` for the full standard.
 
 ## Versioning convention
 
