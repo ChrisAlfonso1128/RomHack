@@ -10,6 +10,28 @@ This file tracks source-based decomp development and also serves as a troublesho
 - Added documentation for local setup, branching, playtesting, legacy migration, and source-location tracing.
 - Added a changelog **Change trace** standard so gameplay changes point back to the files and source locations that implement them.
 
+### Changed
+- Rebalanced the Honedge starter line for a smoother starter-style progression: Honedge and Doublade were normalized to 310/410 BST, the full line now uses Medium Slow growth, and evolutions occur at levels 18 and 36 instead of 35 plus a Dusk Stone.
+  - Change trace:
+    - File: `src/data/pokemon/species_info/gen_6_families.h`
+    - Lines: 3045-3328
+    - Anchors: `SPECIES_HONEDGE`, `SPECIES_DOUBLADE`, `SPECIES_AEGISLASH_SHIELD`, `SPECIES_AEGISLASH_BLADE`
+    - Commit: `7e4c11f`
+    - Notes: Aegislash final-form battle stats remain unchanged; only its growth curve was normalized.
+- Rebalanced the Trapinch starter line: Trapinch and Vibrava were normalized to 310/410 BST and now evolve at levels 18 and 36. Flygon's final stats and the line's existing Medium Slow growth rate remain unchanged.
+  - Change trace:
+    - File: `src/data/pokemon/species_info/gen_3_families.h`
+    - Lines: 7330-7552
+    - Anchors: `SPECIES_TRAPINCH`, `SPECIES_VIBRAVA`, `SPECIES_FLYGON`
+    - Commit: `a3965d5`
+- Rebalanced the Impidimp starter line: Impidimp and Morgrem were normalized to 310/410 BST, the full line now uses Medium Slow growth, and evolutions occur at levels 18 and 36.
+  - Change trace:
+    - File: `src/data/pokemon/species_info/gen_8_families.h`
+    - Lines: 4536-4727
+    - Anchors: `SPECIES_IMPIDIMP`, `SPECIES_MORGREM`, `SPECIES_GRIMMSNARL`
+    - Commit: `b14ce4b`
+    - Notes: Grimmsnarl's final stats remain unchanged.
+
 ### Migration
 - Pinned RHH Expansion release `expansion/1.17.0` at commit `e8bd1cd7b03fc032ea37e3ecd38b379b5d01a1e7`.
 - Verified the FireRed target builds successfully in GitHub Actions.
