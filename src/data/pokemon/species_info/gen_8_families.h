@@ -4536,11 +4536,11 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
     [SPECIES_IMPIDIMP] =
     {
         .baseHP        = 45,
-        .baseAttack    = 45,
-        .baseDefense   = 30,
-        .baseSpeed     = 50,
-        .baseSpAttack  = 55,
-        .baseSpDefense = 40,
+        .baseAttack    = 60,
+        .baseDefense   = 45,
+        .baseSpeed     = 60,
+        .baseSpAttack  = 50,
+        .baseSpDefense = 50,
         .types = MON_TYPES(TYPE_DARK, TYPE_FAIRY),
         .catchRate = 255,
         .expYield = 53,
@@ -4548,7 +4548,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .genderRatio = MON_MALE,
         .eggCycles = 20,
         .friendship = STANDARD_FRIENDSHIP,
-        .growthRate = GROWTH_MEDIUM_FAST,
+        .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FAIRY, EGG_GROUP_HUMAN_LIKE),
         .abilities = { ABILITY_PRANKSTER, ABILITY_FRISK, ABILITY_PICKPOCKET },
         .bodyColor = BODY_COLOR_PINK,
@@ -4594,17 +4594,17 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sImpidimpLevelUpLearnset,
         .teachableLearnset = sImpidimpTeachableLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 32, SPECIES_MORGREM}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 18, SPECIES_MORGREM}),
     },
 
     [SPECIES_MORGREM] =
     {
         .baseHP        = 65,
-        .baseAttack    = 60,
-        .baseDefense   = 45,
-        .baseSpeed     = 70,
-        .baseSpAttack  = 75,
-        .baseSpDefense = 55,
+        .baseAttack    = 75,
+        .baseDefense   = 55,
+        .baseSpeed     = 80,
+        .baseSpAttack  = 60,
+        .baseSpDefense = 75,
         .types = MON_TYPES(TYPE_DARK, TYPE_FAIRY),
         .catchRate = 120,
         .expYield = 130,
@@ -4612,7 +4612,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .genderRatio = MON_MALE,
         .eggCycles = 20,
         .friendship = STANDARD_FRIENDSHIP,
-        .growthRate = GROWTH_MEDIUM_FAST,
+        .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FAIRY, EGG_GROUP_HUMAN_LIKE),
         .abilities = { ABILITY_PRANKSTER, ABILITY_FRISK, ABILITY_PICKPOCKET },
         .bodyColor = BODY_COLOR_PINK,
@@ -4658,7 +4658,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         )
         .levelUpLearnset = sMorgremLevelUpLearnset,
         .teachableLearnset = sMorgremTeachableLearnset,
-        .evolutions = EVOLUTION({EVO_LEVEL, 42, SPECIES_GRIMMSNARL}),
+        .evolutions = EVOLUTION({EVO_LEVEL, 36, SPECIES_GRIMMSNARL}),
     },
 
 
@@ -4677,7 +4677,7 @@ const struct SpeciesInfo gSpeciesInfoGen8[] =
         .genderRatio = MON_MALE,
         .eggCycles = 20,
         .friendship = STANDARD_FRIENDSHIP,
-        .growthRate = GROWTH_MEDIUM_FAST,
+        .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FAIRY, EGG_GROUP_HUMAN_LIKE),
         .abilities = { ABILITY_PRANKSTER, ABILITY_FRISK, ABILITY_PICKPOCKET },
         .bodyColor = BODY_COLOR_PURPLE,
