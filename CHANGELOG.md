@@ -9,8 +9,24 @@ This file tracks source-based decomp development and also serves as a troublesho
 - Added GitHub collaboration workflow and FireRed build verification.
 - Added documentation for local setup, branching, playtesting, legacy migration, and source-location tracing.
 - Added a changelog **Change trace** standard so gameplay changes point back to the files and source locations that implement them.
+- Documented the built-in development/debug menu and its starter-testing utilities in `docs/DEV_TOOLS.md`.
 
 ### Changed
+- Reworked the Honedge, Trapinch, and Impidimp family level-up learnsets for starter progression, including earlier STAB access, evolution-stage signature moves, and smoother late-game move pacing.
+  - Change trace:
+    - File: `src/data/pokemon/level_up_learnsets/gen_3.h`
+    - Anchors: `sTrapinchLevelUpLearnset`, `sVibravaLevelUpLearnset`, `sFlygonLevelUpLearnset`
+    - Commit: `f6e8327`
+    - Notes: Adds earlier Ground coverage, Dragon Breath on Vibrava evolution, Dragon Claw on Flygon evolution, and smoother later Ground/coverage progression.
+    - File: `src/data/pokemon/level_up_learnsets/gen_6.h`
+    - Anchors: `sHonedgeLevelUpLearnset`, `sDoubladeLevelUpLearnset`, `sAegislashLevelUpLearnset`
+    - Commit: `fb788dd`
+    - Notes: Gives earlier Ghost/Steel STAB, Shadow Claw on Doublade evolution, and King's Shield on Aegislash evolution while avoiding excessive early setup power.
+    - File: `src/data/pokemon/level_up_learnsets/gen_8.h`
+    - Anchors: `sImpidimpLevelUpLearnset`, `sMorgremLevelUpLearnset`, `sGrimmsnarlLevelUpLearnset`
+    - Commit: `f8c14d5`
+    - Notes: Adds earlier Fairy STAB, False Surrender on Morgrem evolution, Spirit Break on Grimmsnarl evolution, and keeps the line utility-focused.
+
 - Rebalanced the three planned starter lines so their early- and mid-game progression is comparable while preserving their distinct roles.
   - Honedge line:
     - Honedge is now 310 BST (45/75/90/35/40/25), uses Medium Slow growth, and evolves at level 18.
