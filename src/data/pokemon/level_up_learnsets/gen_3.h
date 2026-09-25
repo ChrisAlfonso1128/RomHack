@@ -6737,7 +6737,7 @@ static const struct LevelUpMove sTrapinchLevelUpLearnset[] = {
     LEVEL_UP_MOVE(44, MOVE_SANDSTORM),
     LEVEL_UP_MOVE(48, MOVE_EARTHQUAKE),
     LEVEL_UP_END
-}
+};
 
 static const struct LevelUpMove sVibravaLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_DRAGON_BREATH),
@@ -6756,7 +6756,7 @@ static const struct LevelUpMove sVibravaLevelUpLearnset[] = {
     LEVEL_UP_MOVE(44, MOVE_SANDSTORM),
     LEVEL_UP_MOVE(48, MOVE_EARTHQUAKE),
     LEVEL_UP_END
-}
+};
 
 static const struct LevelUpMove sFlygonLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_DRAGON_CLAW),
@@ -6776,7 +6776,7 @@ static const struct LevelUpMove sFlygonLevelUpLearnset[] = {
     LEVEL_UP_MOVE(44, MOVE_SANDSTORM),
     LEVEL_UP_MOVE(48, MOVE_EARTHQUAKE),
     LEVEL_UP_END
-}
+};
 #endif //P_FAMILY_TRAPINCH
 
 #if P_FAMILY_CACNEA
