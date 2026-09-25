@@ -25,5 +25,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends             binutils-arm-none-eabi             gcc-arm-none-eabi             libnewlib-arm-none-eabi             libpng-dev             python3
 
+      - name: Verify tool sources
+        run: |
+          test -d tools/compresSmol
+          test -f tools/compresSmol/Makefile
+          ls -la tools/compresSmol
+
+      - name: Build tools serially
+        run: make tools -j1
+
       - name: Build FireRed
         run: make firered -j"$(nproc)" -O
