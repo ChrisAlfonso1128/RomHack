@@ -19607,7 +19607,7 @@ static const struct LevelUpMove sImpidimpLevelUpLearnset[] = {
     LEVEL_UP_MOVE(44, MOVE_PLAY_ROUGH),
     LEVEL_UP_MOVE(48, MOVE_FOUL_PLAY),
     LEVEL_UP_END
-}
+};
 
 static const struct LevelUpMove sMorgremLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_FALSE_SURRENDER),
@@ -19627,7 +19627,7 @@ static const struct LevelUpMove sMorgremLevelUpLearnset[] = {
     LEVEL_UP_MOVE(44, MOVE_PLAY_ROUGH),
     LEVEL_UP_MOVE(48, MOVE_FOUL_PLAY),
     LEVEL_UP_END
-}
+};
 
 static const struct LevelUpMove sGrimmsnarlLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 0, MOVE_SPIRIT_BREAK),
@@ -19649,7 +19649,7 @@ static const struct LevelUpMove sGrimmsnarlLevelUpLearnset[] = {
     LEVEL_UP_MOVE(48, MOVE_FOUL_PLAY),
     LEVEL_UP_MOVE(52, MOVE_HAMMER_ARM),
     LEVEL_UP_END
-}
+};
 #endif //P_FAMILY_IMPIDIMP
 
 #if P_FAMILY_MILCERY
