@@ -3,11 +3,22 @@ name: Build FireRed expansion
 on:
   push:
     branches:
+      - main
       - candidate/frlg-expansion
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/CODEOWNERS"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
   pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/CODEOWNERS"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
 
 concurrency:
-  group: build-frlg-${{ github.ref }}
+  group: build-frlg-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -23,13 +34,17 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends             binutils-arm-none-eabi             gcc-arm-none-eabi             libnewlib-arm-none-eabi             libpng-dev             python3
+          sudo apt-get install -y --no-install-recommends \
+            binutils-arm-none-eabi \
+            gcc-arm-none-eabi \
+            libnewlib-arm-none-eabi \
+            libpng-dev \
+            python3
 
       - name: Verify tool sources
         run: |
           test -d tools/compresSmol
           test -f tools/compresSmol/Makefile
-          ls -la tools/compresSmol
 
       - name: Build tools serially
         run: make tools -j1
