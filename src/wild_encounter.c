@@ -614,8 +614,14 @@ bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum WildPok
 static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 rod)
 {
     u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
-    enum Species wildMonSpecies = wildMonInfo->wildPokemon[wildMonIndex].species;
-    u8 level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, WILD_AREA_FISHING);
+    enum Species wildMonSpecies;
+    u8 level;
+
+    // Fishing has a rod-dependent slot range; use the full table as a
+    // temporary eligible-species fallback until rod-specific weighting is integrated.
+    wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex, NUM_FISHING_MONS_ENCOUNTER_SLOTS);
+    wildMonSpecies = wildMonInfo->wildPokemon[wildMonIndex].species;
+    level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, WILD_AREA_FISHING);
 
     UpdateChainFishingStreak();
     CreateWildMon(wildMonSpecies, level);
