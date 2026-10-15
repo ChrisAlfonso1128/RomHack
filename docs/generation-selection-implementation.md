@@ -34,3 +34,13 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 ## Patch notes
 - Development: started generation-selection implementation planning and isolated feature branch; no gameplay behavior changed.
+
+## Implementation progress (2026-10-15)
+- Added `include/generation_selection.h` and `src/generation_selection.c`.
+- Reserved `VAR_GENERATION_SELECTION` (0x40F9) as one persistent packed configuration value.
+- Implemented getters, setter, National Dex introduction-generation lookup, and species eligibility checks.
+- Unset/legacy values default to All Generations. Unknown species and non-Dex forms are rejected by eligibility.
+- Makefile discovers `src/*.c` automatically; no build manifest edit required.
+- **Not yet connected** to New Game UI, encounters, trainer parties, starter events, or existing save migration tests.
+- **Build and runtime testing not yet performed.**
+- National Dex generation policy applies to species' base Pokédex number; regional forms need a separate policy.
