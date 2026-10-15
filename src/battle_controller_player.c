@@ -2428,9 +2428,10 @@ static u32 CheckTargetTypeEffectiveness(enum BattlerId battler)
 
 static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum BattlerId battler)
 {
-    // 2x/4x: green +; 1x: dark +; 1/2x/1/4x: dark -; 0x: red X.
+    // 4x: green +; 2x: dark +; 1x: blank; 1/2x/1/4x: dark -; 0x: red X.
     static const u8 noIcon[] = _("");
-    static const u8 favorableIcon[] = _("{COLOR GREEN}+");
+    static const u8 extremelyEffectiveIcon[] = _("{COLOR GREEN}+");
+    static const u8 superEffectiveIcon[] = _("{COLOR DARK_GRAY}+");
     static const u8 normalIcon[] = _("");
     static const u8 resistedIcon[] = _("{COLOR DARK_GRAY}-");
     static const u8 immuneIcon[] = _("{COLOR RED}X");
@@ -2442,8 +2443,10 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum Bat
         switch (foeEffectiveness)
         {
         case EFFECTIVENESS_EXTREMELY_EFFECTIVE:
+            StringCopy(txtPtr, extremelyEffectiveIcon);
+            break;
         case EFFECTIVENESS_SUPER_EFFECTIVE:
-            StringCopy(txtPtr, favorableIcon);
+            StringCopy(txtPtr, superEffectiveIcon);
             break;
         case EFFECTIVENESS_NORMAL:
             StringCopy(txtPtr, normalIcon);
