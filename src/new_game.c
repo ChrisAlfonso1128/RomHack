@@ -52,6 +52,7 @@
 #include "constants/items.h"
 #include "difficulty.h"
 #include "follower_npc.h"
+#include "generation_selection.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 extern const u8 EventScript_ResetAllMapFlagsFrlg[];
@@ -184,6 +185,7 @@ void NewGameInitData(void)
     PlayTimeCounter_Reset();
     ClearPokedexFlags();
     InitEventData();
+    ApplyPendingGenerationSelection();
     ClearTVShowData();
     ResetGabbyAndTy();
     ClearSecretBases();
