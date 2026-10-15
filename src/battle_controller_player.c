@@ -2431,7 +2431,7 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum Bat
     // 2x/4x: green +; 1x: dark +; 1/2x/1/4x: dark -; 0x: red X.
     static const u8 noIcon[] = _("");
     static const u8 favorableIcon[] = _("{COLOR GREEN}+");
-    static const u8 normalIcon[] = _("{COLOR DARK_GRAY}+");
+    static const u8 normalIcon[] = _("");
     static const u8 resistedIcon[] = _("{COLOR DARK_GRAY}-");
     static const u8 immuneIcon[] = _("{COLOR RED}X");
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
