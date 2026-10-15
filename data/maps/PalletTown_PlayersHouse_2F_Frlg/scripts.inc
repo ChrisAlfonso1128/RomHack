@@ -25,7 +25,7 @@ PalletTown_PlayersHouse_2F_EventScript_NES::
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_Sign::
-	msgbox PalletTown_PlayersHouse_2F_Text_PressLRForHelp, MSGBOX_SIGN
+	msgbox PalletTown_PlayersHouse_2F_Text_AdventureSettings, MSGBOX_SIGN
 	end
 
 PalletTown_PlayersHouse_2F_Text_PlayedWithNES::
@@ -38,3 +38,12 @@ PalletTown_PlayersHouse_2F_Text_PressLRForHelp::
 	.string "If you're confused, ask for HELP!\n"
 	.string "Press the L or R Button!$"
 
+
+PalletTown_PlayersHouse_2F_Text_AdventureSettings::
+	.string "ADVENTURE SETTINGS\\p"
+	.string "Choose which POKeMON generations\\n"
+	.string "will appear on your journey.\\p"
+	.string "Some choices become permanent\\n"
+	.string "when you leave your room.\\p"
+	.string "Other options, like EXP sharing,\\n"
+	.string "can be changed later.$"
