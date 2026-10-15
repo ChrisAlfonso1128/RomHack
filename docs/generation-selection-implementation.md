@@ -1,0 +1,36 @@
+# Generation selection — implementation plan (phase 1)
+
+Status: architecture documented; gameplay integration NOT yet implemented.
+
+## Player-facing choices
+- Generation: 1–9, or All.
+- Mode: ONLY (introduced in selected generation) or UNLOCKED (introduced in or before selected generation).
+- All ignores mode and allows all enabled generations.
+- New Game only; selection persists per save. Existing saves must default to All until a migration strategy is verified.
+
+## Core API (proposed)
+```c
+enum GenerationMode { GEN_MODE_ONLY, GEN_MODE_UNLOCKED };
+struct GenerationSelection { u8 generation; u8 mode; };
+bool8 IsSpeciesAllowedByGeneration(u16 species);
+u8 GetSpeciesIntroductionGeneration(u16 species);
+```
+Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_POKEMON switches as runtime settings: those are build-time toggles. Do NOT allocate one event flag per species or trainer.
+
+## Integration points
+- New Game UI: src/main_menu.c transitions to Oak speech; add a generation/mode screen before beginning the introduction, retaining B-button cancellation.
+- Save: inspect existing SaveBlock layout and reserved space before allocating persistent fields; initialize defaults on New Game and migrate old saves safely.
+- Wild: hook encounter table selection/weighted slot selection, preserving area, time, method, level and slot weights. Avoid rejection loops.
+- Trainers: select deterministic curated parties for bosses; filtered, role-aware curated pools for ordinary trainers; maintain team size, level, moves, held items and AI.
+- Starters and static encounters: use explicit curated lists and special-case policies, never silently substitute arbitrary species.
+- Regional forms and cross-generation evolutions: define an explicit generation attribution policy, with tests.
+
+## Required validation before gameplay code
+1. Confirm exact save layout and spare bytes; old-save behavior.
+2. Confirm trainer-party loader and encounter generation entry points.
+3. Confirm starter script modifications and New Game transitions.
+4. Add tests for generations 1–9, Only, Unlocked, All, cross-gen evolutions and forms.
+5. Compile FRLG target and test save/load and representative battles/encounters.
+
+## Patch notes
+- Development: started generation-selection implementation planning and isolated feature branch; no gameplay behavior changed.
