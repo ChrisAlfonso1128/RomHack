@@ -1634,24 +1634,24 @@ static void OakSpeech_PrintGenerationChoice(u8 taskId)
 {
     static const u8 *const sGenerationNames[] =
     {
-        (const u8 *)"ALL GENERATIONS",
-        (const u8 *)"GENERATION 1",
-        (const u8 *)"GENERATION 2",
-        (const u8 *)"GENERATION 3",
-        (const u8 *)"GENERATION 4",
-        (const u8 *)"GENERATION 5",
-        (const u8 *)"GENERATION 6",
-        (const u8 *)"GENERATION 7",
-        (const u8 *)"GENERATION 8",
-        (const u8 *)"GENERATION 9",
+        _("ALL GENERATIONS"),
+        _("GENERATION 1"),
+        _("GENERATION 2"),
+        _("GENERATION 3"),
+        _("GENERATION 4"),
+        _("GENERATION 5"),
+        _("GENERATION 6"),
+        _("GENERATION 7"),
+        _("GENERATION 8"),
+        _("GENERATION 9"),
     };
     FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
     AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                (const u8 *)"CHOOSE YOUR GENERATION", 8, 8, 0, NULL);
+                                _("CHOOSE YOUR GENERATION"), 8, 8, 0, NULL);
     AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
                                 sGenerationNames[gTasks[taskId].data[12]], 8, 40, 0, NULL);
     AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                (const u8 *)"UP/DOWN: CHANGE  A: NEXT", 8, 72, 0, NULL);
+                                _("UP/DOWN: CHANGE  A: NEXT"), 8, 72, 0, NULL);
     CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
 }
 
@@ -1681,11 +1681,11 @@ static void Task_OakSpeech_SelectGeneration(u8 taskId)
         {
             FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
             AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                        (const u8 *)"CHOOSE GENERATION MODE", 8, 8, 0, NULL);
+                                        _("CHOOSE GENERATION MODE"), 8, 8, 0, NULL);
             AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                        (const u8 *)"ONLY / UNLOCKED", 8, 40, 0, NULL);
+                                        _("ONLY / UNLOCKED"), 8, 40, 0, NULL);
             AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                        (const u8 *)"LEFT/RIGHT: MODE  A: OK", 8, 72, 0, NULL);
+                                        _("LEFT/RIGHT: MODE  A: OK"), 8, 72, 0, NULL);
             CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
             gTasks[taskId].func = Task_OakSpeech_SelectGenerationMode;
         }
@@ -1699,13 +1699,13 @@ static void Task_OakSpeech_SelectGenerationMode(u8 taskId)
         gTasks[taskId].data[13] ^= 1;
         FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
         AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                    (const u8 *)"CHOOSE GENERATION MODE", 8, 8, 0, NULL);
+                                    _("CHOOSE GENERATION MODE"), 8, 8, 0, NULL);
         AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
                                     gTasks[taskId].data[13] == GENERATION_MODE_ONLY
-                                        ? (const u8 *)"GENERATION ONLY"
-                                        : (const u8 *)"GENERATION UNLOCKED", 8, 40, 0, NULL);
+                                        ? _("GENERATION ONLY")
+                                        : _("GENERATION UNLOCKED"), 8, 40, 0, NULL);
         AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                    (const u8 *)"LEFT/RIGHT: MODE  A: OK", 8, 72, 0, NULL);
+                                    _("LEFT/RIGHT: MODE  A: OK"), 8, 72, 0, NULL);
         CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
     }
     else if (JOY_NEW(B_BUTTON))
