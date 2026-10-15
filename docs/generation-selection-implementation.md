@@ -61,3 +61,6 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - Added `VAR_ADVENTURE_SETTINGS_CONFIRMED` (`0x40FA`) and a bedroom coordinate trigger at (10,3), directly before the upstairs warp. First visit prompts for confirmation; Yes sets the lock; No moves the player one tile away. Generation menu refuses further edits once confirmed.
 - Corrected escaped paragraph/newline sequences in the Adventure Settings introduction text.
 - **Verification pending:** coordinate trigger coverage and collision/path bypass checks in emulator; event script compilation; generation filtering of starters/wild/trainer parties; settings status readout; future EXP Share access. No playable build validated.
+
+- Began runtime wild encounter filtering in `src/wild_encounter.c`: standard land/water/rock encounters prefer eligible species already in the current area's encounter slots. This is a provisional fallback, **not** full generation compliance: if no eligible species exists, the original slot remains; fishing, static, scripted encounters, and trainer teams remain to be integrated. Encounter weighting and area curation require further work.
+- Build and gameplay verification are still outstanding; do not publish as tested.
