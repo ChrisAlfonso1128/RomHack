@@ -44,3 +44,5 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - **Not yet connected** to New Game UI, encounters, trainer parties, starter events, or existing save migration tests.
 - **Build and runtime testing not yet performed.**
 - National Dex generation policy applies to species' base Pokédex number; regional forms need a separate policy.
+
+- Added staging API for generation choice before New Game; `NewGameInitData` applies it after `InitEventData` clears event variables. Menu still needs to call the staging API.
