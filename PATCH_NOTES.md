@@ -10,6 +10,7 @@ Branch: `qol-move-effectiveness`
 - Assigned the PP indicator window a dedicated background palette, allowing yellow and orange text without recoloring neighboring move-menu windows.
 
 ### Build and validation
+- Fixed GitHub Actions build #40 failure: corrected the RGB header include to `constants/rgb.h` (the project does not have a top-level `rgb.h`). Rebuild verification pending.
 - Fixed GitHub Actions build #38 failure: added the missing `rgb.h` include for the `RGB()` macro used by the new yellow/orange palette. Rebuild verification pending.
 - An earlier indicator revision successfully compiled in GitHub Actions (build #31) and was confirmed working in gameplay by the project team.
 - **This latest six-color revision has not yet been verified in an emulator.** Confirm compilation and visual behavior before merging.
