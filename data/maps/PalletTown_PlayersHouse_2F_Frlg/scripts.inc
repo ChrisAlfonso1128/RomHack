@@ -173,7 +173,7 @@ PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     lockall
     msgbox PalletTown_PlayersHouse_2F_Text_ConfirmSettings, MSGBOX_DEFAULT
     yesnobox 20, 8
-    goto_if_eq VAR_RESULT, 1, PalletTown_PlayersHouse_2F_EventScript_ReviewSettings
+    goto_if_eq VAR_RESULT, NO, PalletTown_PlayersHouse_2F_EventScript_ReviewSettings
     setvar VAR_ADVENTURE_SETTINGS_CONFIRMED, 1
     msgbox PalletTown_PlayersHouse_2F_Text_SettingsLocked, MSGBOX_DEFAULT
     releaseall
