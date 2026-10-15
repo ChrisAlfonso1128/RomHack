@@ -48,7 +48,8 @@ u8 GetSpeciesIntroductionGeneration(u16 species)
     // National Dex numbers preserve the introduction generation for
     // ordinary species, later-generation evolutions and regional forms.
     dexNum = SpeciesToNationalPokedexNum(species);
-    if (dexNum >= 1 && dexNum <= 151) return 1;
+    if (dexNum == 0) return 0;
+    if (dexNum <= 151) return 1;
     if (dexNum <= 251) return 2;
     if (dexNum <= 386) return 3;
     if (dexNum <= 493) return 4;
