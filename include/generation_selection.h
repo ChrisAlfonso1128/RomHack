@@ -17,6 +17,8 @@ enum GenerationSelectionMode
 u8 GetSelectedGeneration(void);
 u8 GetSelectedGenerationMode(void);
 void SetGenerationSelection(u8 generation, u8 mode);
+void StageGenerationSelectionForNewGame(u8 generation, u8 mode);
+void ApplyPendingGenerationSelection(void);
 u8 GetSpeciesIntroductionGeneration(u16 species);
 bool8 IsSpeciesAllowedByGeneration(u16 species);
 
