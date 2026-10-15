@@ -1,4 +1,5 @@
 #include "global.h"
+#include "generation_selection.h"
 #include "data.h"
 #include "main.h"
 #include "battle.h"
@@ -2245,9 +2246,29 @@ void CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Traine
     MakeTrainerGenerator(trainerGen, trainer);
     DoTrainerPartyPool(trainer, monIndices, monsCount, gBattleTypeFlags);
 
+    // Opposing trainer pools can substitute an eligible authored party member
+    // without discarding its custom moves, IVs, EVs, item, or ability.
+    // Fixed teams without eligible authored members are left intact until
+    // dedicated generation-specific teams are authored.
+    bool8 isOpponentParty = (party == gParties[B_TRAINER_OPPONENT_A]
+                          || party == gParties[B_TRAINER_OPPONENT_B]);
+    u32 availableCount = trainer->poolSize ? trainer->poolSize : trainer->partySize;
+
     for (i = 0; i < monsCount; i++)
     {
         u32 monIndex = monIndices[i];
+        if (isOpponentParty && !IsSpeciesAllowedByGeneration(trainer->party[monIndex].species))
+        {
+            u32 candidate;
+            for (candidate = 0; candidate < availableCount; candidate++)
+            {
+                if (IsSpeciesAllowedByGeneration(trainer->party[candidate].species))
+                {
+                    monIndex = candidate;
+                    break;
+                }
+            }
+        }
         GenerateMonFromTrainerMon(&party[i], &trainer->party[monIndex], trainerGen);
     }
     Free(trainerGen);
