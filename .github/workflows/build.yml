@@ -50,3 +50,11 @@ jobs:
 
       - name: Build FireRed
         run: make firered -j"$(nproc)" -O
+
+      - name: Upload playable FireRed ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: firered-qol-playtest
+          path: firered.gba
+          if-no-files-found: error
+          retention-days: 14
