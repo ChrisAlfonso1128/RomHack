@@ -55,6 +55,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: firered-qol-playtest
-          path: firered.gba
+          path: pokefirered.gba
           if-no-files-found: error
           retention-days: 14
