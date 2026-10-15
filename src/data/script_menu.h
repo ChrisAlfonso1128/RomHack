@@ -1127,6 +1127,37 @@ static const struct MenuAction MultichoiceList_Exit[] =
     {gText_Exit},
 };
 
+static const struct MenuAction sAdventureSettingsMenu[] =
+{
+    {COMPOUND_STRING("POKEMON GENERATION")},
+    {COMPOUND_STRING("OTHER OPTIONS (SOON)")},
+    {gText_Exit},
+};
+static const struct MenuAction sAdventureGenFirst[] =
+{
+    {COMPOUND_STRING("GENERATION 1")},
+    {COMPOUND_STRING("GENERATION 2")},
+    {COMPOUND_STRING("GENERATION 3")},
+    {COMPOUND_STRING("GENERATION 4")},
+    {COMPOUND_STRING("GENERATION 5")},
+    {COMPOUND_STRING("MORE...")},
+};
+static const struct MenuAction sAdventureGenSecond[] =
+{
+    {COMPOUND_STRING("GENERATION 6")},
+    {COMPOUND_STRING("GENERATION 7")},
+    {COMPOUND_STRING("GENERATION 8")},
+    {COMPOUND_STRING("GENERATION 9")},
+    {COMPOUND_STRING("ALL GENERATIONS")},
+    {COMPOUND_STRING("BACK")},
+};
+static const struct MenuAction sAdventureGenMode[] =
+{
+    {COMPOUND_STRING("GENERATION ONLY")},
+    {COMPOUND_STRING("GENERATION UNLOCKED")},
+    {COMPOUND_STRING("BACK")},
+};
+
 struct MultichoiceListStruct
 {
     const struct MenuAction *list;
@@ -1294,6 +1325,10 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_HOF_VICTORIES_QUIT]                         = MULTICHOICE(sMultichoiceList_HOF_Victories_Quit),
     [MULTI_EGGS_VICTORIES_QUIT]                        = MULTICHOICE(sMultichoiceList_Eggs_Victories_Quit),
     [MULTI_HOF_EGGS_VICTORIES_QUIT]                    = MULTICHOICE(sMultichoiceList_HOF_Eggs_Victories_Quit),
+    [MULTI_ADVENTURE_SETTINGS] = MULTICHOICE(sAdventureSettingsMenu),
+    [MULTI_ADVENTURE_GEN_FIRST] = MULTICHOICE(sAdventureGenFirst),
+    [MULTI_ADVENTURE_GEN_SECOND] = MULTICHOICE(sAdventureGenSecond),
+    [MULTI_ADVENTURE_GEN_MODE] = MULTICHOICE(sAdventureGenMode),
 };
 
 const u8 *const gStdStrings[] =
