@@ -46,3 +46,5 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - National Dex generation policy applies to species' base Pokédex number; regional forms need a separate policy.
 
 - Added staging API for generation choice before New Game; `NewGameInitData` applies it after `InitEventData` clears event variables. Menu still needs to call the staging API.
+
+- Implemented first-pass Oak intro generation chooser in `src/oak_speech.c`: after Oak's closing dialogue, player chooses All or Gen 1–9; specific generations then select Only/Unlocked. Choice is staged for New Game initialization. This is uncompiled/unverified UI code and may need layout/text/flow corrections after testing.
