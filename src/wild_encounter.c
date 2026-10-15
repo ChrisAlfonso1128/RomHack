@@ -527,7 +527,7 @@ void CreateWildMon(enum Species species, u8 level)
 
 // Preserve the encounter table's relative slot weights when possible.
 // Maps without eligible slots require curated replacement tables (future work).
-static u8 SelectAllowedWildSlot(const struct WildPokemon *slots, u8 original, u8 count)
+static u8 SelectAllowedWildSlot(const struct WildPokemon *slots, u8 original, u8 start, u8 count)
 {
     u8 eligible[NUM_LAND_MONS_ENCOUNTER_SLOTS];
     u8 eligibleCount = 0;
@@ -536,7 +536,7 @@ static u8 SelectAllowedWildSlot(const struct WildPokemon *slots, u8 original, u8
     if (IsSpeciesAllowedByGeneration(slots[original].species))
         return original;
 
-    for (i = 0; i < count; i++)
+    for (i = start; i < start + count; i++)
     {
         if (IsSpeciesAllowedByGeneration(slots[i].species))
             eligible[eligibleCount++] = i;
@@ -596,7 +596,7 @@ bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum WildPok
         break;
     }
 
-    wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex,
+    wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex, 0,
         area == WILD_AREA_LAND ? NUM_LAND_MONS_ENCOUNTER_SLOTS :
         area == WILD_AREA_WATER ? NUM_WATER_MONS_ENCOUNTER_SLOTS :
         area == WILD_AREA_ROCKS ? NUM_ROCK_SMASH_MONS_ENCOUNTER_SLOTS :
@@ -617,9 +617,19 @@ static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 
     enum Species wildMonSpecies;
     u8 level;
 
-    // Fishing has a rod-dependent slot range; use the full table as a
-    // temporary eligible-species fallback until rod-specific weighting is integrated.
-    wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex, NUM_FISHING_MONS_ENCOUNTER_SLOTS);
+    // Never replace a catch with a species from a different rod's slots.
+    switch (rod)
+    {
+    case OLD_ROD:
+        wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex, 0, 2);
+        break;
+    case GOOD_ROD:
+        wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex, 2, 3);
+        break;
+    case SUPER_ROD:
+        wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex, 5, 5);
+        break;
+    }
     wildMonSpecies = wildMonInfo->wildPokemon[wildMonIndex].species;
     level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, WILD_AREA_FISHING);
 
