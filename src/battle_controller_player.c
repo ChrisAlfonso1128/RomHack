@@ -2428,12 +2428,13 @@ static u32 CheckTargetTypeEffectiveness(enum BattlerId battler)
 
 static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum BattlerId battler)
 {
-    // 4x: green +; 2x: dark +; 1x: blank; 1/2x/1/4x: dark -; 0x: red X.
+    // 4x: light blue +; 2x: green +; 1x: blank; resisted: separate symbols; 0x: red X.
     static const u8 noIcon[] = _("");
-    static const u8 extremelyEffectiveIcon[] = _("{COLOR GREEN}+");
-    static const u8 superEffectiveIcon[] = _("{COLOR DARK_GRAY}+");
+    static const u8 extremelyEffectiveIcon[] = _("{COLOR LIGHT_BLUE}+");
+    static const u8 superEffectiveIcon[] = _("{COLOR GREEN}+");
     static const u8 normalIcon[] = _("");
-    static const u8 resistedIcon[] = _("{COLOR DARK_GRAY}-");
+    static const u8 notVeryEffectiveIcon[] = _("{COLOR DARK_GRAY}-");
+    static const u8 mostlyIneffectiveIcon[] = _("{COLOR DARK_GRAY}-");
     static const u8 immuneIcon[] = _("{COLOR RED}X");
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u8 *txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
@@ -2452,8 +2453,10 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum Bat
             StringCopy(txtPtr, normalIcon);
             break;
         case EFFECTIVENESS_NOT_VERY_EFFECTIVE:
+            StringCopy(txtPtr, notVeryEffectiveIcon);
+            break;
         case EFFECTIVENESS_MOSTLY_INEFFECTIVE:
-            StringCopy(txtPtr, resistedIcon);
+            StringCopy(txtPtr, mostlyIneffectiveIcon);
             break;
         case EFFECTIVENESS_NO_EFFECT:
             StringCopy(txtPtr, immuneIcon);
