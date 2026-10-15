@@ -3851,6 +3851,15 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     struct TextPrinterTemplate printerTemplate;
     u8 speed;
 
+    // B_WIN_PP uses a dedicated BG palette so yellow/orange matchup markers
+    // do not recolor the rest of the move menu (which uses palette 5).
+    if ((windowId & ~B_WIN_COPYTOVRAM) == B_WIN_PP)
+    {
+        const u16 matchupColors[] = {RGB(31, 27, 0), RGB(31, 16, 0)};
+        LoadPalette(&gPlttBufferUnfaded[BG_PLTT_ID(5)], BG_PLTT_ID(15), PLTT_SIZE_4BPP);
+        LoadPalette(matchupColors, BG_PLTT_ID(15) + 10, sizeof(matchupColors));
+    }
+
     if (windowId & B_WIN_COPYTOVRAM)
     {
         windowId &= ~B_WIN_COPYTOVRAM;
