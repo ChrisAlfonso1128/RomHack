@@ -64,3 +64,6 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 - Began runtime wild encounter filtering in `src/wild_encounter.c`: standard land/water/rock encounters prefer eligible species already in the current area's encounter slots. This is a provisional fallback, **not** full generation compliance: if no eligible species exists, the original slot remains; fishing, static, scripted encounters, and trainer teams remain to be integrated. Encounter weighting and area curation require further work.
 - Build and gameplay verification are still outstanding; do not publish as tested.
+
+- Extended the provisional encounter slot eligibility check to fishing (`src/wild_encounter.c`). Fishing currently uses the full fishing slot pool as fallback; rod-specific encounter slot weighting and level distribution require correction before release.
+- Checked GitHub Actions workflow runs for commit `6042463994e74af9def5744fce131d72096670a4`: no PR-triggered workflow runs were returned. This does not establish compile success.
