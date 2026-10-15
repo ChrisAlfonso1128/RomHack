@@ -16,7 +16,7 @@
 #include "link.h"
 #include "menu.h"
 #include "palette.h"
-#include "rgb.h"
+#include "constants/rgb.h"
 #include "recorded_battle.h"
 #include "string_util.h"
 #include "strings.h"
