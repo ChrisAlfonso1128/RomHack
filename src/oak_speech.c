@@ -1,5 +1,4 @@
 #include "global.h"
-#include "generation_selection.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -92,9 +91,6 @@ static void Task_OakSpeech_AskRivalsName(u8);
 static void Task_OakSpeech_ReshowPlayersPic(u8);
 static void Task_OakSpeech_LetsGo(u8);
 static void Task_OakSpeech_FadeOutBGM(u8);
-static void Task_OakSpeech_SelectGeneration(u8);
-static void Task_OakSpeech_SelectGenerationMode(u8);
-static void OakSpeech_PrintGenerationChoice(u8);
 static void Task_OakSpeech_SetUpExitAnimation(u8);
 static void Task_OakSpeech_SetUpShrinkPlayerPic(u8);
 static void Task_OakSpeech_ShrinkPlayerPic(u8);
@@ -1621,106 +1617,12 @@ static void Task_OakSpeech_FadeOutBGM(u8 taskId)
         }
         else
         {
-            gTasks[taskId].data[12] = 0; // 0 = All, 1-9 = generation
-            gTasks[taskId].data[13] = GENERATION_MODE_ONLY;
-            OakSpeech_PrintGenerationChoice(taskId);
-            gTasks[taskId].func = Task_OakSpeech_SelectGeneration;
-        }
-    }
-}
-
-
-static void OakSpeech_PrintGenerationChoice(u8 taskId)
-{
-    static const u8 *const sGenerationNames[] =
-    {
-        _("ALL GENERATIONS"),
-        _("GENERATION 1"),
-        _("GENERATION 2"),
-        _("GENERATION 3"),
-        _("GENERATION 4"),
-        _("GENERATION 5"),
-        _("GENERATION 6"),
-        _("GENERATION 7"),
-        _("GENERATION 8"),
-        _("GENERATION 9"),
-    };
-    FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
-    AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                _("CHOOSE YOUR GENERATION"), 8, 8, 0, NULL);
-    AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                sGenerationNames[gTasks[taskId].data[12]], 8, 40, 0, NULL);
-    AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                _("UP/DOWN: CHANGE  A: NEXT"), 8, 72, 0, NULL);
-    CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
-}
-
-static void Task_OakSpeech_SelectGeneration(u8 taskId)
-{
-    s16 *choice = &gTasks[taskId].data[12];
-    if (JOY_NEW(DPAD_UP))
-    {
-        *choice = (*choice + 9) % 10;
-        OakSpeech_PrintGenerationChoice(taskId);
-    }
-    else if (JOY_NEW(DPAD_DOWN))
-    {
-        *choice = (*choice + 1) % 10;
-        OakSpeech_PrintGenerationChoice(taskId);
-    }
-    else if (JOY_NEW(A_BUTTON))
-    {
-        if (*choice == GENERATION_ALL)
-        {
-            StageGenerationSelectionForNewGame(GENERATION_ALL, GENERATION_MODE_ONLY);
-            ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
             FadeOutBGM(4);
             gTasks[taskId].func = Task_OakSpeech_SetUpExitAnimation;
         }
-        else
-        {
-            FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
-            AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                        _("CHOOSE GENERATION MODE"), 8, 8, 0, NULL);
-            AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                        _("ONLY / UNLOCKED"), 8, 40, 0, NULL);
-            AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                        _("LEFT/RIGHT: MODE  A: OK"), 8, 72, 0, NULL);
-            CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
-            gTasks[taskId].func = Task_OakSpeech_SelectGenerationMode;
-        }
     }
 }
 
-static void Task_OakSpeech_SelectGenerationMode(u8 taskId)
-{
-    if (JOY_NEW(DPAD_LEFT) || JOY_NEW(DPAD_RIGHT))
-    {
-        gTasks[taskId].data[13] ^= 1;
-        FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
-        AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                    _("CHOOSE GENERATION MODE"), 8, 8, 0, NULL);
-        AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                    gTasks[taskId].data[13] == GENERATION_MODE_ONLY
-                                        ? _("GENERATION ONLY")
-                                        : _("GENERATION UNLOCKED"), 8, 40, 0, NULL);
-        AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
-                                    _("LEFT/RIGHT: MODE  A: OK"), 8, 72, 0, NULL);
-        CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
-        OakSpeech_PrintGenerationChoice(taskId);
-        gTasks[taskId].func = Task_OakSpeech_SelectGeneration;
-    }
-    else if (JOY_NEW(A_BUTTON))
-    {
-        StageGenerationSelectionForNewGame(gTasks[taskId].data[12], gTasks[taskId].data[13]);
-        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
-        FadeOutBGM(4);
-        gTasks[taskId].func = Task_OakSpeech_SetUpExitAnimation;
-    }
-}
 
 // The sOakSpeechResources struct's currentPage field is reused below as a timer for shrinking the player pic
 #define shrinkTimer currentPage
