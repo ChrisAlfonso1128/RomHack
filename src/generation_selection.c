@@ -9,6 +9,9 @@
 #define GENERATION_VALUE_MASK 0x000F
 #define GENERATION_MODE_BIT   0x0010
 
+static EWRAM_DATA u8 sPendingGeneration = GENERATION_ALL;
+static EWRAM_DATA u8 sPendingMode = GENERATION_MODE_ONLY;
+
 u8 GetSelectedGeneration(void)
 {
     u16 value = VarGet(VAR_GENERATION_SELECTION);
@@ -36,6 +39,19 @@ void SetGenerationSelection(u8 generation, u8 mode)
     }
 
     VarSet(VAR_GENERATION_SELECTION, value);
+}
+
+void StageGenerationSelectionForNewGame(u8 generation, u8 mode)
+{
+    sPendingGeneration = generation;
+    sPendingMode = mode;
+}
+
+void ApplyPendingGenerationSelection(void)
+{
+    SetGenerationSelection(sPendingGeneration, sPendingMode);
+    sPendingGeneration = GENERATION_ALL;
+    sPendingMode = GENERATION_MODE_ONLY;
 }
 
 u8 GetSpeciesIntroductionGeneration(u16 species)
