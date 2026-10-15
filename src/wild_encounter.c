@@ -1,4 +1,5 @@
 #include "global.h"
+#include "generation_selection.h"
 #include "battle_setup.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
@@ -524,6 +525,29 @@ void CreateWildMon(enum Species species, u8 level)
 #define TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildPokemon, type, ability, ptr, count) TryGetAbilityInfluencedWildMonIndex(wildPokemon, type, ability, ptr)
 #endif
 
+// Preserve the encounter table's relative slot weights when possible.
+// Maps without eligible slots require curated replacement tables (future work).
+static u8 SelectAllowedWildSlot(const struct WildPokemon *slots, u8 original, u8 count)
+{
+    u8 eligible[NUM_LAND_MONS_ENCOUNTER_SLOTS];
+    u8 eligibleCount = 0;
+    u8 i;
+
+    if (IsSpeciesAllowedByGeneration(slots[original].species))
+        return original;
+
+    for (i = 0; i < count; i++)
+    {
+        if (IsSpeciesAllowedByGeneration(slots[i].species))
+            eligible[eligibleCount++] = i;
+    }
+
+    if (eligibleCount != 0)
+        return eligible[Random() % eligibleCount];
+
+    return original; // Temporary compatibility fallback until replacement tables exist.
+}
+
 bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum WildPokemonArea area, u8 flags)
 {
     u8 wildMonIndex = 0;
@@ -572,6 +596,11 @@ bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum WildPok
         break;
     }
 
+    wildMonIndex = SelectAllowedWildSlot(wildMonInfo->wildPokemon, wildMonIndex,
+        area == WILD_AREA_LAND ? NUM_LAND_MONS_ENCOUNTER_SLOTS :
+        area == WILD_AREA_WATER ? NUM_WATER_MONS_ENCOUNTER_SLOTS :
+        area == WILD_AREA_ROCKS ? NUM_ROCK_SMASH_MONS_ENCOUNTER_SLOTS :
+        NUM_FISHING_MONS_ENCOUNTER_SLOTS);
     level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, area);
     if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(level))
         return FALSE;
