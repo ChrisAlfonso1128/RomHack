@@ -222,7 +222,7 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
         .tilemapTop = 55,
         .width = 4,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x0290,
     },
     [B_WIN_DUMMY] = {
@@ -461,7 +461,7 @@ static const struct WindowTemplate sKantoTutorialBattleWindowTemplates[] =
         .tilemapTop = 55,
         .width = 4,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x0290,
     },
     [B_WIN_DUMMY] = {
@@ -700,7 +700,7 @@ static const struct WindowTemplate sBattleArenaWindowTemplates[] =
         .tilemapTop = 55,
         .width = 4,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x0290,
     },
     [B_WIN_DUMMY] = {
