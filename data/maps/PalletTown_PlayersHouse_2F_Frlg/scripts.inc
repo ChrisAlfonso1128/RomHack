@@ -180,6 +180,8 @@ PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     end
 
 PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
+    applymovement LOCALID_PLAYER, PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs
+    waitmovement 0
     msgbox PalletTown_PlayersHouse_2F_Text_ReviewSettings, MSGBOX_DEFAULT
     releaseall
     end
@@ -200,3 +202,7 @@ PalletTown_PlayersHouse_2F_Text_ReviewSettings::
 PalletTown_PlayersHouse_2F_Text_GenLocked::
     .string "Your generation is locked.\\n"
     .string "Other options may still change.$"
+
+PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs:
+    walk_down
+    step_end
