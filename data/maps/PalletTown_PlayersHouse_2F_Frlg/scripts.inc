@@ -40,12 +40,12 @@ PalletTown_PlayersHouse_2F_Text_PressLRForHelp::
 
 
 PalletTown_PlayersHouse_2F_Text_AdventureSettings::
-	.string "ADVENTURE SETTINGS\\p"
-	.string "Choose which POKeMON generations\\n"
-	.string "will appear on your journey.\\p"
-	.string "Some choices become permanent\\n"
-	.string "when you leave your room.\\p"
-	.string "Other options, like EXP sharing,\\n"
+	.string "ADVENTURE SETTINGS\p"
+	.string "Choose which POKeMON generations\n"
+	.string "will appear on your journey.\p"
+	.string "Some choices become permanent\n"
+	.string "when you leave your room.\p"
+	.string "Other options, like EXP sharing,\n"
 	.string "can be changed later.$"
 
 PalletTown_PlayersHouse_2F_EventScript_AdventureSettings::
@@ -62,6 +62,7 @@ PalletTown_PlayersHouse_2F_EventScript_FutureOptions::
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_EventScript_GenFirst::
+    goto_if_eq VAR_ADVENTURE_SETTINGS_CONFIRMED, 1, PalletTown_PlayersHouse_2F_EventScript_GenLocked
     msgbox PalletTown_PlayersHouse_2F_Text_GenPrompt, MSGBOX_DEFAULT
 PalletTown_PlayersHouse_2F_EventScript_GenFirstMenu::
     multichoice 1, 1, MULTI_ADVENTURE_GEN_FIRST, FALSE
@@ -149,17 +150,53 @@ PalletTown_PlayersHouse_2F_EventScript_SettingsExit::
     end
 
 PalletTown_PlayersHouse_2F_Text_GenPrompt::
-    .string "Select which generations of\\n"
+    .string "Select which generations of\n"
     .string "POKeMON can appear.$"
 
 PalletTown_PlayersHouse_2F_Text_ModePrompt::
-    .string "ONLY: Just the selected generation.\\p"
-    .string "UNLOCKED: That generation and\\n"
+    .string "ONLY: Just the selected generation.\p"
+    .string "UNLOCKED: That generation and\n"
     .string "all earlier generations.$"
 
 PalletTown_PlayersHouse_2F_Text_GenSaved::
     .string "Generation setting updated!$"
 
 PalletTown_PlayersHouse_2F_Text_FutureOptions::
-    .string "More adventure settings will\\n"
+    .string "More adventure settings will\n"
     .string "be added here later.$"
+
+PalletTown_PlayersHouse_2F_EventScript_GenLocked::
+    msgbox PalletTown_PlayersHouse_2F_Text_GenLocked, MSGBOX_DEFAULT
+    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
+
+PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
+    lockall
+    msgbox PalletTown_PlayersHouse_2F_Text_ConfirmSettings, MSGBOX_DEFAULT
+    yesnobox 20, 8
+    goto_if_eq VAR_RESULT, 1, PalletTown_PlayersHouse_2F_EventScript_ReviewSettings
+    setvar VAR_ADVENTURE_SETTINGS_CONFIRMED, 1
+    msgbox PalletTown_PlayersHouse_2F_Text_SettingsLocked, MSGBOX_DEFAULT
+    releaseall
+    end
+
+PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
+    msgbox PalletTown_PlayersHouse_2F_Text_ReviewSettings, MSGBOX_DEFAULT
+    releaseall
+    end
+
+PalletTown_PlayersHouse_2F_Text_ConfirmSettings::
+    .string "Your POKeMON generation choices\\n"
+    .string "will be permanent after you leave.\\p"
+    .string "Confirm your adventure settings?$"
+
+PalletTown_PlayersHouse_2F_Text_SettingsLocked::
+    .string "Adventure settings confirmed!\\n"
+    .string "Your generation is now locked.$"
+
+PalletTown_PlayersHouse_2F_Text_ReviewSettings::
+    .string "Review your settings using the\\n"
+    .string "notice in your room.$"
+
+PalletTown_PlayersHouse_2F_Text_GenLocked::
+    .string "Your generation is locked.\\n"
+    .string "Other options may still change.$"
