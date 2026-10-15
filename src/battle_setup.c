@@ -2246,10 +2246,8 @@ void CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Traine
     MakeTrainerGenerator(trainerGen, trainer);
     DoTrainerPartyPool(trainer, monIndices, monsCount, gBattleTypeFlags);
 
-    // Opposing trainer pools can substitute an eligible authored party member
-    // without discarding its custom moves, IVs, EVs, item, or ability.
-    // Fixed teams without eligible authored members are left intact until
-    // dedicated generation-specific teams are authored.
+    // Preserve trainer-authored configurations and avoid duplicate fallback
+    // indices where the trainer has enough eligible pool members.
     bool8 isOpponentParty = (party == gParties[B_TRAINER_OPPONENT_A]
                           || party == gParties[B_TRAINER_OPPONENT_B]);
     u32 availableCount = trainer->poolSize ? trainer->poolSize : trainer->partySize;
@@ -2257,18 +2255,44 @@ void CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Traine
     for (i = 0; i < monsCount; i++)
     {
         u32 monIndex = monIndices[i];
+
         if (isOpponentParty && !IsSpeciesAllowedByGeneration(trainer->party[monIndex].species))
         {
             u32 candidate;
+            u32 fallback = availableCount;
+
             for (candidate = 0; candidate < availableCount; candidate++)
             {
-                if (IsSpeciesAllowedByGeneration(trainer->party[candidate].species))
+                s32 previous;
+                bool8 alreadyUsed = FALSE;
+
+                if (!IsSpeciesAllowedByGeneration(trainer->party[candidate].species))
+                    continue;
+
+                if (fallback == availableCount)
+                    fallback = candidate;
+
+                for (previous = 0; previous < i; previous++)
+                {
+                    if (monIndices[previous] == candidate)
+                    {
+                        alreadyUsed = TRUE;
+                        break;
+                    }
+                }
+
+                if (!alreadyUsed)
                 {
                     monIndex = candidate;
                     break;
                 }
             }
+
+            if (candidate == availableCount && fallback != availableCount)
+                monIndex = fallback;
         }
+
+        monIndices[i] = monIndex;
         GenerateMonFromTrainerMon(&party[i], &trainer->party[monIndex], trainerGen);
     }
     Free(trainerGen);
