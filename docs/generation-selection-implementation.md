@@ -48,3 +48,9 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - Added staging API for generation choice before New Game; `NewGameInitData` applies it after `InitEventData` clears event variables. Menu still needs to call the staging API.
 
 - Implemented first-pass Oak intro generation chooser in `src/oak_speech.c`: after Oak's closing dialogue, player chooses All or Gen 1–9; specific generations then select Only/Unlocked. Choice is staged for New Game initialization. This is uncompiled/unverified UI code and may need layout/text/flow corrections after testing.
+
+## Bedroom Adventure Settings revision (2026-10-15)
+- Restored the vanilla Oak introduction; removed the temporary generation menu and its input handlers from `src/oak_speech.c`.
+- Repurposed the existing bedroom notice interaction in `data/maps/PalletTown_PlayersHouse_2F_Frlg/scripts.inc` to introduce Adventure Settings and distinguish permanent generation choices from later-adjustable options such as EXP sharing.
+- Retained generation selection eligibility and persistent configuration code for reuse in the bedroom menu.
+- **Still pending:** interactable settings selection UI, one-time staircase confirmation with bypass-proof transition handling, separate in-game EXP Share controls, encounter/trainer/starter filtering, build and emulator tests.
