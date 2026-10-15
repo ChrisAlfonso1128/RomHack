@@ -67,3 +67,6 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 - Extended the provisional encounter slot eligibility check to fishing (`src/wild_encounter.c`). Fishing currently uses the full fishing slot pool as fallback; rod-specific encounter slot weighting and level distribution require correction before release.
 - Checked GitHub Actions workflow runs for commit `6042463994e74af9def5744fce131d72096670a4`: no PR-triggered workflow runs were returned. This does not establish compile success.
+
+- Corrected fishing fallback to respect rod-specific encounter slots: Old Rod 0–1, Good Rod 2–4, Super Rod 5–9. Previously fallback could pull species from a different rod tier. Areas without eligible slots still retain the original species; weighted selection and full generation compliance remain pending.
+- Inspected `CreateNPCTrainerPartyFromTrainer` in `src/battle_setup.c`: trainer party creation uses a generator and party-pool selection. Trainer generation substitution must integrate with that system rather than blindly overwrite generated Pokémon (which would lose custom moves/held items). No trainer substitution has been committed yet.
