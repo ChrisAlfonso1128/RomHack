@@ -1,4 +1,5 @@
 #include "global.h"
+#include "generation_selection.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -91,6 +92,9 @@ static void Task_OakSpeech_AskRivalsName(u8);
 static void Task_OakSpeech_ReshowPlayersPic(u8);
 static void Task_OakSpeech_LetsGo(u8);
 static void Task_OakSpeech_FadeOutBGM(u8);
+static void Task_OakSpeech_SelectGeneration(u8);
+static void Task_OakSpeech_SelectGenerationMode(u8);
+static void OakSpeech_PrintGenerationChoice(u8);
 static void Task_OakSpeech_SetUpExitAnimation(u8);
 static void Task_OakSpeech_SetUpShrinkPlayerPic(u8);
 static void Task_OakSpeech_ShrinkPlayerPic(u8);
@@ -1617,9 +1621,104 @@ static void Task_OakSpeech_FadeOutBGM(u8 taskId)
         }
         else
         {
+            gTasks[taskId].data[12] = 0; // 0 = All, 1-9 = generation
+            gTasks[taskId].data[13] = GENERATION_MODE_ONLY;
+            OakSpeech_PrintGenerationChoice(taskId);
+            gTasks[taskId].func = Task_OakSpeech_SelectGeneration;
+        }
+    }
+}
+
+
+static void OakSpeech_PrintGenerationChoice(u8 taskId)
+{
+    static const u8 *const sGenerationNames[] =
+    {
+        (const u8 *)"ALL GENERATIONS",
+        (const u8 *)"GENERATION 1",
+        (const u8 *)"GENERATION 2",
+        (const u8 *)"GENERATION 3",
+        (const u8 *)"GENERATION 4",
+        (const u8 *)"GENERATION 5",
+        (const u8 *)"GENERATION 6",
+        (const u8 *)"GENERATION 7",
+        (const u8 *)"GENERATION 8",
+        (const u8 *)"GENERATION 9",
+    };
+    FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
+    AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                (const u8 *)"CHOOSE YOUR GENERATION", 8, 8, 0, NULL);
+    AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                sGenerationNames[gTasks[taskId].data[12]], 8, 40, 0, NULL);
+    AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                (const u8 *)"UP/DOWN: CHANGE  A: NEXT", 8, 72, 0, NULL);
+    CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
+}
+
+static void Task_OakSpeech_SelectGeneration(u8 taskId)
+{
+    s16 *choice = &gTasks[taskId].data[12];
+    if (JOY_NEW(DPAD_UP))
+    {
+        *choice = (*choice + 9) % 10;
+        OakSpeech_PrintGenerationChoice(taskId);
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        *choice = (*choice + 1) % 10;
+        OakSpeech_PrintGenerationChoice(taskId);
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        if (*choice == GENERATION_ALL)
+        {
+            StageGenerationSelectionForNewGame(GENERATION_ALL, GENERATION_MODE_ONLY);
+            ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
             FadeOutBGM(4);
             gTasks[taskId].func = Task_OakSpeech_SetUpExitAnimation;
         }
+        else
+        {
+            FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
+            AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                        (const u8 *)"CHOOSE GENERATION MODE", 8, 8, 0, NULL);
+            AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                        (const u8 *)"ONLY / UNLOCKED", 8, 40, 0, NULL);
+            AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                        (const u8 *)"LEFT/RIGHT: MODE  A: OK", 8, 72, 0, NULL);
+            CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
+            gTasks[taskId].func = Task_OakSpeech_SelectGenerationMode;
+        }
+    }
+}
+
+static void Task_OakSpeech_SelectGenerationMode(u8 taskId)
+{
+    if (JOY_NEW(DPAD_LEFT) || JOY_NEW(DPAD_RIGHT))
+    {
+        gTasks[taskId].data[13] ^= 1;
+        FillWindowPixelBuffer(WIN_INTRO_TEXTBOX, PIXEL_FILL(1));
+        AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                    (const u8 *)"CHOOSE GENERATION MODE", 8, 8, 0, NULL);
+        AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                    gTasks[taskId].data[13] == GENERATION_MODE_ONLY
+                                        ? (const u8 *)"GENERATION ONLY"
+                                        : (const u8 *)"GENERATION UNLOCKED", 8, 40, 0, NULL);
+        AddTextPrinterParameterized(WIN_INTRO_TEXTBOX, FONT_NORMAL,
+                                    (const u8 *)"LEFT/RIGHT: MODE  A: OK", 8, 72, 0, NULL);
+        CopyWindowToVram(WIN_INTRO_TEXTBOX, COPYWIN_FULL);
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        OakSpeech_PrintGenerationChoice(taskId);
+        gTasks[taskId].func = Task_OakSpeech_SelectGeneration;
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        StageGenerationSelectionForNewGame(gTasks[taskId].data[12], gTasks[taskId].data[13]);
+        ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
+        FadeOutBGM(4);
+        gTasks[taskId].func = Task_OakSpeech_SetUpExitAnimation;
     }
 }
 
