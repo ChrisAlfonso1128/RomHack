@@ -76,3 +76,6 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 - Improved provisional opposing-trainer substitution to avoid reusing an authored pool index when another eligible, unused index exists. Previously every disallowed slot selected the first eligible index. If eligible entries are fewer than the requested party size, repetition remains a deliberate fallback; fully curated per-generation teams are still required.
 - Compilation, runtime tests, and verification of party-pool edge cases remain outstanding.
+
+- Corrected bedroom confirmation to branch on symbolic `NO` and normalized event-dialogue newline/paragraph escapes in the staircase prompt.
+- **Pre-test blockers:** Generation-only modes can still encounter disallowed species when an area/trainer lacks eligible authored entries. Generation-specific rival/Gym/Elite Four rosters, starter and static encounter coverage, EXP Share behavior, and compile validation remain incomplete. The code is not ready to certify for physical testing.
