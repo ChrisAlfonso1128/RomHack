@@ -54,3 +54,6 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - Repurposed the existing bedroom notice interaction in `data/maps/PalletTown_PlayersHouse_2F_Frlg/scripts.inc` to introduce Adventure Settings and distinguish permanent generation choices from later-adjustable options such as EXP sharing.
 - Retained generation selection eligibility and persistent configuration code for reuse in the bedroom menu.
 - **Still pending:** interactable settings selection UI, one-time staircase confirmation with bypass-proof transition handling, separate in-game EXP Share controls, encounter/trainer/starter filtering, build and emulator tests.
+
+- Added Adventure Settings multichoice definitions (`include/constants/script_menu.h`, `src/data/script_menu.h`) and a first-pass interactive generation chooser in the bedroom notice script. The chooser supports generations 1–9, All, and Only/Unlocked, writing the existing packed event var.
+- This initial menu is **not yet locked after leaving**; staircase interception, option status display, actual encounter/trainer filtering, and compile/emulator validation remain pending. No build is claimed.
