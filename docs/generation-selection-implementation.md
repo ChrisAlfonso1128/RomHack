@@ -73,3 +73,6 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 - Added a first-pass generation-eligible authored-mon substitution in `CreateNPCTrainerPartyFromTrainer` for opponent parties only. It searches the trainer's existing pool/party for an allowed species and generates that authored entry, preserving the entry's custom battle configuration. Player-side generated partner parties are not modified.
 - **Limitations:** eligible fallback currently chooses the first eligible authored slot and may repeat it across party slots; when no eligible authored mon exists the original is retained. This is not the promised distinct generation-specific trainer roster. Pool eligibility, duplicate avoidance, curated rival/Gym/Elite Four teams, and build tests are pending.
+
+- Improved provisional opposing-trainer substitution to avoid reusing an authored pool index when another eligible, unused index exists. Previously every disallowed slot selected the first eligible index. If eligible entries are fewer than the requested party size, repetition remains a deliberate fallback; fully curated per-generation teams are still required.
+- Compilation, runtime tests, and verification of party-pool edge cases remain outstanding.
