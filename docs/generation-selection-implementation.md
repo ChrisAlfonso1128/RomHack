@@ -57,3 +57,7 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 - Added Adventure Settings multichoice definitions (`include/constants/script_menu.h`, `src/data/script_menu.h`) and a first-pass interactive generation chooser in the bedroom notice script. The chooser supports generations 1–9, All, and Only/Unlocked, writing the existing packed event var.
 - This initial menu is **not yet locked after leaving**; staircase interception, option status display, actual encounter/trainer filtering, and compile/emulator validation remain pending. No build is claimed.
+
+- Added `VAR_ADVENTURE_SETTINGS_CONFIRMED` (`0x40FA`) and a bedroom coordinate trigger at (10,3), directly before the upstairs warp. First visit prompts for confirmation; Yes sets the lock; No moves the player one tile away. Generation menu refuses further edits once confirmed.
+- Corrected escaped paragraph/newline sequences in the Adventure Settings introduction text.
+- **Verification pending:** coordinate trigger coverage and collision/path bypass checks in emulator; event script compilation; generation filtering of starters/wild/trainer parties; settings status readout; future EXP Share access. No playable build validated.
