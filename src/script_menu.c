@@ -57,6 +57,8 @@ static void Task_HandleScrollingMultichoiceInput(u8 taskId);
 static void Task_HandleMultichoiceInput(u8 taskId);
 static void Task_GenerationChecklist(u8 taskId);
 static void OpenGenerationChecklist(void);
+static void Task_DeluxeExpMenu(u8 taskId);
+static void OpenDeluxeExpMenu(u8 defaultChoice);
 static void Task_HandleYesNoInput(u8 taskId);
 static void Task_HandleMultichoiceGridInput(u8 taskId);
 static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u32 callbackSet);
@@ -135,6 +137,14 @@ bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPre
         OpenGenerationChecklist();
         return TRUE;
     }
+    if (multichoiceId == MULTI_ADVENTURE_EXP_SHARE)
+    {
+        if (FuncIsActiveTask(Task_DeluxeExpMenu))
+            return FALSE;
+        gSpecialVar_Result = 0xFF;
+        OpenDeluxeExpMenu(0);
+        return TRUE;
+    }
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
     {
         return FALSE;
@@ -149,6 +159,14 @@ bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPre
 
 bool8 ScriptMenu_MultichoiceWithDefault(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 defaultChoice)
 {
+    if (multichoiceId == MULTI_ADVENTURE_EXP_SHARE)
+    {
+        if (FuncIsActiveTask(Task_DeluxeExpMenu))
+            return FALSE;
+        gSpecialVar_Result = 0xFF;
+        OpenDeluxeExpMenu(defaultChoice);
+        return TRUE;
+    }
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
     {
         return FALSE;
@@ -624,12 +642,12 @@ static void ApplyDeluxeMenuPalette(void)
     }
     else
     {
-        colors[1] = RGB(31, 29, 23); // Cream panel
+        colors[1] = RGB(31, 30, 26); // Cream panel
         colors[2] = RGB(8, 6, 8);    // Ink lettering
         colors[3] = RGB(24, 19, 12); // Text shadow
         colors[4] = RGB(24, 4, 7);   // FireRed header
         colors[5] = RGB(31, 31, 29); // Header lettering
-        colors[6] = RGB(31, 27, 18); // Gold-tinted selected row
+        colors[6] = RGB(31, 28, 19); // Gold-tinted selected row
         colors[7] = RGB(23, 16, 5);  // Antique gold
     }
     LoadPalette(colors, BG_PLTT_ID(15), sizeof(colors));
@@ -698,14 +716,14 @@ static void DrawGenerationChecklist(u8 taskId)
     // Deliberately simple, readable 240x160 GBA layout. No patterned
     // outer frame or overlapping text in the header.
     FillWindowPixelBuffer(tGenListWindow, PIXEL_FILL(1));
-    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 0, 208, 2);
-    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 2, 208, 17);
-    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 19, 208, 2);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 0, 224, 2);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 2, 224, 18);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 20, 224, 2);
     AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
-        COMPOUND_STRING("SELECT GENERATIONS"), 3, 2, TEXT_SKIP_DRAW, NULL,
+        COMPOUND_STRING("GENERATIONS"), 8, 2, TEXT_SKIP_DRAW, NULL,
         5, 4, 7);
     AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
-        sDeluxeSelectedCount[selectedCount], 174, 2, TEXT_SKIP_DRAW, NULL,
+        sDeluxeSelectedCount[selectedCount], 187, 2, TEXT_SKIP_DRAW, NULL,
         5, 4, 7);
 
     for (i = 0; i < GEN_CHECKLIST_VISIBLE; i++)
@@ -715,29 +733,29 @@ static void DrawGenerationChecklist(u8 taskId)
             break;
 
         if (index == tGenCursor)
-            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(6), 2, 22 + i * 14, 204, 14);
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(6), 3, 24 + i * 14, 218, 14);
 
         cursor = index == tGenCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" ");
         AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-            cursor, 4, 22 + i * 14, TEXT_SKIP_DRAW, NULL);
+            cursor, 8, 24 + i * 14, TEXT_SKIP_DRAW, NULL);
 
         if (index < 9)
         {
             check = (tGenMask & (1 << index))
                 ? COMPOUND_STRING("X") : COMPOUND_STRING(" ");
-            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 21, 24 + i * 14, 11, 11);
-            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(1), 22, 25 + i * 14, 9, 9);
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 27, 26 + i * 14, 11, 11);
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(1), 28, 27 + i * 14, 9, 9);
             AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-                check, 22, 22 + i * 14, TEXT_SKIP_DRAW, NULL);
+                check, 28, 24 + i * 14, TEXT_SKIP_DRAW, NULL);
         }
         AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-            sGenerationChecklistLabels[index], index < 9 ? 40 : 22,
-            22 + i * 14, TEXT_SKIP_DRAW, NULL);
+            sGenerationChecklistLabels[index], index < 9 ? 48 : 28,
+            24 + i * 14, TEXT_SKIP_DRAW, NULL);
     }
     CopyWindowToVram(tGenListWindow, COPYWIN_FULL);
 
     FillWindowPixelBuffer(tGenHelpWindow, PIXEL_FILL(1));
-    FillWindowPixelRect(tGenHelpWindow, PIXEL_FILL(7), 0, 0, 208, 2);
+    FillWindowPixelRect(tGenHelpWindow, PIXEL_FILL(7), 0, 0, 224, 2);
     if (tGenNeedsSelection)
         AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
             COMPOUND_STRING("Choose at least one gen!\\nPress A to check a box."),
@@ -827,8 +845,8 @@ static void Task_GenerationChecklist(u8 taskId)
 
 static void OpenGenerationChecklist(void)
 {
-    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 2, 2, 26, 12, 15, 100);
-    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 2, 15, 26, 4, 15, 500);
+    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 1, 1, 28, 12, 15, 100);
+    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 1, 15, 28, 4, 15, 500);
     u8 taskId = CreateTask(Task_GenerationChecklist, 80);
     s16 *data = gTasks[taskId].data;
 
@@ -849,6 +867,97 @@ static void OpenGenerationChecklist(void)
 #undef tGenScroll
 #undef tGenMask
 #undef tGenNeedsSelection
+
+// Full-width EXP menu: separate task keeps the original script result values.
+#define tExpList data[0]
+#define tExpHelp data[1]
+#define tExpCursor data[2]
+static const u8 *const sDeluxeExpNames[] =
+{
+    COMPOUND_STRING("MODERN"),
+    COMPOUND_STRING("CLASSIC"),
+    COMPOUND_STRING("OFF"),
+};
+static const u8 *const sDeluxeExpDetails[] =
+{
+    COMPOUND_STRING("All party Pokemon earn EXP.\\nEasy team training."),
+    COMPOUND_STRING("Battle participants and\\nExp. Share holders earn EXP."),
+    COMPOUND_STRING("Only battle participants\\nearn EXP. No party sharing."),
+};
+
+static void DrawDeluxeExpMenu(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    u8 i;
+    FillWindowPixelBuffer(tExpList, PIXEL_FILL(1));
+    FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 0, 224, 2);
+    FillWindowPixelRect(tExpList, PIXEL_FILL(4), 0, 2, 224, 18);
+    FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 20, 224, 2);
+    AddTextPrinterParameterized2(tExpList, FONT_NORMAL,
+        COMPOUND_STRING("EXP SHARE MODE"), 8, 2, TEXT_SKIP_DRAW, NULL, 5, 4, 7);
+    for (i = 0; i < 3; i++)
+    {
+        u8 y = 28 + i * 20;
+        if (tExpCursor == i)
+            FillWindowPixelRect(tExpList, PIXEL_FILL(6), 4, y, 216, 18);
+        AddTextPrinterParameterized(tExpList, FONT_NORMAL,
+            i == tExpCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" "),
+            10, y, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(tExpList, FONT_NORMAL,
+            sDeluxeExpNames[i], 35, y, TEXT_SKIP_DRAW, NULL);
+    }
+    CopyWindowToVram(tExpList, COPYWIN_FULL);
+
+    FillWindowPixelBuffer(tExpHelp, PIXEL_FILL(1));
+    FillWindowPixelRect(tExpHelp, PIXEL_FILL(7), 0, 0, 224, 2);
+    AddTextPrinterParameterized(tExpHelp, FONT_NORMAL,
+        sDeluxeExpDetails[tExpCursor], 8, 3, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(tExpHelp, COPYWIN_FULL);
+}
+
+static void Task_DeluxeExpMenu(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    if (gPaletteFade.active)
+        return;
+    if (JOY_NEW(DPAD_UP))
+        tExpCursor = (tExpCursor + 2) % 3;
+    else if (JOY_NEW(DPAD_DOWN))
+        tExpCursor = (tExpCursor + 1) % 3;
+    else if (JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gSpecialVar_Result = JOY_NEW(B_BUTTON) ? MULTI_B_PRESSED : tExpCursor;
+        ClearToTransparentAndRemoveWindow(tExpHelp);
+        ClearToTransparentAndRemoveWindow(tExpList);
+        RestoreDeluxeMenuPalette();
+        DestroyTask(taskId);
+        ScriptContext_Enable();
+        return;
+    }
+    else
+        return;
+    PlaySE(SE_SELECT);
+    DrawDeluxeExpMenu(taskId);
+}
+
+static void OpenDeluxeExpMenu(u8 defaultChoice)
+{
+    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 1, 1, 28, 12, 15, 100);
+    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 1, 15, 28, 4, 15, 500);
+    u8 taskId = CreateTask(Task_DeluxeExpMenu, 80);
+    s16 *data = gTasks[taskId].data;
+    tExpList = AddWindow(&listTemplate);
+    tExpHelp = AddWindow(&helpTemplate);
+    PutWindowTilemap(tExpList);
+    PutWindowTilemap(tExpHelp);
+    tExpCursor = defaultChoice < 3 ? defaultChoice : 0;
+    ApplyDeluxeMenuPalette();
+    DrawDeluxeExpMenu(taskId);
+}
+#undef tExpList
+#undef tExpHelp
+#undef tExpCursor
 
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId)
 {
