@@ -1,3 +1,11 @@
+## Staircase bypass guard (2026-10-15)
+
+- Player report: leaving the setup menu still allowed reaching the stairs without completing setup.
+- Added a second pre-confirmation coordinate guard directly on the upstairs staircase warp tile (10,2), in addition to the approach tile (10,3). Both invoke the existing confirmation gate and push-back movement.
+- The gate requires explicitly saved generation checkboxes and an EXP mode before setting `VAR_ADVENTURE_SETTINGS_CONFIRMED`. Cancelling selection does not satisfy the gate.
+- Repaired malformed literal newline escapes in `src/script_menu.c` help-window initialization that could break the pending checklist build.
+- **Status:** committed; requires CI compilation and gameplay testing for tile event ordering.
+
 ## Menu rendering regression fix (2026-10-15)
 
 - Reproduced from player screenshot: the adventure menu text was corrupted, and a dialogue box remained underneath the cursor-help panel.
