@@ -61,12 +61,6 @@ static void Task_OptionMenuProcessInput(u8 taskId);
 static void Task_OptionMenuSave(u8 taskId);
 static void Task_OptionMenuFadeOut(u8 taskId);
 static void HighlightOptionMenuItem(u8 selection);
-static void UiTheme_DrawChoices(u8 selection)
-{
-    DrawOptionMenuChoice(sUiThemeLight, 104, YPOS_UITHEME, selection == 0);
-    DrawOptionMenuChoice(sUiThemeDark, 167, YPOS_UITHEME, selection == 1);
-}
-
 static u8 TextSpeed_ProcessInput(u8 selection);
 static void TextSpeed_DrawChoices(u8 selection);
 static u8 BattleScene_ProcessInput(u8 selection);
@@ -243,7 +237,7 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 4:
-        LoadPalette(sOptionMenuBg_Pal, BG_PLTT_ID(0), sizeof(sOptionMenuBg_Pal));
+        ApplyUiThemePalette(VarGet(UI_THEME_VAR) == 1);
         LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
         gMain.state++;
         break;
@@ -450,6 +444,12 @@ static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
 
     dst[i] = EOS;
     AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, dst, x, y + 1, TEXT_SKIP_DRAW, NULL);
+}
+
+static void UiTheme_DrawChoices(u8 selection)
+{
+    DrawOptionMenuChoice(sUiThemeLight, 104, YPOS_UITHEME, selection == 0);
+    DrawOptionMenuChoice(sUiThemeDark, 167, YPOS_UITHEME, selection == 1);
 }
 
 static u8 TextSpeed_ProcessInput(u8 selection)
