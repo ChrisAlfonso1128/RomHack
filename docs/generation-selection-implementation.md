@@ -109,3 +109,9 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 - Corrected five double-escaped `\\n` control sequences (and any paired paragraph escapes) in bedroom settings script text; the event script now uses single escape sequences for rendered newlines/paragraphs.
 - Local compilation blocked: no repository checkout or accessible GitHub network is available in this execution environment. All source changes are committed via the connected GitHub integration, but no successful `make firered` build is asserted.
+
+## Cloud build enablement (2026-10-15)
+- Located existing successful `qol-move-effectiveness` GitHub Actions FireRed builds and their downloadable `firered-qol-playtest` artifacts.
+- Added `actions/upload-artifact@v4` to the generation-selection branch workflow, producing artifact `firered-generation-selection-playtest` from `pokefirered.gba` after `make firered` succeeds.
+- Created **draft pull request #9** (`feature/generation-selection-foundation` into `main`) strictly to run GitHub Actions; do not merge until validated.
+- GitHub Actions run `38831185915` started for this branch. Build success and artifact availability must be verified from the run before claiming a playable ROM.
