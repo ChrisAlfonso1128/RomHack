@@ -4,6 +4,8 @@
 Branch: `qol-move-effectiveness`
 
 ### Battle interface
+- Updated visibility setting to **always** show effectiveness for all opponent species, including those not yet seen or caught; neutral moves remain blank and status moves have no indicator.
+- Switched yellow/orange indicator strings to named charmap palette indices to avoid ambiguous numeric color tokens.
 - Replaced the original effectiveness icons with compact, color-coded symbols in the move-selection PP area.
 - Final mapping: **4×** = light-blue `+`; **2×** = green `+`; **1×** = blank; **½×** = yellow `-`; **¼×** = orange `-`; **0×** = red `X`.
 - Kept existing type-effectiveness calculations, status-move handling, and visibility rules for opponents not yet seen.
