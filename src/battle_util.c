@@ -35,6 +35,7 @@
 #include "battle_ai_record.h"
 #include "battle_ai_util.h"
 #include "event_data.h"
+#include "constants/vars.h"
 #include "link.h"
 #include "malloc.h"
 #include "berry.h"
@@ -9596,10 +9597,9 @@ bool32 MoveEffectIsGuaranteed(enum BattlerId battler, enum Ability battlerAbilit
 
 bool32 IsGen6ExpShareEnabled(void)
 {
-    if (I_EXP_SHARE_FLAG <= TEMP_FLAGS_END)
-        return FALSE;
-
-    return FlagGet(I_EXP_SHARE_FLAG);
+    // Adventure Settings: 0 = modern party-wide, 1 = classic held item,
+    // 2 = disabled. Zero is the default for new games and older saves.
+    return VarGet(VAR_ADVENTURE_EXP_SHARE_MODE) == 0;
 }
 
 
