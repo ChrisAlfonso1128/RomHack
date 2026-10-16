@@ -106,3 +106,6 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - The setting is selectable via the bedroom Adventure Settings notice, including after generation confirmation. The menu does not yet provide an everywhere-accessible shortcut; returning to the bedroom is currently required.
 - Compilation and in-game EXP tests have not been performed. Verify modern inactive-party EXP, classic held-item-only EXP, off inactive-party no EXP, and ordinary active combat EXP under all settings. Exact modern EXP formula follows the existing configured `B_SPLIT_EXP` logic and needs balancing verification.
 - Outstanding: generation-eligible species coverage for all wild encounter tables, special encounters, and dedicated trainer/boss teams; build verification. Existing helper logic can retain out-of-generation species where no replacement exists.
+
+- Corrected five double-escaped `\\n` control sequences (and any paired paragraph escapes) in bedroom settings script text; the event script now uses single escape sequences for rendered newlines/paragraphs.
+- Local compilation blocked: no repository checkout or accessible GitHub network is available in this execution environment. All source changes are committed via the connected GitHub integration, but no successful `make firered` build is asserted.
