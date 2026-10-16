@@ -1,3 +1,11 @@
+## Menu rendering regression fix (2026-10-15)
+
+- Reproduced from player screenshot: the adventure menu text was corrupted, and a dialogue box remained underneath the cursor-help panel.
+- Root cause: both the multichoice window and the custom help panel called `CreateWindowFromRect`, which assigns BG tile memory starting at tile 100 to both windows. The help panel overwrote the menu graphics.
+- Fixed `src/script_menu.c` to allocate the help panel using a distinct BG tile base (600) and screen-safe dimensions.
+- Removed redundant `msgbox` prompts and saved-confirmation bubbles before reopening menus in `data/maps/PalletTown_PlayersHouse_2F_Frlg/scripts.inc`; explicitly closes lingering message windows.
+- **Status:** Code committed; needs a new successful ROM build and in-game verification.
+
 ## Build failure follow-up (2026-10-15)
 
 - GitHub Actions run 38835022356 failed compiling `src/script_menu.c` at lines 493–494: initialized `EWRAM_DATA` values in `.sbss` must be zero.
