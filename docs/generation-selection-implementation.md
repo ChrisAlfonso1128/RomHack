@@ -1,3 +1,10 @@
+## Generation checklist playtest build (2026-10-15)
+
+- The Bag-style checklist lets players independently toggle generations 1–9, select all, clear all, and save a nonempty selection. Cursor movement shows a short description for each generation.
+- Adventure Settings also offers Modern party-wide, Classic held-item, and Off EXP modes. Both generation selection and EXP mode must be explicitly completed before first bedroom exit; a staircase guard is intended to push the player back otherwise.
+- GitHub Actions run [38838072942](https://github.com/ChrisAlfonso1128/RomHack/actions/runs/38838072942) compiled successfully after fixing unsupported bracket glyphs in `src/script_menu.c`. Checklist indicators currently display `ON` / `--` rather than drawn checkbox icons.
+- **Status:** ROM builds successfully. Menu visuals, multiple-generation filtering, and staircase pushback still require in-game validation.
+
 ## Staircase bypass guard (2026-10-15)
 
 - Player report: leaving the setup menu still allowed reaching the stairs without completing setup.
