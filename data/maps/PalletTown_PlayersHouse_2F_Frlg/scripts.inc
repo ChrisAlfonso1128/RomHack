@@ -54,8 +54,39 @@ PalletTown_PlayersHouse_2F_EventScript_AdventureMenu::
     multichoice 1, 1, MULTI_ADVENTURE_SETTINGS, FALSE
     switch VAR_RESULT
     case 0, PalletTown_PlayersHouse_2F_EventScript_GenFirst
-    case 1, PalletTown_PlayersHouse_2F_EventScript_FutureOptions
+    case 1, PalletTown_PlayersHouse_2F_EventScript_ExpShare
     goto PalletTown_PlayersHouse_2F_EventScript_SettingsExit
+
+PalletTown_PlayersHouse_2F_EventScript_ExpShare::
+    msgbox PalletTown_PlayersHouse_2F_Text_ExpSharePrompt, MSGBOX_DEFAULT
+    multichoice 1, 1, MULTI_ADVENTURE_EXP_SHARE, FALSE
+    switch VAR_RESULT
+    case 0, PalletTown_PlayersHouse_2F_EventScript_ExpModern
+    case 1, PalletTown_PlayersHouse_2F_EventScript_ExpClassic
+    case 2, PalletTown_PlayersHouse_2F_EventScript_ExpOff
+    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
+
+PalletTown_PlayersHouse_2F_EventScript_ExpModern::
+    setvar VAR_ADVENTURE_EXP_SHARE_MODE, 0
+    goto PalletTown_PlayersHouse_2F_EventScript_ExpSaved
+
+PalletTown_PlayersHouse_2F_EventScript_ExpClassic::
+    setvar VAR_ADVENTURE_EXP_SHARE_MODE, 1
+    goto PalletTown_PlayersHouse_2F_EventScript_ExpSaved
+
+PalletTown_PlayersHouse_2F_EventScript_ExpOff::
+    setvar VAR_ADVENTURE_EXP_SHARE_MODE, 2
+
+PalletTown_PlayersHouse_2F_EventScript_ExpSaved::
+    msgbox PalletTown_PlayersHouse_2F_Text_ExpSaved, MSGBOX_DEFAULT
+    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
+
+PalletTown_PlayersHouse_2F_Text_ExpSharePrompt::
+    .string "Choose how experience is shared.\\n"
+    .string "This setting can change anytime.$"
+
+PalletTown_PlayersHouse_2F_Text_ExpSaved::
+    .string "EXP Share preference saved.$"
 
 PalletTown_PlayersHouse_2F_EventScript_FutureOptions::
     msgbox PalletTown_PlayersHouse_2F_Text_FutureOptions, MSGBOX_DEFAULT
