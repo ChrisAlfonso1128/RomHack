@@ -18,6 +18,8 @@
 #include "util.h"
 #include "item_icon.h"
 #include "pokemon_icon.h"
+#include "generation_selection.h"
+#include "constants/vars.h"
 #include "constants/field_specials.h"
 #include "constants/items.h"
 #include "constants/script_menu.h"
@@ -52,6 +54,8 @@ static u8 sLilycoveSSTidalSelections[SSTIDAL_SELECTION_COUNT];
 static void FreeListMenuItems(struct ListMenuItem *items, u32 count);
 static void Task_HandleScrollingMultichoiceInput(u8 taskId);
 static void Task_HandleMultichoiceInput(u8 taskId);
+static void Task_GenerationChecklist(u8 taskId);
+static void OpenGenerationChecklist(void);
 static void Task_HandleYesNoInput(u8 taskId);
 static void Task_HandleMultichoiceGridInput(u8 taskId);
 static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u32 callbackSet);
@@ -122,6 +126,14 @@ bool8 ScriptMenu_MultichoiceDynamic(u8 left, u8 top, u8 argc, struct ListMenuIte
 
 bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
 {
+    if (multichoiceId == MULTI_ADVENTURE_GEN_FIRST)
+    {
+        if (FuncIsActiveTask(Task_GenerationChecklist))
+            return FALSE;
+        gSpecialVar_Result = 0xFF;
+        OpenGenerationChecklist();
+        return TRUE;
+    }
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
     {
         return FALSE;
@@ -521,7 +533,7 @@ static const u8 *const sAdventureExpHelp[] = {sHelp_Modern, sHelp_Classic, sHelp
 
 static bool8 IsAdventureMultichoice(u8 id)
 {
-    return id == MULTI_ADVENTURE_SETTINGS || id == MULTI_ADVENTURE_GEN_FIRST
+    return id == MULTI_ADVENTURE_SETTINGS
         || id == MULTI_ADVENTURE_GEN_SECOND || id == MULTI_ADVENTURE_GEN_MODE
         || id == MULTI_ADVENTURE_EXP_SHARE;
 }
@@ -565,6 +577,193 @@ static void CloseAdventureHelp(void)
     }
     sAdventureHelpCursor = 0xFF;
 }
+
+
+/*
+ * Bag-style, scrollable generation checklist.
+ * Five visible rows, nine independent toggles, All/Clear and Done.
+ * The selection is only saved when Done is chosen with a nonempty mask.
+ */
+#define GEN_CHECKLIST_ITEMS 12
+#define GEN_CHECKLIST_VISIBLE 5
+#define tGenListWindow data[0]
+#define tGenHelpWindow data[1]
+#define tGenCursor data[2]
+#define tGenScroll data[3]
+#define tGenMask data[4]
+#define tGenNeedsSelection data[5]
+
+static const u8 *const sGenerationChecklistLabels[] =
+{
+    COMPOUND_STRING("GEN 1  KANTO"),
+    COMPOUND_STRING("GEN 2  JOHTO"),
+    COMPOUND_STRING("GEN 3  HOENN"),
+    COMPOUND_STRING("GEN 4  SINNOH"),
+    COMPOUND_STRING("GEN 5  UNOVA"),
+    COMPOUND_STRING("GEN 6  KALOS"),
+    COMPOUND_STRING("GEN 7  ALOLA"),
+    COMPOUND_STRING("GEN 8  GALAR"),
+    COMPOUND_STRING("GEN 9  PALDEA"),
+    COMPOUND_STRING("SELECT ALL"),
+    COMPOUND_STRING("CLEAR ALL"),
+    COMPOUND_STRING("DONE"),
+};
+
+static const u8 *const sGenerationChecklistHelp[] =
+{
+    sHelp_Gen1, sHelp_Gen2, sHelp_Gen3,
+    sHelp_Gen4, sHelp_Gen5, sHelp_Gen6,
+    sHelp_Gen7, sHelp_Gen8, sHelp_Gen9,
+    COMPOUND_STRING("Check every generation."),
+    COMPOUND_STRING("Uncheck every generation."),
+    COMPOUND_STRING("Save checked generations.\nAt least one is required."),
+};
+
+static void DrawGenerationChecklist(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    u8 i;
+    u8 index;
+    const u8 *check;
+    const u8 *cursor;
+
+    FillWindowPixelBuffer(tGenListWindow, PIXEL_FILL(1));
+    AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
+        COMPOUND_STRING("SELECT GENERATIONS"), 8, 0, TEXT_SKIP_DRAW, NULL);
+
+    for (i = 0; i < GEN_CHECKLIST_VISIBLE; i++)
+    {
+        index = tGenScroll + i;
+        if (index >= GEN_CHECKLIST_ITEMS)
+            break;
+        cursor = index == tGenCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" ");
+        AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
+            cursor, 5, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
+        if (index < 9)
+        {
+            check = (tGenMask & (1 << index))
+                ? COMPOUND_STRING("[X]") : COMPOUND_STRING("[ ]");
+            AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
+                check, 17, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
+        }
+        AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
+            sGenerationChecklistLabels[index], index < 9 ? 45 : 17,
+            16 + i * 16, TEXT_SKIP_DRAW, NULL);
+    }
+    CopyWindowToVram(tGenListWindow, COPYWIN_FULL);
+
+    FillWindowPixelBuffer(tGenHelpWindow, PIXEL_FILL(1));
+    if (tGenNeedsSelection)
+        AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
+            COMPOUND_STRING("Choose at least one gen!\nPress A to check a box."),
+            8, 2, TEXT_SKIP_DRAW, NULL);
+    else
+        AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
+            sGenerationChecklistHelp[tGenCursor], 8, 2, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(tGenHelpWindow, COPYWIN_FULL);
+}
+
+static void CloseGenerationChecklist(u8 taskId, bool8 save)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (save)
+    {
+        SetGenerationSelectionMask(tGenMask);
+        VarSet(VAR_ADVENTURE_GEN_CHOSEN, 1);
+        gSpecialVar_Result = 0;
+    }
+    else
+    {
+        gSpecialVar_Result = MULTI_B_PRESSED;
+    }
+
+    ClearToTransparentAndRemoveWindow(tGenHelpWindow);
+    ClearToTransparentAndRemoveWindow(tGenListWindow);
+    DestroyTask(taskId);
+    ScriptContext_Enable();
+}
+
+static void Task_GenerationChecklist(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    bool8 redraw = FALSE;
+
+    if (gPaletteFade.active)
+        return;
+
+    if (JOY_NEW(DPAD_UP))
+    {
+        tGenCursor = (tGenCursor + GEN_CHECKLIST_ITEMS - 1) % GEN_CHECKLIST_ITEMS;
+        redraw = TRUE;
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        tGenCursor = (tGenCursor + 1) % GEN_CHECKLIST_ITEMS;
+        redraw = TRUE;
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        CloseGenerationChecklist(taskId, FALSE);
+        return;
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        if (tGenCursor < 9)
+            tGenMask ^= 1 << tGenCursor;
+        else if (tGenCursor == 9)
+            tGenMask = 0x01FF;
+        else if (tGenCursor == 10)
+            tGenMask = 0;
+        else if (tGenMask != 0)
+        {
+            CloseGenerationChecklist(taskId, TRUE);
+            return;
+        }
+        else
+            tGenNeedsSelection = TRUE;
+        redraw = TRUE;
+    }
+
+    if (redraw)
+    {
+        if (tGenCursor < tGenScroll)
+            tGenScroll = tGenCursor;
+        if (tGenCursor >= tGenScroll + GEN_CHECKLIST_VISIBLE)
+            tGenScroll = tGenCursor - GEN_CHECKLIST_VISIBLE + 1;
+        if (tGenCursor != 11)
+            tGenNeedsSelection = FALSE;
+        DrawGenerationChecklist(taskId);
+    }
+}
+
+static void OpenGenerationChecklist(void)
+{
+    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 2, 2, 26, 12, 15, 100);
+    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 2, 15, 26, 4, 15, 500);
+    u8 taskId = CreateTask(Task_GenerationChecklist, 80);
+    s16 *data = gTasks[taskId].data;
+
+    tGenListWindow = AddWindow(&listTemplate);
+    tGenHelpWindow = AddWindow(&helpTemplate);
+    PutWindowTilemap(tGenListWindow);
+    PutWindowTilemap(tGenHelpWindow);
+    SetStandardWindowBorderStyle(tGenListWindow, FALSE);
+    SetStandardWindowBorderStyle(tGenHelpWindow, FALSE);
+    tGenCursor = 0;
+    tGenScroll = 0;
+    tGenMask = GetGenerationSelectionMask();
+    tGenNeedsSelection = FALSE;
+    DrawGenerationChecklist(taskId);
+}
+#undef tGenListWindow
+#undef tGenHelpWindow
+#undef tGenCursor
+#undef tGenScroll
+#undef tGenMask
+#undef tGenNeedsSelection
 
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId)
 {
