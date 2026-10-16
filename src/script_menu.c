@@ -480,6 +480,27 @@ static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenu
     }
 }
 
+// The Deluxe border is part of the window's own pixel buffer, rather than
+// the map tiles around it. It therefore survives opening and closing submenus.
+static bool8 IsAdventureMultichoice(u8 id);
+
+static void DrawAdventureInsetBorder(u8 windowId)
+{
+    u16 width = GetWindowAttribute(windowId, WINDOW_WIDTH) * 8;
+    u16 height = GetWindowAttribute(windowId, WINDOW_HEIGHT) * 8;
+
+    if (width < 8 || height < 8)
+        return;
+
+    // Antique-gold outline with slim FireRed-red vertical accents.
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, 0, width, 1);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, height - 1, width, 1);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, 0, 1, height);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), width - 1, 0, 1, height);
+    FillWindowPixelRect(windowId, PIXEL_FILL(4), 2, 2, 1, height - 4);
+    FillWindowPixelRect(windowId, PIXEL_FILL(4), width - 3, 2, 1, height - 4);
+}
+
 void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos, const struct MenuAction *actions, int count)
 {
     int i;
@@ -495,9 +516,15 @@ void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignore
     newWidth = ConvertPixelWidthToTileWidth(width);
     left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);
     windowId = CreateWindowFromRect(left, top, newWidth, count * 2);
-    SetStandardWindowBorderStyle(windowId, TRUE);
+    if (!IsAdventureMultichoice(multichoiceId))
+        SetStandardWindowBorderStyle(windowId, TRUE);
     PrintMenuTable(windowId, count, actions);
     InitMenuInUpperLeftCornerNormal(windowId, count, cursorPos);
+    if (IsAdventureMultichoice(multichoiceId))
+    {
+        DrawAdventureInsetBorder(windowId);
+        CopyWindowToVram(windowId, COPYWIN_FULL);
+    }
     ScheduleBgCopyTilemapToVram(0);
     InitMultichoiceCheckWrap(ignoreBPress, count, windowId, multichoiceId);
 }
@@ -587,6 +614,7 @@ static void UpdateAdventureHelp(u8 id)
 
     FillWindowPixelBuffer(sAdventureHelpWindow, PIXEL_FILL(1));
     AddTextPrinterParameterized(sAdventureHelpWindow, FONT_NORMAL, message, 8, 2, TEXT_SKIP_DRAW, NULL);
+    DrawAdventureInsetBorder(sAdventureHelpWindow);
     CopyWindowToVram(sAdventureHelpWindow, COPYWIN_FULL);
 }
 
@@ -1003,7 +1031,6 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
             PutWindowTilemap(sAdventureHelpWindow);
         }
         sAdventureHelpActive = TRUE;
-        SetStandardWindowBorderStyle(sAdventureHelpWindow, TRUE);
         ApplyDeluxeMenuPalette();
         UpdateAdventureHelp(multichoiceId);
     }
