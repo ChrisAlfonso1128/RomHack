@@ -2428,27 +2428,29 @@ static u32 CheckTargetTypeEffectiveness(enum BattlerId battler)
 
 static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum BattlerId battler)
 {
-    static const u8 noIcon[] =  _("");
-    static const u8 effectiveIcon[] =  _("{CIRCLE_HOLLOW}");
-    static const u8 extremeleyEffectiveIcon[] =  _("{STAR}");
-    static const u8 superEffectiveIcon[] =  _("{CIRCLE_DOT}");
-    static const u8 notVeryEffectiveIcon[] =  _("{TRIANGLE}");
-    static const u8 mostlyIneffectiveIcon[] =  _("{TRIANGLE_UPSIDE_DOWN}");
-    static const u8 immuneIcon[] =  _("{BIG_MULT_X}");
+    // 4x: light blue +; 2x: green +; 1x: blank; 1/2x: yellow -; 1/4x: orange -; 0x: red X.
+    static const u8 noIcon[] = _("");
+    static const u8 extremelyEffectiveIcon[] = _("{COLOR LIGHT_BLUE}+");
+    static const u8 superEffectiveIcon[] = _("{COLOR GREEN}+");
+    static const u8 normalIcon[] = _("");
+    static const u8 notVeryEffectiveIcon[] = _("{COLOR DYNAMIC_COLOR1}-");
+    static const u8 mostlyIneffectiveIcon[] = _("{COLOR DYNAMIC_COLOR2}-");
+    static const u8 immuneIcon[] = _("{COLOR RED}X");
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
-    u8 *txtPtr;
-
-    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
+    u8 *txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
 
     if (!IsBattleMoveStatus(moveInfo->moves[gMoveSelectionCursor[battler]]))
     {
         switch (foeEffectiveness)
         {
         case EFFECTIVENESS_EXTREMELY_EFFECTIVE:
-            StringCopy(txtPtr, extremeleyEffectiveIcon);
+            StringCopy(txtPtr, extremelyEffectiveIcon);
             break;
         case EFFECTIVENESS_SUPER_EFFECTIVE:
             StringCopy(txtPtr, superEffectiveIcon);
+            break;
+        case EFFECTIVENESS_NORMAL:
+            StringCopy(txtPtr, normalIcon);
             break;
         case EFFECTIVENESS_NOT_VERY_EFFECTIVE:
             StringCopy(txtPtr, notVeryEffectiveIcon);
@@ -2459,11 +2461,8 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum Bat
         case EFFECTIVENESS_NO_EFFECT:
             StringCopy(txtPtr, immuneIcon);
             break;
-        case EFFECTIVENESS_NORMAL:
-            StringCopy(txtPtr, effectiveIcon);
-            break;
-        default:
         case EFFECTIVENESS_CANNOT_VIEW:
+        default:
             StringCopy(txtPtr, noIcon);
             break;
         }
