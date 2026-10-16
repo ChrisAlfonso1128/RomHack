@@ -19,3 +19,11 @@ Design specification only. Not yet implemented or compiled. A playable ROM has *
 - Test generation checklist, descriptions, scrolling, A/B, Select All/Clear All, and save/reload.
 - Test EXP mode and the staircase confirmation gate.
 - Confirm UI theme toggles and persists on a real save.
+
+## First playable implementation pass (2026-10-16)
+- Generation checklist: new red accent ribbon, selected count, drawn checkbox outlines, retained scrolling and descriptive help.
+- Adventure Settings and EXP menus: shared theme-aware menu palette while active, restored on exit to avoid overworld palette changes.
+- Options: new UI THEME row with LIGHT/DARK choices, selectable with left/right, persisted in reserved event variable 0x40FE. Theme takes effect for subsequently opened Adventure Settings menus.
+- Options header and backdrop updated for the Deluxe prototype.
+- No custom bitmap assets yet; this is a palette-and-window based GBA implementation pass.
+- CI compilation and emulator playtesting are required before calling this complete.
