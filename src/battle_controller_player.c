@@ -2433,8 +2433,8 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum Bat
     static const u8 extremelyEffectiveIcon[] = _("{COLOR LIGHT_BLUE}+");
     static const u8 superEffectiveIcon[] = _("{COLOR GREEN}+");
     static const u8 normalIcon[] = _("");
-    static const u8 notVeryEffectiveIcon[] = _("{COLOR 10}-");
-    static const u8 mostlyIneffectiveIcon[] = _("{COLOR 11}-");
+    static const u8 notVeryEffectiveIcon[] = _("{COLOR DYNAMIC_COLOR1}-");
+    static const u8 mostlyIneffectiveIcon[] = _("{COLOR DYNAMIC_COLOR2}-");
     static const u8 immuneIcon[] = _("{COLOR RED}X");
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u8 *txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
