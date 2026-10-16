@@ -1,3 +1,12 @@
+## Playtest update — mandatory selection and menu descriptions (2026-10-15)
+
+- The upstairs notice now opens the selectable Adventure Settings menu immediately instead of a long introductory text bubble.
+- Generation 1–9 and All choices have context descriptions in a dedicated bottom help panel. Generation Only, Generation Unlocked, and Modern/Classic/Off EXP modes explain their behavior as the cursor moves.
+- The staircase event refuses to finalize until the player has **explicitly chosen both** a generation and an EXP mode. Default values alone do not satisfy the gate. Declining confirmation returns to the menu.
+- The staircase script keeps field controls locked while returning to the menu; confirmed choices persist in VAR_ADVENTURE_GEN_CHOSEN (0x40FC), VAR_ADVENTURE_EXP_CHOSEN (0x40FD), and the existing settings variables.
+- Source trace: `data/maps/PalletTown_PlayersHouse_2F_Frlg/scripts.inc` (AdventureMenu, RequireSettings, ConfirmSettings); `src/script_menu.c` (UpdateAdventureHelp, CloseAdventureHelp); `include/constants/vars.h`.
+- **Status:** Committed to the generation-selection feature branch; gameplay testing and fresh CI compilation pending.
+
 # Generation selection — implementation plan (phase 1)
 
 Status: architecture documented; gameplay integration NOT yet implemented.
