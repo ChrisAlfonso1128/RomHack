@@ -539,6 +539,9 @@ static bool8 IsAdventureMultichoice(u8 id)
         || id == MULTI_ADVENTURE_EXP_SHARE;
 }
 
+static void ApplyDeluxeMenuPalette(void);
+static void RestoreDeluxeMenuPalette(void);
+
 static void UpdateAdventureHelp(u8 id)
 {
     u8 cursor = Menu_GetCursorPos();
@@ -574,6 +577,7 @@ static void CloseAdventureHelp(void)
     if (sAdventureHelpActive)
     {
         ClearToTransparentAndRemoveWindow(sAdventureHelpWindow);
+        RestoreDeluxeMenuPalette();
         sAdventureHelpActive = FALSE;
     }
     sAdventureHelpCursor = 0xFF;
@@ -868,6 +872,7 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
         }
         sAdventureHelpActive = TRUE;
         SetStandardWindowBorderStyle(sAdventureHelpWindow, FALSE);
+        ApplyDeluxeMenuPalette();
         UpdateAdventureHelp(multichoiceId);
     }
 }
