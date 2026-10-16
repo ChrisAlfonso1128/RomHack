@@ -662,6 +662,7 @@ static void RestoreDeluxeMenuPalette(void)
     }
 }
 
+static const u8 sDeluxeHeaderTextColors[] = {4, 5, 7};
 static const u8 *const sDeluxeSelectedCount[] =
 {
     COMPOUND_STRING("0/9"), COMPOUND_STRING("1/9"), COMPOUND_STRING("2/9"),
@@ -719,12 +720,10 @@ static void DrawGenerationChecklist(u8 taskId)
     FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 0, 240, 2);
     FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 2, 240, 18);
     FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 20, 240, 2);
-    AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
-        COMPOUND_STRING("GENERATIONS"), 8, 2, TEXT_SKIP_DRAW, NULL,
-        5, 4, 7);
-    AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
-        sDeluxeSelectedCount[selectedCount], 201, 2, TEXT_SKIP_DRAW, NULL,
-        5, 4, 7);
+    AddTextPrinterParameterized3(tGenListWindow, FONT_NORMAL, 8, 2,
+        sDeluxeHeaderTextColors, TEXT_SKIP_DRAW, COMPOUND_STRING("GENERATIONS"));
+    AddTextPrinterParameterized3(tGenListWindow, FONT_NORMAL, 201, 2,
+        sDeluxeHeaderTextColors, TEXT_SKIP_DRAW, sDeluxeSelectedCount[selectedCount]);
 
     for (i = 0; i < GEN_CHECKLIST_VISIBLE; i++)
     {
@@ -894,8 +893,8 @@ static void DrawDeluxeExpMenu(u8 taskId)
     FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 0, 240, 2);
     FillWindowPixelRect(tExpList, PIXEL_FILL(4), 0, 2, 240, 18);
     FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 20, 240, 2);
-    AddTextPrinterParameterized2(tExpList, FONT_NORMAL,
-        COMPOUND_STRING("EXP SHARE MODE"), 8, 2, TEXT_SKIP_DRAW, NULL, 5, 4, 7);
+    AddTextPrinterParameterized3(tExpList, FONT_NORMAL, 8, 2,
+        sDeluxeHeaderTextColors, TEXT_SKIP_DRAW, COMPOUND_STRING("EXP SHARE MODE"));
     for (i = 0; i < 3; i++)
     {
         u8 y = 28 + i * 20;
