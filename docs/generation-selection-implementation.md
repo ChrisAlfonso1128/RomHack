@@ -99,3 +99,10 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - Added persistent `VAR_ADVENTURE_EXP_SHARE_MODE` (0 modern, 1 classic, 2 off), a three-choice bedroom settings submenu, and associated script menu IDs/labels. EXP Share preference remains editable after generation confirmation.
 - **Important: the EXP Share menu currently saves a preference only. Battle EXP distribution does not yet consult this variable, so the three modes are NOT functional.** The existing project uses `I_EXP_SHARE_FLAG`/`I_EXP_SHARE_ITEM` configuration; runtime integration remains required.
 - Generation-specific encounter and trainer data, scripted encounter substitutions, and compile/runtime verification remain incomplete. Do not treat this branch as ready for player testing.
+
+## EXP Share runtime integration (2026-10-15)
+- Connected `VAR_ADVENTURE_EXP_SHARE_MODE` to `IsGen6ExpShareEnabled()` in `src/battle_util.c`: mode 0 enables modern party-wide sharing; modes 1 and 2 disable party-wide sharing.
+- In `src/battle_script_commands.c`, the held EXP Share is active in modes 0 and 1 and ignored in mode 2. This applies to EXP-recipient discovery, eligibility checks, and bonus EXP calculations. Participating Pokémon still earn ordinary battle EXP in every mode.
+- The setting is selectable via the bedroom Adventure Settings notice, including after generation confirmation. The menu does not yet provide an everywhere-accessible shortcut; returning to the bedroom is currently required.
+- Compilation and in-game EXP tests have not been performed. Verify modern inactive-party EXP, classic held-item-only EXP, off inactive-party no EXP, and ordinary active combat EXP under all settings. Exact modern EXP formula follows the existing configured `B_SPLIT_EXP` logic and needs balancing verification.
+- Outstanding: generation-eligible species coverage for all wild encounter tables, special encounters, and dedicated trainer/boss teams; build verification. Existing helper logic can retain out-of-generation species where no replacement exists.
