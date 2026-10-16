@@ -495,7 +495,7 @@ void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignore
     newWidth = ConvertPixelWidthToTileWidth(width);
     left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);
     windowId = CreateWindowFromRect(left, top, newWidth, count * 2);
-    SetStandardWindowBorderStyle(windowId, FALSE);
+    SetStandardWindowBorderStyle(windowId, TRUE);
     PrintMenuTable(windowId, count, actions);
     InitMenuInUpperLeftCornerNormal(windowId, count, cursorPos);
     ScheduleBgCopyTilemapToVram(0);
@@ -900,11 +900,15 @@ static void DrawDeluxeExpMenu(u8 taskId)
         u8 y = 28 + i * 20;
         if (tExpCursor == i)
             FillWindowPixelRect(tExpList, PIXEL_FILL(6), 4, y, 232, 18);
+        // Radio-style checkmark: only the highlighted EXP mode is active.
         AddTextPrinterParameterized(tExpList, FONT_NORMAL,
             i == tExpCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" "),
             10, y, TEXT_SKIP_DRAW, NULL);
         AddTextPrinterParameterized(tExpList, FONT_NORMAL,
-            sDeluxeExpNames[i], 35, y, TEXT_SKIP_DRAW, NULL);
+            i == tExpCursor ? COMPOUND_STRING("[X]") : COMPOUND_STRING("[ ]"),
+            29, y, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(tExpList, FONT_NORMAL,
+            sDeluxeExpNames[i], 65, y, TEXT_SKIP_DRAW, NULL);
     }
     FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 115, 240, 2);
     CopyWindowToVram(tExpList, COPYWIN_FULL);
@@ -997,7 +1001,7 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
             PutWindowTilemap(sAdventureHelpWindow);
         }
         sAdventureHelpActive = TRUE;
-        SetStandardWindowBorderStyle(sAdventureHelpWindow, FALSE);
+        SetStandardWindowBorderStyle(sAdventureHelpWindow, TRUE);
         ApplyDeluxeMenuPalette();
         UpdateAdventureHelp(multichoiceId);
     }
