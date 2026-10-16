@@ -37,6 +37,7 @@
 #include "m4a.h"
 #include "mail.h"
 #include "event_data.h"
+#include "constants/vars.h"
 #include "pokemon_storage_system.h"
 #include "task.h"
 #include "naming_screen.h"
@@ -376,6 +377,12 @@ static void Cmd_jumpifsideaffecting(void);
 static void Cmd_jumpifstat(void);
 static void Cmd_jumpifstatignorecontrary(void);
 static void Cmd_jumpbasedontype(void);
+static bool32 IsHeldExpShareActive(enum HoldEffect effect)
+{
+    // Off disables the held-item effect too; classic enables held-item only.
+    return VarGet(VAR_ADVENTURE_EXP_SHARE_MODE) != 2 && effect == HOLD_EFFECT_EXP_SHARE;
+}
+
 static void Cmd_getexp(void);
 static void Cmd_checkteamslost(void);
 static void Cmd_goto(void);
@@ -2186,7 +2193,7 @@ static void Cmd_getexp(void)
                     viaSentIn++;
 
                 holdEffect = GetMonHoldEffect(&gParties[B_TRAINER_PLAYER][i]);
-                if (holdEffect == HOLD_EFFECT_EXP_SHARE || IsGen6ExpShareEnabled())
+                if (IsHeldExpShareActive(holdEffect) || IsGen6ExpShareEnabled())
                 {
                     expShareBits |= 1u << i;
                     viaExpShare++;
@@ -2255,7 +2262,7 @@ static void Cmd_getexp(void)
             bool32 wasSentOut = (gBattleStruct->expSentInMons & (1u << *expMonId)) != 0;
             holdEffect = GetMonHoldEffect(&gParties[B_TRAINER_PLAYER][*expMonId]);
 
-            if ((holdEffect != HOLD_EFFECT_EXP_SHARE && !wasSentOut && !IsGen6ExpShareEnabled())
+            if ((!IsHeldExpShareActive(holdEffect) && !wasSentOut && !IsGen6ExpShareEnabled())
              || GetMonData(&gParties[B_TRAINER_PLAYER][*expMonId], MON_DATA_SPECIES_OR_EGG) == SPECIES_EGG)
             {
                 gBattleScripting.getexpState = 5;
@@ -2289,7 +2296,7 @@ static void Cmd_getexp(void)
                     else
                         gBattleStruct->battlerExpReward = 0;
 
-                    if ((holdEffect == HOLD_EFFECT_EXP_SHARE || IsGen6ExpShareEnabled())
+                    if ((IsHeldExpShareActive(holdEffect) || IsGen6ExpShareEnabled())
                         && (B_SPLIT_EXP < GEN_6 || gBattleStruct->battlerExpReward == 0)) // only give exp share bonus in later gens if the mon wasn't sent out
                     {
                         gBattleStruct->battlerExpReward += GetSoftLevelCapExpValue(gParties[B_TRAINER_PLAYER][*expMonId].level, gBattleStruct->expShareExpValue);
