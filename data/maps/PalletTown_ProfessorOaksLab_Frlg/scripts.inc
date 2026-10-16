@@ -1118,6 +1118,8 @@ PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
 	setflag FLAG_SYS_POKEMON_GET
 	setflag FLAG_PALLET_LADY_NOT_BLOCKING_SIGN
 	givemon PLAYER_STARTER_SPECIES, 5
+	goto_if_eq PLAYER_STARTER_NUM, 1, PalletTown_ProfessorOaksLab_EventScript_SetTrapinchStarterMoves
+PalletTown_ProfessorOaksLab_EventScript_StarterMovesReady::
 	copyvar VAR_STARTER_MON, PLAYER_STARTER_NUM
 	bufferspeciesname STR_VAR_1, PLAYER_STARTER_SPECIES
 	message PalletTown_ProfessorOaksLab_Text_ReceivedMonFromOak
@@ -1128,6 +1130,12 @@ PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
 	goto_if_eq VAR_RESULT, YES, EventScript_GiveNicknameToStarter
 	goto_if_eq VAR_RESULT, NO, PalletTown_ProfessorOaksLab_EventScript_RivalPicksStarter
 	end
+
+PalletTown_ProfessorOaksLab_EventScript_SetTrapinchStarterMoves::
+	@ Only Oak's player Trapinch starter: ensure it starts with two damaging moves.
+	setmonmove 0, 0, MOVE_BITE
+	setmonmove 0, 1, MOVE_MUD_SLAP
+	goto PalletTown_ProfessorOaksLab_EventScript_StarterMovesReady
 
 EventScript_GiveNicknameToStarter::
 	setvar VAR_0x8004, 0
