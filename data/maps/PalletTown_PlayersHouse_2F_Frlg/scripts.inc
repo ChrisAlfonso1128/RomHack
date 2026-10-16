@@ -49,7 +49,7 @@ PalletTown_PlayersHouse_2F_Text_AdventureSettings::
 	.string "can be changed later.$"
 
 PalletTown_PlayersHouse_2F_EventScript_AdventureSettings::
-    msgbox PalletTown_PlayersHouse_2F_Text_AdventureSettings, MSGBOX_DEFAULT
+    @ Open the actual selectable menu immediately; cursor help is drawn below it.
 PalletTown_PlayersHouse_2F_EventScript_AdventureMenu::
     multichoice 1, 1, MULTI_ADVENTURE_SETTINGS, FALSE
     switch VAR_RESULT
@@ -78,6 +78,7 @@ PalletTown_PlayersHouse_2F_EventScript_ExpOff::
     setvar VAR_ADVENTURE_EXP_SHARE_MODE, 2
 
 PalletTown_PlayersHouse_2F_EventScript_ExpSaved::
+    setvar VAR_ADVENTURE_EXP_CHOSEN, 1
     msgbox PalletTown_PlayersHouse_2F_Text_ExpSaved, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
@@ -153,6 +154,7 @@ PalletTown_PlayersHouse_2F_EventScript_Gen9::
     goto PalletTown_PlayersHouse_2F_EventScript_GenMode
 
 PalletTown_PlayersHouse_2F_EventScript_GenAll::
+    setvar VAR_ADVENTURE_GEN_CHOSEN, 1
     setvar VAR_GENERATION_SELECTION, 0
     msgbox PalletTown_PlayersHouse_2F_Text_GenSaved, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
@@ -166,11 +168,13 @@ PalletTown_PlayersHouse_2F_EventScript_GenMode::
     goto PalletTown_PlayersHouse_2F_EventScript_GenFirstMenu
 
 PalletTown_PlayersHouse_2F_EventScript_GenOnly::
+    setvar VAR_ADVENTURE_GEN_CHOSEN, 1
     copyvar VAR_GENERATION_SELECTION, VAR_0x8005
     msgbox PalletTown_PlayersHouse_2F_Text_GenSaved, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_EventScript_GenUnlocked::
+    setvar VAR_ADVENTURE_GEN_CHOSEN, 1
     addvar VAR_0x8005, 16
     copyvar VAR_GENERATION_SELECTION, VAR_0x8005
     msgbox PalletTown_PlayersHouse_2F_Text_GenSaved, MSGBOX_DEFAULT
@@ -202,6 +206,8 @@ PalletTown_PlayersHouse_2F_EventScript_GenLocked::
 
 PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     lockall
+    goto_if_eq VAR_ADVENTURE_GEN_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_RequireSettings
+    goto_if_eq VAR_ADVENTURE_EXP_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_RequireSettings
     msgbox PalletTown_PlayersHouse_2F_Text_ConfirmSettings, MSGBOX_DEFAULT
     yesnobox 20, 8
     goto_if_eq VAR_RESULT, NO, PalletTown_PlayersHouse_2F_EventScript_ReviewSettings
@@ -210,11 +216,22 @@ PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     releaseall
     end
 
+PalletTown_PlayersHouse_2F_EventScript_RequireSettings::
+    applymovement LOCALID_PLAYER, PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs
+    waitmovement 0
+    msgbox PalletTown_PlayersHouse_2F_Text_RequiredSettings, MSGBOX_DEFAULT
+    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
+
+PalletTown_PlayersHouse_2F_Text_RequiredSettings::
+    .string "Before leaving, choose a POKeMON\\n"
+    .string "generation AND an EXP mode.\\p"
+    .string "Use the menu to set both options.$"
+
 PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
     applymovement LOCALID_PLAYER, PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs
     waitmovement 0
     msgbox PalletTown_PlayersHouse_2F_Text_ReviewSettings, MSGBOX_DEFAULT
-    releaseall
+    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
     end
 
 PalletTown_PlayersHouse_2F_Text_ConfirmSettings::
