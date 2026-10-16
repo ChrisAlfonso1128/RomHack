@@ -516,7 +516,15 @@ void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignore
     newWidth = ConvertPixelWidthToTileWidth(width);
     left = ScriptMenu_AdjustLeftCoordFromWidth(left, newWidth);
     windowId = CreateWindowFromRect(left, top, newWidth, count * 2);
-    if (!IsAdventureMultichoice(multichoiceId))
+    if (IsAdventureMultichoice(multichoiceId))
+    {
+        // New windows have transparent/undefined pixels. Always paint the
+        // complete background before printing text or drawing the inset frame.
+        // Otherwise the previous room and black BG show through between rows.
+        FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+        CopyWindowToVram(windowId, COPYWIN_GFX);
+    }
+    else
         SetStandardWindowBorderStyle(windowId, TRUE);
     PrintMenuTable(windowId, count, actions);
     InitMenuInUpperLeftCornerNormal(windowId, count, cursorPos);
