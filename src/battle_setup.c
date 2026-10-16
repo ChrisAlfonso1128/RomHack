@@ -2294,6 +2294,21 @@ void CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Traine
 
         monIndices[i] = monIndex;
         GenerateMonFromTrainerMon(&party[i], &trainer->party[monIndex], trainerGen);
+        // Oak's first rival battle must use the actual generation-aware
+        // starter from the ball the rival took, not the legacy fixed species.
+        if (isOpponentParty && i == 0)
+        {
+            u8 rivalSlot = 3;
+            if (trainer->trainerId == TRAINER_RIVAL_OAKS_LAB_CHARMANDER)
+                rivalSlot = 2;
+            else if (trainer->trainerId == TRAINER_RIVAL_OAKS_LAB_BULBASAUR)
+                rivalSlot = 0;
+            else if (trainer->trainerId == TRAINER_RIVAL_OAKS_LAB_SQUIRTLE)
+                rivalSlot = 1;
+            if (rivalSlot < 3)
+                CreateMon(&party[i], GetStarterPokemon(rivalSlot),
+                          trainer->party[monIndex].lvl, 0, trainer->otID);
+        }
     }
     Free(trainerGen);
 }
