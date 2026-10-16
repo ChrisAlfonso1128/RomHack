@@ -1,3 +1,12 @@
+## Dynamic unconventional starter trio (2026-10-15)
+
+- Replaced the fixed Oak's Lab starter species with a generation-aware, unconventional **Rock / Flying / Fighting** advantage cycle (Fighting beats Rock, Rock beats Flying, Flying beats Fighting).
+- Curated three candidates per generation. For multi-generation selections, the game chooses the three eligible candidates with the smallest spread in listed base stat totals, with deterministic tie-breaking. Each chosen starter belongs to an enabled generation.
+- Oak's Poké Ball preview, actual starter award, rival's choice text, and the opening Oak's Lab rival battle are wired to the selected trio. Rival still takes the type-advantaged slot.
+- Other trainer encounters, future rival battles, starter-only move overrides, and later evolution restrictions need gameplay review for compatibility with dynamic species.
+- **Balance caveat:** generation-only selections have limited candidate pools. Gen 2 Tyrogue and Gen 9 Flamigo in particular have substantially different BSTs from their partners; the first pass does **not** yet meet strict equal-stat balancing for every possible generation selection. This is an implementation foundation, not final balancing.
+- **Status:** compilation and gameplay validation pending at time of change.
+
 ## Generation checklist playtest build (2026-10-15)
 
 - The Bag-style checklist lets players independently toggle generations 1–9, select all, clear all, and save a nonempty selection. Cursor movement shows a short description for each generation.
