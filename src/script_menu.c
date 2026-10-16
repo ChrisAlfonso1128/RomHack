@@ -703,9 +703,11 @@ static void DrawGenerationChecklist(u8 taskId)
         if (index < 9)
         {
             check = (tGenMask & (1 << index))
-                ? COMPOUND_STRING("[X]") : COMPOUND_STRING("[ ]");
+                ? COMPOUND_STRING("X") : COMPOUND_STRING(" ");
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(2), 17, 18 + i * 16, 12, 12);
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(1), 18, 19 + i * 16, 10, 10);
             AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-                check, 17, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
+                check, 19, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
         }
         AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
             sGenerationChecklistLabels[index], index < 9 ? 51 : 17,
