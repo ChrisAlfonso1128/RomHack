@@ -1130,7 +1130,14 @@ static const struct MenuAction MultichoiceList_Exit[] =
 static const struct MenuAction sAdventureSettingsMenu[] =
 {
     {COMPOUND_STRING("POKEMON GENERATION")},
-    {COMPOUND_STRING("OTHER OPTIONS (SOON)")},
+    {COMPOUND_STRING("EXP SHARE MODE")},
+    {gText_Exit},
+};
+static const struct MenuAction sAdventureExpShare[] =
+{
+    {COMPOUND_STRING("MODERN PARTY-WIDE")},
+    {COMPOUND_STRING("CLASSIC HELD ITEM")},
+    {COMPOUND_STRING("OFF")},
     {gText_Exit},
 };
 static const struct MenuAction sAdventureGenFirst[] =
@@ -1329,6 +1336,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_ADVENTURE_GEN_FIRST] = MULTICHOICE(sAdventureGenFirst),
     [MULTI_ADVENTURE_GEN_SECOND] = MULTICHOICE(sAdventureGenSecond),
     [MULTI_ADVENTURE_GEN_MODE] = MULTICHOICE(sAdventureGenMode),
+    [MULTI_ADVENTURE_EXP_SHARE] = MULTICHOICE(sAdventureExpShare),
 };
 
 const u8 *const gStdStrings[] =
