@@ -490,8 +490,9 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
  * Adventure Settings use the normal GBA cursor menu, with a compact help
  * panel that changes as the player highlights each choice.
  */
-static EWRAM_DATA u8 sAdventureHelpWindow = 0xFF;
-static EWRAM_DATA u8 sAdventureHelpCursor = 0xFF;
+static EWRAM_DATA u8 sAdventureHelpWindow;
+static EWRAM_DATA u8 sAdventureHelpCursor;
+static EWRAM_DATA bool8 sAdventureHelpActive;
 
 static const u8 sHelp_Gen1[] = _("Kanto: Bulbasaur, Pikachu,\nCharmander and the originals.");
 static const u8 sHelp_Gen2[] = _("Johto: Chikorita, Cyndaquil,\nTotodile and new evolutions.");
@@ -530,7 +531,7 @@ static void UpdateAdventureHelp(u8 id)
     u8 cursor = Menu_GetCursorPos();
     const u8 *message = sHelp_Exit;
 
-    if (sAdventureHelpWindow == 0xFF || cursor == sAdventureHelpCursor)
+    if (!sAdventureHelpActive || cursor == sAdventureHelpCursor)
         return;
     sAdventureHelpCursor = cursor;
 
@@ -557,10 +558,10 @@ static void UpdateAdventureHelp(u8 id)
 
 static void CloseAdventureHelp(void)
 {
-    if (sAdventureHelpWindow != 0xFF)
+    if (sAdventureHelpActive)
     {
         ClearToTransparentAndRemoveWindow(sAdventureHelpWindow);
-        sAdventureHelpWindow = 0xFF;
+        sAdventureHelpActive = FALSE;
     }
     sAdventureHelpCursor = 0xFF;
 }
@@ -596,6 +597,7 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
     {
         CloseAdventureHelp();
         sAdventureHelpWindow = CreateWindowFromRect(1, 14, 28, 5);
+        sAdventureHelpActive = TRUE;
         SetStandardWindowBorderStyle(sAdventureHelpWindow, FALSE);
         UpdateAdventureHelp(multichoiceId);
     }
