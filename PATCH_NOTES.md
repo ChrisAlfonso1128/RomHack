@@ -38,3 +38,11 @@ Future changes should be documented here alongside the source changes.
 - Combined generation-selection foundation with the gameplay-tested Build #50 effectiveness indicator implementation on `dev/romhack-integration`.
 - Preserved dynamic generation starter logic and applied Trapinch Bite / Mud-Slap override only when the actual chosen species is Trapinch, not when starter slot 1 is selected.
 - Kept `main` unchanged. Combined build and emulator verification pending.
+
+## Branch consolidation audit — 2026-10-16
+- Verified that all three starter learnset files from `feature/starter-learnsets` exactly match integration.
+- Verified that all three starter stat files from `feature/starter-balance-pass` exactly match integration.
+- `feature/starter-balance`, `feature/starter-rival-progression`, and `docs/rival-verification-status` are ancestors of integration; no additional code to bring over.
+- `qol-move-effectiveness` battle UI files are integrated; Oak's Lab override is intentionally adapted to check actual Trapinch species under dynamic starters.
+- These checks confirm content integration, not ancestry of every original feature branch commit. Historical unrelated-history branches remain separate.
+- `main` was not modified.
