@@ -86,3 +86,10 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - Match intended encounter difficulty using levels, moves, abilities, items, evolution stage, and team size while respecting the selected generation and specialist type.
 - Audit eligible species counts for each boss type and generation before generating teams. Scarce combinations must be identified explicitly rather than silently breaking generation or type restrictions; the exact fallback design for insufficient species is not yet approved.
 - This is a design specification, not a claim that the complete teams have been implemented.
+
+## Approved provisional boss-roster fallback (2026-10-15)
+- Applies to Gym Leaders and Elite Four; preserve each specialist's established primary type identity.
+- Roster selection priority: (1) eligible Pokémon with the primary type, including dual-types; (2) eligible Pokémon of a complementary secondary type; (3) eligible Pokémon fitting a similar thematic identity.
+- Generation restriction remains absolute in all three tiers. Prefer unique species and a smaller team over duplicates if the pool is scarce.
+- Exact species, secondary-type assignments, and balancing are provisional: flag difficult generation/type combinations for later manual review, rather than blocking the menu and gameplay infrastructure.
+- **Implementation status:** design approved only; the current trainer pool substitution does not yet implement primary/secondary/theme ranking or guaranteed strict filtering. Do not label placeholders as finished teams.
