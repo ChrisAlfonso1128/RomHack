@@ -92,86 +92,10 @@ PalletTown_PlayersHouse_2F_EventScript_FutureOptions::
     msgbox PalletTown_PlayersHouse_2F_Text_FutureOptions, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
+@ Bag-style checklist. Each generation is a separate checkbox; no forced ONLY/UNLOCKED choice.
 PalletTown_PlayersHouse_2F_EventScript_GenFirst::
     goto_if_eq VAR_ADVENTURE_SETTINGS_CONFIRMED, 1, PalletTown_PlayersHouse_2F_EventScript_GenLocked
-PalletTown_PlayersHouse_2F_EventScript_GenFirstMenu::
     multichoice 1, 1, MULTI_ADVENTURE_GEN_FIRST, FALSE
-    switch VAR_RESULT
-    case 0, PalletTown_PlayersHouse_2F_EventScript_Gen1
-    case 1, PalletTown_PlayersHouse_2F_EventScript_Gen2
-    case 2, PalletTown_PlayersHouse_2F_EventScript_Gen3
-    case 3, PalletTown_PlayersHouse_2F_EventScript_Gen4
-    case 4, PalletTown_PlayersHouse_2F_EventScript_Gen5
-    case 5, PalletTown_PlayersHouse_2F_EventScript_GenSecond
-    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
-
-PalletTown_PlayersHouse_2F_EventScript_GenSecond::
-    multichoice 1, 1, MULTI_ADVENTURE_GEN_SECOND, FALSE
-    switch VAR_RESULT
-    case 0, PalletTown_PlayersHouse_2F_EventScript_Gen6
-    case 1, PalletTown_PlayersHouse_2F_EventScript_Gen7
-    case 2, PalletTown_PlayersHouse_2F_EventScript_Gen8
-    case 3, PalletTown_PlayersHouse_2F_EventScript_Gen9
-    case 4, PalletTown_PlayersHouse_2F_EventScript_GenAll
-    goto PalletTown_PlayersHouse_2F_EventScript_GenFirstMenu
-
-PalletTown_PlayersHouse_2F_EventScript_Gen1::
-    setvar VAR_0x8005, 1
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen2::
-    setvar VAR_0x8005, 2
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen3::
-    setvar VAR_0x8005, 3
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen4::
-    setvar VAR_0x8005, 4
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen5::
-    setvar VAR_0x8005, 5
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen6::
-    setvar VAR_0x8005, 6
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen7::
-    setvar VAR_0x8005, 7
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen8::
-    setvar VAR_0x8005, 8
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_Gen9::
-    setvar VAR_0x8005, 9
-    goto PalletTown_PlayersHouse_2F_EventScript_GenMode
-
-PalletTown_PlayersHouse_2F_EventScript_GenAll::
-    setvar VAR_ADVENTURE_GEN_CHOSEN, 1
-    setvar VAR_GENERATION_SELECTION, 0
-    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
-
-PalletTown_PlayersHouse_2F_EventScript_GenMode::
-    multichoice 1, 1, MULTI_ADVENTURE_GEN_MODE, FALSE
-    switch VAR_RESULT
-    case 0, PalletTown_PlayersHouse_2F_EventScript_GenOnly
-    case 1, PalletTown_PlayersHouse_2F_EventScript_GenUnlocked
-    goto PalletTown_PlayersHouse_2F_EventScript_GenFirstMenu
-
-PalletTown_PlayersHouse_2F_EventScript_GenOnly::
-    setvar VAR_ADVENTURE_GEN_CHOSEN, 1
-    copyvar VAR_GENERATION_SELECTION, VAR_0x8005
-    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
-
-PalletTown_PlayersHouse_2F_EventScript_GenUnlocked::
-    setvar VAR_ADVENTURE_GEN_CHOSEN, 1
-    addvar VAR_0x8005, 16
-    copyvar VAR_GENERATION_SELECTION, VAR_0x8005
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_EventScript_SettingsExit::
@@ -229,7 +153,7 @@ PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
     end
 
 PalletTown_PlayersHouse_2F_Text_ConfirmSettings::
-    .string "Your POKeMON generation choices\n"
+    .string "Your checked generations\n"
     .string "will be permanent after you leave.\p"
     .string "Confirm your adventure settings?$"
 
