@@ -880,9 +880,9 @@ static const u8 *const sDeluxeExpNames[] =
 };
 static const u8 *const sDeluxeExpDetails[] =
 {
-    COMPOUND_STRING("All party Pokemon earn EXP.\\nEasy team training."),
-    COMPOUND_STRING("Battle participants and\\nExp. Share holders earn EXP."),
-    COMPOUND_STRING("Only battle participants\\nearn EXP. No party sharing."),
+    COMPOUND_STRING("All party Pokemon earn EXP.\nEasy team training."),
+    COMPOUND_STRING("Battle participants and\nExp. Share holders earn EXP."),
+    COMPOUND_STRING("Only battle participants\nearn EXP. No party sharing."),
 };
 
 static void DrawDeluxeExpMenu(u8 taskId)
