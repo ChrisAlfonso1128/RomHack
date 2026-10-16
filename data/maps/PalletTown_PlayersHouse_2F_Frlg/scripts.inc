@@ -51,6 +51,7 @@ PalletTown_PlayersHouse_2F_Text_AdventureSettings::
 PalletTown_PlayersHouse_2F_EventScript_AdventureSettings::
     @ Open the actual selectable menu immediately; cursor help is drawn below it.
 PalletTown_PlayersHouse_2F_EventScript_AdventureMenu::
+    closemessage
     multichoice 1, 1, MULTI_ADVENTURE_SETTINGS, FALSE
     switch VAR_RESULT
     case 0, PalletTown_PlayersHouse_2F_EventScript_GenFirst
@@ -58,7 +59,6 @@ PalletTown_PlayersHouse_2F_EventScript_AdventureMenu::
     goto PalletTown_PlayersHouse_2F_EventScript_SettingsExit
 
 PalletTown_PlayersHouse_2F_EventScript_ExpShare::
-    msgbox PalletTown_PlayersHouse_2F_Text_ExpSharePrompt, MSGBOX_DEFAULT
     multichoice 1, 1, MULTI_ADVENTURE_EXP_SHARE, FALSE
     switch VAR_RESULT
     case 0, PalletTown_PlayersHouse_2F_EventScript_ExpModern
@@ -79,7 +79,6 @@ PalletTown_PlayersHouse_2F_EventScript_ExpOff::
 
 PalletTown_PlayersHouse_2F_EventScript_ExpSaved::
     setvar VAR_ADVENTURE_EXP_CHOSEN, 1
-    msgbox PalletTown_PlayersHouse_2F_Text_ExpSaved, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_Text_ExpSharePrompt::
@@ -95,7 +94,6 @@ PalletTown_PlayersHouse_2F_EventScript_FutureOptions::
 
 PalletTown_PlayersHouse_2F_EventScript_GenFirst::
     goto_if_eq VAR_ADVENTURE_SETTINGS_CONFIRMED, 1, PalletTown_PlayersHouse_2F_EventScript_GenLocked
-    msgbox PalletTown_PlayersHouse_2F_Text_GenPrompt, MSGBOX_DEFAULT
 PalletTown_PlayersHouse_2F_EventScript_GenFirstMenu::
     multichoice 1, 1, MULTI_ADVENTURE_GEN_FIRST, FALSE
     switch VAR_RESULT
@@ -156,11 +154,9 @@ PalletTown_PlayersHouse_2F_EventScript_Gen9::
 PalletTown_PlayersHouse_2F_EventScript_GenAll::
     setvar VAR_ADVENTURE_GEN_CHOSEN, 1
     setvar VAR_GENERATION_SELECTION, 0
-    msgbox PalletTown_PlayersHouse_2F_Text_GenSaved, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_EventScript_GenMode::
-    msgbox PalletTown_PlayersHouse_2F_Text_ModePrompt, MSGBOX_DEFAULT
     multichoice 1, 1, MULTI_ADVENTURE_GEN_MODE, FALSE
     switch VAR_RESULT
     case 0, PalletTown_PlayersHouse_2F_EventScript_GenOnly
@@ -170,14 +166,12 @@ PalletTown_PlayersHouse_2F_EventScript_GenMode::
 PalletTown_PlayersHouse_2F_EventScript_GenOnly::
     setvar VAR_ADVENTURE_GEN_CHOSEN, 1
     copyvar VAR_GENERATION_SELECTION, VAR_0x8005
-    msgbox PalletTown_PlayersHouse_2F_Text_GenSaved, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_EventScript_GenUnlocked::
     setvar VAR_ADVENTURE_GEN_CHOSEN, 1
     addvar VAR_0x8005, 16
     copyvar VAR_GENERATION_SELECTION, VAR_0x8005
-    msgbox PalletTown_PlayersHouse_2F_Text_GenSaved, MSGBOX_DEFAULT
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_EventScript_SettingsExit::
