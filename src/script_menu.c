@@ -642,7 +642,7 @@ static void DrawGenerationChecklist(u8 taskId)
         if (index < 9)
         {
             check = (tGenMask & (1 << index))
-                ? COMPOUND_STRING("[X]") : COMPOUND_STRING("[ ]");
+                ? COMPOUND_STRING("ON") : COMPOUND_STRING("--");
             AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
                 check, 17, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
         }
