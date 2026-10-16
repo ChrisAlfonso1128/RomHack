@@ -270,7 +270,7 @@
 #define VAR_UNUSED_0x40F8                                0x40F8 // Unused Var
 #define VAR_GENERATION_SELECTION                          0x40F9 // Persistent generation and mode (0 = All)
 #define VAR_ADVENTURE_SETTINGS_CONFIRMED                                0x40FA // Unused Var
-#define VAR_UNUSED_0x40FB                                0x40FB // Unused Var
+#define VAR_ADVENTURE_EXP_SHARE_MODE                      0x40FB // 0 modern, 1 classic, 2 off
 #define VAR_UNUSED_0x40FC                                0x40FC // Unused Var
 #define VAR_UNUSED_0x40FD                                0x40FD // Unused Var
 #define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
