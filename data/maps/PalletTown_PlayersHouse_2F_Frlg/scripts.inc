@@ -223,8 +223,8 @@ PalletTown_PlayersHouse_2F_EventScript_RequireSettings::
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_Text_RequiredSettings::
-    .string "Before leaving, choose a POKeMON\\n"
-    .string "generation AND an EXP mode.\\p"
+    .string "Before leaving, choose a POKeMON\n"
+    .string "generation AND an EXP mode.\p"
     .string "Use the menu to set both options.$"
 
 PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
