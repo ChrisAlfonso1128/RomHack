@@ -28,3 +28,8 @@ Future changes should be documented here alongside the source changes.
 ### Trapinch starter-only move override
 - In Oak's Lab starter gift script, selecting Trapinch sets the newly received party Pokémon's first two move slots to **Bite** and **Mud-Slap** immediately after `givemon`.
 - Applies only to the player's Trapinch starter choice (`PLAYER_STARTER_NUM == 1`), not wild Trapinch, rival Trapinch, or species learnsets. Build and gameplay verification pending.
+
+### Effectiveness indicator palette follow-up
+- Build #48 gameplay feedback: the 2x `+` displayed black instead of green.
+- The dedicated PP palette now explicitly assigns red (index 4), green (6), light blue (9), yellow (10), and orange (11) instead of inheriting potentially black entries for 2x and 4x from the standard menu palette.
+- Compile and emulator verification pending; no change to type effectiveness calculations or Trapinch starter override.
