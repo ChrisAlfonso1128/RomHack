@@ -759,7 +759,7 @@ static void DrawGenerationChecklist(u8 taskId)
     FillWindowPixelRect(tGenHelpWindow, PIXEL_FILL(7), 0, 0, 240, 2);
     if (tGenNeedsSelection)
         AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
-            COMPOUND_STRING("Choose at least one gen!\\nPress A to check a box."),
+            COMPOUND_STRING("Choose at least one gen!\nPress A to check a box."),
             6, 3, TEXT_SKIP_DRAW, NULL);
     else
         AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
