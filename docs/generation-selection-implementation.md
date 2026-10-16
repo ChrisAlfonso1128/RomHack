@@ -1,3 +1,10 @@
+## Build failure follow-up (2026-10-15)
+
+- GitHub Actions run 38835022356 failed compiling `src/script_menu.c` at lines 493–494: initialized `EWRAM_DATA` values in `.sbss` must be zero.
+- Replaced nonzero EWRAM initializers with zero-initialized state and an explicit active flag. This corrects the reported compiler error.
+- Source trace: `src/script_menu.c` (`sAdventureHelpActive`, `UpdateAdventureHelp`, `CloseAdventureHelp`).
+- Awaiting new CI build before marking tested.
+
 ## Playtest update — mandatory selection and menu descriptions (2026-10-15)
 
 - The upstairs notice now opens the selectable Adventure Settings menu immediately instead of a long introductory text bubble.
