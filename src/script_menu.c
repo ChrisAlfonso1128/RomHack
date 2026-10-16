@@ -904,9 +904,11 @@ static void DrawDeluxeExpMenu(u8 taskId)
         AddTextPrinterParameterized(tExpList, FONT_NORMAL,
             i == tExpCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" "),
             10, y, TEXT_SKIP_DRAW, NULL);
-        AddTextPrinterParameterized(tExpList, FONT_NORMAL,
-            i == tExpCursor ? COMPOUND_STRING("[X]") : COMPOUND_STRING("[ ]"),
-            29, y, TEXT_SKIP_DRAW, NULL);
+        FillWindowPixelRect(tExpList, PIXEL_FILL(7), 30, y + 2, 12, 12);
+        FillWindowPixelRect(tExpList, PIXEL_FILL(1), 31, y + 3, 10, 10);
+        if (i == tExpCursor)
+            AddTextPrinterParameterized(tExpList, FONT_NORMAL,
+                COMPOUND_STRING("X"), 31, y, TEXT_SKIP_DRAW, NULL);
         AddTextPrinterParameterized(tExpList, FONT_NORMAL,
             sDeluxeExpNames[i], 65, y, TEXT_SKIP_DRAW, NULL);
     }
