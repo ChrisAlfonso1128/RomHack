@@ -20,6 +20,7 @@
 #include "pokemon_icon.h"
 #include "generation_selection.h"
 #include "constants/vars.h"
+#include "constants/rgb.h"
 #include "constants/field_specials.h"
 #include "constants/items.h"
 #include "constants/script_menu.h"
@@ -586,6 +587,57 @@ static void CloseAdventureHelp(void)
  */
 #define GEN_CHECKLIST_ITEMS 12
 #define GEN_CHECKLIST_VISIBLE 5
+#define DELUXE_THEME_VAR VAR_UNUSED_0x40FE
+
+// Recolor only the menu palette, never the overworld or battle palettes.
+static u16 sDeluxeSavedPalette[16];
+static bool8 sDeluxePaletteActive;
+
+static void ApplyDeluxeMenuPalette(void)
+{
+    u16 colors[16];
+    u8 i;
+    if (!sDeluxePaletteActive)
+    {
+        for (i = 0; i < 16; i++)
+            sDeluxeSavedPalette[i] = gPlttBufferUnfaded[BG_PLTT_ID(15) + i];
+        sDeluxePaletteActive = TRUE;
+    }
+    for (i = 0; i < 16; i++)
+        colors[i] = sDeluxeSavedPalette[i];
+    if (VarGet(DELUXE_THEME_VAR) == 1)
+    {
+        colors[1] = RGB(5, 6, 9);    // Charcoal menu panels
+        colors[2] = RGB(30, 28, 24); // Warm cream lettering
+        colors[3] = RGB(17, 13, 9);  // Antique-gold highlights
+        colors[4] = RGB(20, 7, 9);   // Muted FireRed accent
+    }
+    else
+    {
+        colors[1] = RGB(31, 29, 23); // Cream menu panels
+        colors[2] = RGB(8, 5, 4);    // Brown lettering
+        colors[3] = RGB(23, 16, 5);  // Antique gold
+        colors[4] = RGB(23, 5, 5);   // FireRed accent
+    }
+    LoadPalette(colors, BG_PLTT_ID(15), sizeof(colors));
+}
+
+static void RestoreDeluxeMenuPalette(void)
+{
+    if (sDeluxePaletteActive)
+    {
+        LoadPalette(sDeluxeSavedPalette, BG_PLTT_ID(15), sizeof(sDeluxeSavedPalette));
+        sDeluxePaletteActive = FALSE;
+    }
+}
+
+static const u8 *const sDeluxeSelectedCount[] =
+{
+    COMPOUND_STRING("0/9"), COMPOUND_STRING("1/9"), COMPOUND_STRING("2/9"),
+    COMPOUND_STRING("3/9"), COMPOUND_STRING("4/9"), COMPOUND_STRING("5/9"),
+    COMPOUND_STRING("6/9"), COMPOUND_STRING("7/9"), COMPOUND_STRING("8/9"),
+    COMPOUND_STRING("9/9"),
+};
 #define tGenListWindow data[0]
 #define tGenHelpWindow data[1]
 #define tGenCursor data[2]
@@ -626,10 +678,19 @@ static void DrawGenerationChecklist(u8 taskId)
     u8 index;
     const u8 *check;
     const u8 *cursor;
+    u8 selectedCount = 0;
+
+    for (i = 0; i < 9; i++)
+        if (tGenMask & (1 << i))
+            selectedCount++;
 
     FillWindowPixelBuffer(tGenListWindow, PIXEL_FILL(1));
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 0, 208, 15);
     AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-        COMPOUND_STRING("SELECT GENERATIONS"), 8, 0, TEXT_SKIP_DRAW, NULL);
+        COMPOUND_STRING("{COLOR WHITE}GENERATIONS"), 8, 0, TEXT_SKIP_DRAW, NULL);
+
+    AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
+        sDeluxeSelectedCount[selectedCount], 172, 0, TEXT_SKIP_DRAW, NULL);
 
     for (i = 0; i < GEN_CHECKLIST_VISIBLE; i++)
     {
@@ -642,12 +703,12 @@ static void DrawGenerationChecklist(u8 taskId)
         if (index < 9)
         {
             check = (tGenMask & (1 << index))
-                ? COMPOUND_STRING("ON") : COMPOUND_STRING("--");
+                ? COMPOUND_STRING("[X]") : COMPOUND_STRING("[ ]");
             AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
                 check, 17, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
         }
         AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-            sGenerationChecklistLabels[index], index < 9 ? 45 : 17,
+            sGenerationChecklistLabels[index], index < 9 ? 51 : 17,
             16 + i * 16, TEXT_SKIP_DRAW, NULL);
     }
     CopyWindowToVram(tGenListWindow, COPYWIN_FULL);
@@ -678,6 +739,7 @@ static void CloseGenerationChecklist(u8 taskId, bool8 save)
         gSpecialVar_Result = MULTI_B_PRESSED;
     }
 
+    RestoreDeluxeMenuPalette();
     ClearToTransparentAndRemoveWindow(tGenHelpWindow);
     ClearToTransparentAndRemoveWindow(tGenListWindow);
     DestroyTask(taskId);
@@ -752,6 +814,7 @@ static void OpenGenerationChecklist(void)
     PutWindowTilemap(tGenHelpWindow);
     SetStandardWindowBorderStyle(tGenListWindow, FALSE);
     SetStandardWindowBorderStyle(tGenHelpWindow, FALSE);
+    ApplyDeluxeMenuPalette();
     tGenCursor = 0;
     tGenScroll = 0;
     tGenMask = GetGenerationSelectionMask();
