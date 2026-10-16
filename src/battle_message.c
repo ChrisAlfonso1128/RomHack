@@ -3856,9 +3856,18 @@ void BattlePutTextOnWindow(const u8 *text, u8 windowId)
     // do not recolor the rest of the move menu (which uses palette 5).
     if ((windowId & ~B_WIN_COPYTOVRAM) == B_WIN_PP)
     {
-        const u16 matchupColors[] = {RGB(31, 27, 0), RGB(31, 16, 0)};
+        const u16 matchupColors[] = {
+            RGB(31, 0, 0),   // Red X: immunity (palette entry 4)
+            RGB(0, 25, 5),   // Green +: 2x (palette entry 6)
+            RGB(12, 25, 31), // Light-blue +: 4x (palette entry 9)
+            RGB(31, 27, 0),  // Yellow -: 1/2x (palette entry 10)
+            RGB(31, 16, 0),  // Orange -: 1/4x (palette entry 11)
+        };
         LoadPalette(&gPlttBufferUnfaded[BG_PLTT_ID(5)], BG_PLTT_ID(15), PLTT_SIZE_4BPP);
-        LoadPalette(matchupColors, BG_PLTT_ID(15) + 10, sizeof(matchupColors));
+        LoadPalette(&matchupColors[0], BG_PLTT_ID(15) + 4, sizeof(u16));
+        LoadPalette(&matchupColors[1], BG_PLTT_ID(15) + 6, sizeof(u16));
+        LoadPalette(&matchupColors[2], BG_PLTT_ID(15) + 9, sizeof(u16));
+        LoadPalette(&matchupColors[3], BG_PLTT_ID(15) + 10, sizeof(u16) * 2);
     }
 
     if (windowId & B_WIN_COPYTOVRAM)
