@@ -93,3 +93,9 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 - Generation restriction remains absolute in all three tiers. Prefer unique species and a smaller team over duplicates if the pool is scarce.
 - Exact species, secondary-type assignments, and balancing are provisional: flag difficult generation/type combinations for later manual review, rather than blocking the menu and gameplay infrastructure.
 - **Implementation status:** design approved only; the current trainer pool substitution does not yet implement primary/secondary/theme ranking or guaranteed strict filtering. Do not label placeholders as finished teams.
+
+## Approved choices and incremental settings UI (2026-10-15)
+- Approved: Gym Leaders retain primary type identity (secondary type/thematic fallback), regular trainers use different eligible species with comparable difficulty, special Pokémon are replaced with generation-appropriate equivalents, and EXP Share supports Modern party-wide / Classic held-item / Off.
+- Added persistent `VAR_ADVENTURE_EXP_SHARE_MODE` (0 modern, 1 classic, 2 off), a three-choice bedroom settings submenu, and associated script menu IDs/labels. EXP Share preference remains editable after generation confirmation.
+- **Important: the EXP Share menu currently saves a preference only. Battle EXP distribution does not yet consult this variable, so the three modes are NOT functional.** The existing project uses `I_EXP_SHARE_FLAG`/`I_EXP_SHARE_ITEM` configuration; runtime integration remains required.
+- Generation-specific encounter and trainer data, scripted encounter substitutions, and compile/runtime verification remain incomplete. Do not treat this branch as ready for player testing.
