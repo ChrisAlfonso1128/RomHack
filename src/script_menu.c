@@ -716,14 +716,14 @@ static void DrawGenerationChecklist(u8 taskId)
     // Deliberately simple, readable 240x160 GBA layout. No patterned
     // outer frame or overlapping text in the header.
     FillWindowPixelBuffer(tGenListWindow, PIXEL_FILL(1));
-    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 0, 224, 2);
-    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 2, 224, 18);
-    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 20, 224, 2);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 0, 240, 2);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 2, 240, 18);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 20, 240, 2);
     AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
         COMPOUND_STRING("GENERATIONS"), 8, 2, TEXT_SKIP_DRAW, NULL,
         5, 4, 7);
     AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
-        sDeluxeSelectedCount[selectedCount], 187, 2, TEXT_SKIP_DRAW, NULL,
+        sDeluxeSelectedCount[selectedCount], 201, 2, TEXT_SKIP_DRAW, NULL,
         5, 4, 7);
 
     for (i = 0; i < GEN_CHECKLIST_VISIBLE; i++)
@@ -733,7 +733,7 @@ static void DrawGenerationChecklist(u8 taskId)
             break;
 
         if (index == tGenCursor)
-            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(6), 3, 24 + i * 14, 218, 14);
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(6), 3, 24 + i * 14, 234, 14);
 
         cursor = index == tGenCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" ");
         AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
@@ -752,10 +752,11 @@ static void DrawGenerationChecklist(u8 taskId)
             sGenerationChecklistLabels[index], index < 9 ? 48 : 28,
             24 + i * 14, TEXT_SKIP_DRAW, NULL);
     }
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 115, 240, 2);
     CopyWindowToVram(tGenListWindow, COPYWIN_FULL);
 
     FillWindowPixelBuffer(tGenHelpWindow, PIXEL_FILL(1));
-    FillWindowPixelRect(tGenHelpWindow, PIXEL_FILL(7), 0, 0, 224, 2);
+    FillWindowPixelRect(tGenHelpWindow, PIXEL_FILL(7), 0, 0, 240, 2);
     if (tGenNeedsSelection)
         AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
             COMPOUND_STRING("Choose at least one gen!\\nPress A to check a box."),
@@ -845,8 +846,8 @@ static void Task_GenerationChecklist(u8 taskId)
 
 static void OpenGenerationChecklist(void)
 {
-    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 1, 1, 28, 12, 15, 100);
-    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 1, 15, 28, 4, 15, 500);
+    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 0, 0, 30, 15, 15, 100);
+    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 0, 15, 30, 5, 15, 600);
     u8 taskId = CreateTask(Task_GenerationChecklist, 80);
     s16 *data = gTasks[taskId].data;
 
@@ -890,26 +891,27 @@ static void DrawDeluxeExpMenu(u8 taskId)
     s16 *data = gTasks[taskId].data;
     u8 i;
     FillWindowPixelBuffer(tExpList, PIXEL_FILL(1));
-    FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 0, 224, 2);
-    FillWindowPixelRect(tExpList, PIXEL_FILL(4), 0, 2, 224, 18);
-    FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 20, 224, 2);
+    FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 0, 240, 2);
+    FillWindowPixelRect(tExpList, PIXEL_FILL(4), 0, 2, 240, 18);
+    FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 20, 240, 2);
     AddTextPrinterParameterized2(tExpList, FONT_NORMAL,
         COMPOUND_STRING("EXP SHARE MODE"), 8, 2, TEXT_SKIP_DRAW, NULL, 5, 4, 7);
     for (i = 0; i < 3; i++)
     {
         u8 y = 28 + i * 20;
         if (tExpCursor == i)
-            FillWindowPixelRect(tExpList, PIXEL_FILL(6), 4, y, 216, 18);
+            FillWindowPixelRect(tExpList, PIXEL_FILL(6), 4, y, 232, 18);
         AddTextPrinterParameterized(tExpList, FONT_NORMAL,
             i == tExpCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" "),
             10, y, TEXT_SKIP_DRAW, NULL);
         AddTextPrinterParameterized(tExpList, FONT_NORMAL,
             sDeluxeExpNames[i], 35, y, TEXT_SKIP_DRAW, NULL);
     }
+    FillWindowPixelRect(tExpList, PIXEL_FILL(7), 0, 115, 240, 2);
     CopyWindowToVram(tExpList, COPYWIN_FULL);
 
     FillWindowPixelBuffer(tExpHelp, PIXEL_FILL(1));
-    FillWindowPixelRect(tExpHelp, PIXEL_FILL(7), 0, 0, 224, 2);
+    FillWindowPixelRect(tExpHelp, PIXEL_FILL(7), 0, 0, 240, 2);
     AddTextPrinterParameterized(tExpHelp, FONT_NORMAL,
         sDeluxeExpDetails[tExpCursor], 8, 3, TEXT_SKIP_DRAW, NULL);
     CopyWindowToVram(tExpHelp, COPYWIN_FULL);
@@ -943,8 +945,8 @@ static void Task_DeluxeExpMenu(u8 taskId)
 
 static void OpenDeluxeExpMenu(u8 defaultChoice)
 {
-    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 1, 1, 28, 12, 15, 100);
-    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 1, 15, 28, 4, 15, 500);
+    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 0, 0, 30, 15, 15, 100);
+    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 0, 15, 30, 5, 15, 600);
     u8 taskId = CreateTask(Task_DeluxeExpMenu, 80);
     s16 *data = gTasks[taskId].data;
     tExpList = AddWindow(&listTemplate);
