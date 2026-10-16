@@ -1,0 +1,45 @@
+name: Build FireRed Deluxe test branch
+
+on:
+  push:
+    branches:
+      - feature/firered-deluxe-ui-themes
+  workflow_dispatch:
+
+concurrency:
+  group: deluxe-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-firered:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            binutils-arm-none-eabi \
+            gcc-arm-none-eabi \
+            libnewlib-arm-none-eabi \
+            libpng-dev \
+            python3
+      - name: Verify tool sources
+        run: |
+          test -d tools/compresSmol
+          test -f tools/compresSmol/Makefile
+      - name: Build tools serially
+        run: make tools -j1
+      - name: Build FireRed
+        run: make firered -j"$(nproc)" -O
+      - name: Upload FireRed test ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: firered-deluxe-branch-test
+          path: pokefirered.gba
+          if-no-files-found: error
+          retention-days: 14
