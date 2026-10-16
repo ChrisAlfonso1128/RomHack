@@ -14,6 +14,8 @@ enum GenerationSelectionMode
 
 #define GENERATION_ALL 0
 
+u16 GetGenerationSelectionMask(void);
+void SetGenerationSelectionMask(u16 mask);
 u8 GetSelectedGeneration(void);
 u8 GetSelectedGenerationMode(void);
 void SetGenerationSelection(u8 generation, u8 mode);
