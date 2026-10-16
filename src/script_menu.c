@@ -609,19 +609,28 @@ static void ApplyDeluxeMenuPalette(void)
     }
     for (i = 0; i < 16; i++)
         colors[i] = sDeluxeSavedPalette[i];
+
+    // Palette indices 1-7 are local to the menu windows (BG palette 15).
+    // Text uses index 2 for foreground and 3 for its shadow.
     if (VarGet(DELUXE_THEME_VAR) == 1)
     {
-        colors[1] = RGB(5, 6, 9);    // Charcoal menu panels
-        colors[2] = RGB(30, 28, 24); // Warm cream lettering
-        colors[3] = RGB(17, 13, 9);  // Antique-gold highlights
-        colors[4] = RGB(20, 7, 9);   // Muted FireRed accent
+        colors[1] = RGB(5, 6, 9);    // Charcoal panel
+        colors[2] = RGB(31, 29, 25); // Light text
+        colors[3] = RGB(13, 12, 11); // Text shadow
+        colors[4] = RGB(18, 5, 7);   // Muted red header
+        colors[5] = RGB(31, 30, 26); // Header lettering
+        colors[6] = RGB(11, 12, 16); // Highlight row
+        colors[7] = RGB(24, 18, 8);  // Warm gold
     }
     else
     {
-        colors[1] = RGB(31, 29, 23); // Cream menu panels
-        colors[2] = RGB(8, 5, 4);    // Brown lettering
-        colors[3] = RGB(23, 16, 5);  // Antique gold
-        colors[4] = RGB(23, 5, 5);   // FireRed accent
+        colors[1] = RGB(31, 29, 23); // Cream panel
+        colors[2] = RGB(8, 6, 8);    // Ink lettering
+        colors[3] = RGB(24, 19, 12); // Text shadow
+        colors[4] = RGB(24, 4, 7);   // FireRed header
+        colors[5] = RGB(31, 31, 29); // Header lettering
+        colors[6] = RGB(31, 27, 18); // Gold-tinted selected row
+        colors[7] = RGB(23, 16, 5);  // Antique gold
     }
     LoadPalette(colors, BG_PLTT_ID(15), sizeof(colors));
 }
@@ -678,55 +687,64 @@ static const u8 *const sGenerationChecklistHelp[] =
 static void DrawGenerationChecklist(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    u8 i;
-    u8 index;
+    u8 i, index, selectedCount = 0;
     const u8 *check;
     const u8 *cursor;
-    u8 selectedCount = 0;
 
     for (i = 0; i < 9; i++)
         if (tGenMask & (1 << i))
             selectedCount++;
 
+    // Deliberately simple, readable 240x160 GBA layout. No patterned
+    // outer frame or overlapping text in the header.
     FillWindowPixelBuffer(tGenListWindow, PIXEL_FILL(1));
-    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 0, 208, 15);
-    AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-        COMPOUND_STRING("{COLOR WHITE}GENERATIONS"), 8, 0, TEXT_SKIP_DRAW, NULL);
-
-    AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-        sDeluxeSelectedCount[selectedCount], 172, 0, TEXT_SKIP_DRAW, NULL);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 0, 208, 2);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(4), 0, 2, 208, 17);
+    FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 0, 19, 208, 2);
+    AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
+        COMPOUND_STRING("SELECT GENERATIONS"), 3, 2, TEXT_SKIP_DRAW, NULL,
+        5, 4, 7);
+    AddTextPrinterParameterized2(tGenListWindow, FONT_NORMAL,
+        sDeluxeSelectedCount[selectedCount], 174, 2, TEXT_SKIP_DRAW, NULL,
+        5, 4, 7);
 
     for (i = 0; i < GEN_CHECKLIST_VISIBLE; i++)
     {
         index = tGenScroll + i;
         if (index >= GEN_CHECKLIST_ITEMS)
             break;
+
+        if (index == tGenCursor)
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(6), 2, 22 + i * 14, 204, 14);
+
         cursor = index == tGenCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" ");
         AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-            cursor, 5, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
+            cursor, 4, 22 + i * 14, TEXT_SKIP_DRAW, NULL);
+
         if (index < 9)
         {
             check = (tGenMask & (1 << index))
                 ? COMPOUND_STRING("X") : COMPOUND_STRING(" ");
-            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(2), 17, 18 + i * 16, 12, 12);
-            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(1), 18, 19 + i * 16, 10, 10);
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(7), 21, 24 + i * 14, 11, 11);
+            FillWindowPixelRect(tGenListWindow, PIXEL_FILL(1), 22, 25 + i * 14, 9, 9);
             AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-                check, 19, 16 + i * 16, TEXT_SKIP_DRAW, NULL);
+                check, 22, 22 + i * 14, TEXT_SKIP_DRAW, NULL);
         }
         AddTextPrinterParameterized(tGenListWindow, FONT_NORMAL,
-            sGenerationChecklistLabels[index], index < 9 ? 51 : 17,
-            16 + i * 16, TEXT_SKIP_DRAW, NULL);
+            sGenerationChecklistLabels[index], index < 9 ? 40 : 22,
+            22 + i * 14, TEXT_SKIP_DRAW, NULL);
     }
     CopyWindowToVram(tGenListWindow, COPYWIN_FULL);
 
     FillWindowPixelBuffer(tGenHelpWindow, PIXEL_FILL(1));
+    FillWindowPixelRect(tGenHelpWindow, PIXEL_FILL(7), 0, 0, 208, 2);
     if (tGenNeedsSelection)
         AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
-            COMPOUND_STRING("Choose at least one gen!\nPress A to check a box."),
-            8, 2, TEXT_SKIP_DRAW, NULL);
+            COMPOUND_STRING("Choose at least one gen!\\nPress A to check a box."),
+            6, 3, TEXT_SKIP_DRAW, NULL);
     else
         AddTextPrinterParameterized(tGenHelpWindow, FONT_NORMAL,
-            sGenerationChecklistHelp[tGenCursor], 8, 2, TEXT_SKIP_DRAW, NULL);
+            sGenerationChecklistHelp[tGenCursor], 6, 3, TEXT_SKIP_DRAW, NULL);
     CopyWindowToVram(tGenHelpWindow, COPYWIN_FULL);
 }
 
@@ -818,8 +836,6 @@ static void OpenGenerationChecklist(void)
     tGenHelpWindow = AddWindow(&helpTemplate);
     PutWindowTilemap(tGenListWindow);
     PutWindowTilemap(tGenHelpWindow);
-    SetStandardWindowBorderStyle(tGenListWindow, FALSE);
-    SetStandardWindowBorderStyle(tGenHelpWindow, FALSE);
     ApplyDeluxeMenuPalette();
     tGenCursor = 0;
     tGenScroll = 0;
