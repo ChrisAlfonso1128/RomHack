@@ -489,17 +489,23 @@ static void DrawAdventureInsetBorder(u8 windowId)
     u16 width = GetWindowAttribute(windowId, WINDOW_WIDTH) * 8;
     u16 height = GetWindowAttribute(windowId, WINDOW_HEIGHT) * 8;
 
-    if (width < 8 || height < 8)
+    if (width < 16 || height < 16)
         return;
 
-    // Antique-gold outline with slim FireRed-red vertical accents.
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, 0, width, 1);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, height - 1, width, 1);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, 0, 1, height);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), width - 1, 0, 1, height);
-    FillWindowPixelRect(windowId, PIXEL_FILL(4), 2, 2, 1, height - 4);
-    FillWindowPixelRect(windowId, PIXEL_FILL(4), width - 3, 2, 1, height - 4);
+    // Rounded dialogue-bubble outline.  Fill the entire panel first so no
+    // overworld tiles or black background can leak between menu rows.
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+
+    // Pixel-cut corners give the GBA a soft, rounded rectangle without
+    // requiring additional border tiles or clashing red vertical stripes.
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 4, 0, width - 8, 2);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 2, 2, width - 4, 2);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, 4, 2, height - 8);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), width - 2, 4, 2, height - 8);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 2, height - 4, width - 4, 2);
+    FillWindowPixelRect(windowId, PIXEL_FILL(7), 4, height - 2, width - 8, 2);
 }
+
 
 void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos, const struct MenuAction *actions, int count)
 {
@@ -521,7 +527,7 @@ void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignore
         // New windows have transparent/undefined pixels. Always paint the
         // complete background before printing text or drawing the inset frame.
         // Otherwise the previous room and black BG show through between rows.
-        FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+        DrawAdventureInsetBorder(windowId);
         CopyWindowToVram(windowId, COPYWIN_GFX);
     }
     else
@@ -530,7 +536,6 @@ void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignore
     InitMenuInUpperLeftCornerNormal(windowId, count, cursorPos);
     if (IsAdventureMultichoice(multichoiceId))
     {
-        DrawAdventureInsetBorder(windowId);
         CopyWindowToVram(windowId, COPYWIN_FULL);
     }
     ScheduleBgCopyTilemapToVram(0);
@@ -620,9 +625,8 @@ static void UpdateAdventureHelp(u8 id)
             message = sHelp_SelectExp;
     }
 
-    FillWindowPixelBuffer(sAdventureHelpWindow, PIXEL_FILL(1));
-    AddTextPrinterParameterized(sAdventureHelpWindow, FONT_NORMAL, message, 8, 2, TEXT_SKIP_DRAW, NULL);
     DrawAdventureInsetBorder(sAdventureHelpWindow);
+    AddTextPrinterParameterized(sAdventureHelpWindow, FONT_NORMAL, message, 8, 2, TEXT_SKIP_DRAW, NULL);
     CopyWindowToVram(sAdventureHelpWindow, COPYWIN_FULL);
 }
 
