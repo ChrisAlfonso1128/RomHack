@@ -485,6 +485,86 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
 #define tWindowId       data[6]
 #define tMultichoiceId  data[7]
 
+
+/*
+ * Adventure Settings use the normal GBA cursor menu, with a compact help
+ * panel that changes as the player highlights each choice.
+ */
+static EWRAM_DATA u8 sAdventureHelpWindow = 0xFF;
+static EWRAM_DATA u8 sAdventureHelpCursor = 0xFF;
+
+static const u8 sHelp_Gen1[] = _("Kanto: Bulbasaur, Pikachu,\\nCharmander and the originals.");
+static const u8 sHelp_Gen2[] = _("Johto: Chikorita, Cyndaquil,\\nTotodile and new evolutions.");
+static const u8 sHelp_Gen3[] = _("Hoenn: Treecko, Torchic,\\nMudkip and many new species.");
+static const u8 sHelp_Gen4[] = _("Sinnoh: Turtwig, Chimchar,\\nPiplup and new evolutions.");
+static const u8 sHelp_Gen5[] = _("Unova: Snivy, Tepig,\\nOshawott and a fresh roster.");
+static const u8 sHelp_Gen6[] = _("Kalos: Chespin, Fennekin,\\nFroakie and Fairy-type debut.");
+static const u8 sHelp_Gen7[] = _("Alola: Rowlet, Litten,\\nPopplio and regional forms.");
+static const u8 sHelp_Gen8[] = _("Galar: Grookey, Scorbunny,\\nSobble and new adventures.");
+static const u8 sHelp_Gen9[] = _("Paldea: Sprigatito, Fuecoco,\\nQuaxly and new discoveries.");
+static const u8 sHelp_All[] = _("All: Pokemon from every\\ngeneration may appear.");
+static const u8 sHelp_More[] = _("See generations 6-9 or\\nchoose every generation.");
+static const u8 sHelp_Only[] = _("ONLY: Just Pokemon first\\nintroduced in your chosen gen.");
+static const u8 sHelp_Unlocked[] = _("UNLOCKED: Your chosen gen\\nplus every earlier generation.");
+static const u8 sHelp_Modern[] = _("MODERN: All party Pokemon\\ngain EXP after a battle.");
+static const u8 sHelp_Classic[] = _("CLASSIC: Participants and\\nExp. Share holders gain EXP.");
+static const u8 sHelp_Off[] = _("OFF: Only battle participants\\ngain EXP. No party sharing.");
+static const u8 sHelp_SelectGen[] = _("Pick the Pokemon generation\\nfor this adventure.");
+static const u8 sHelp_SelectExp[] = _("Choose how EXP is shared.\\nYou can change this later.");
+static const u8 sHelp_Exit[] = _("Return to your room. Both\\nsettings are needed to leave.");
+
+static const u8 *const sAdventureGenFirstHelp[] = {sHelp_Gen1, sHelp_Gen2, sHelp_Gen3, sHelp_Gen4, sHelp_Gen5, sHelp_More};
+static const u8 *const sAdventureGenSecondHelp[] = {sHelp_Gen6, sHelp_Gen7, sHelp_Gen8, sHelp_Gen9, sHelp_All};
+static const u8 *const sAdventureModeHelp[] = {sHelp_Only, sHelp_Unlocked};
+static const u8 *const sAdventureExpHelp[] = {sHelp_Modern, sHelp_Classic, sHelp_Off};
+
+static bool8 IsAdventureMultichoice(u8 id)
+{
+    return id == MULTI_ADVENTURE_SETTINGS || id == MULTI_ADVENTURE_GEN_FIRST
+        || id == MULTI_ADVENTURE_GEN_SECOND || id == MULTI_ADVENTURE_GEN_MODE
+        || id == MULTI_ADVENTURE_EXP_SHARE;
+}
+
+static void UpdateAdventureHelp(u8 id)
+{
+    u8 cursor = Menu_GetCursorPos();
+    const u8 *message = sHelp_Exit;
+
+    if (sAdventureHelpWindow == 0xFF || cursor == sAdventureHelpCursor)
+        return;
+    sAdventureHelpCursor = cursor;
+
+    if (id == MULTI_ADVENTURE_GEN_FIRST && cursor < ARRAY_COUNT(sAdventureGenFirstHelp))
+        message = sAdventureGenFirstHelp[cursor];
+    else if (id == MULTI_ADVENTURE_GEN_SECOND && cursor < ARRAY_COUNT(sAdventureGenSecondHelp))
+        message = sAdventureGenSecondHelp[cursor];
+    else if (id == MULTI_ADVENTURE_GEN_MODE && cursor < ARRAY_COUNT(sAdventureModeHelp))
+        message = sAdventureModeHelp[cursor];
+    else if (id == MULTI_ADVENTURE_EXP_SHARE && cursor < ARRAY_COUNT(sAdventureExpHelp))
+        message = sAdventureExpHelp[cursor];
+    else if (id == MULTI_ADVENTURE_SETTINGS)
+    {
+        if (cursor == 0)
+            message = sHelp_SelectGen;
+        else if (cursor == 1)
+            message = sHelp_SelectExp;
+    }
+
+    FillWindowPixelBuffer(sAdventureHelpWindow, PIXEL_FILL(1));
+    AddTextPrinterParameterized(sAdventureHelpWindow, FONT_NORMAL, message, 8, 2, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(sAdventureHelpWindow, COPYWIN_FULL);
+}
+
+static void CloseAdventureHelp(void)
+{
+    if (sAdventureHelpWindow != 0xFF)
+    {
+        ClearToTransparentAndRemoveWindow(sAdventureHelpWindow);
+        sAdventureHelpWindow = 0xFF;
+    }
+    sAdventureHelpCursor = 0xFF;
+}
+
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId)
 {
     u8 i;
@@ -512,6 +592,13 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
     gTasks[taskId].tMultichoiceId = multichoiceId;
 
     DrawLinkServicesMultichoiceMenu(multichoiceId);
+    if (IsAdventureMultichoice(multichoiceId))
+    {
+        CloseAdventureHelp();
+        sAdventureHelpWindow = CreateWindowFromRect(1, 14, 28, 5);
+        SetStandardWindowBorderStyle(sAdventureHelpWindow, FALSE);
+        UpdateAdventureHelp(multichoiceId);
+    }
 }
 
 static void Task_HandleScrollingMultichoiceInput(u8 taskId)
@@ -588,6 +675,8 @@ static void Task_HandleMultichoiceInput(u8 taskId)
             if (JOY_NEW(DPAD_UP | DPAD_DOWN))
             {
                 DrawLinkServicesMultichoiceMenu(tMultichoiceId);
+                if (IsAdventureMultichoice(tMultichoiceId))
+                    UpdateAdventureHelp(tMultichoiceId);
             }
 
             if (selection != MENU_NOTHING_CHOSEN)
@@ -603,6 +692,8 @@ static void Task_HandleMultichoiceInput(u8 taskId)
                 {
                     gSpecialVar_Result = selection;
                 }
+                if (IsAdventureMultichoice(tMultichoiceId))
+                    CloseAdventureHelp();
                 ClearToTransparentAndRemoveWindow(tWindowId);
                 DestroyTask(taskId);
                 ScriptContext_Enable();
