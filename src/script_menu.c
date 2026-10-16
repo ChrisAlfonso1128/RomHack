@@ -795,7 +795,12 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
     if (IsAdventureMultichoice(multichoiceId))
     {
         CloseAdventureHelp();
-        // The standard multichoice window starts at tile 100. A second\n        // CreateWindowFromRect would reuse that tile memory and corrupt it.\n        {\n            struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 2, 15, 26, 4, 15, 600);\n            sAdventureHelpWindow = AddWindow(&helpTemplate);\n            PutWindowTilemap(sAdventureHelpWindow);\n        }
+        // Keep the help panel in separate BG tile memory.
+        {
+            struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 2, 15, 26, 4, 15, 600);
+            sAdventureHelpWindow = AddWindow(&helpTemplate);
+            PutWindowTilemap(sAdventureHelpWindow);
+        }
         sAdventureHelpActive = TRUE;
         SetStandardWindowBorderStyle(sAdventureHelpWindow, FALSE);
         UpdateAdventureHelp(multichoiceId);
