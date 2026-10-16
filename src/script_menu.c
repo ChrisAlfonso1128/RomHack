@@ -484,26 +484,13 @@ static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenu
 // the map tiles around it. It therefore survives opening and closing submenus.
 static bool8 IsAdventureMultichoice(u8 id);
 
-static void DrawAdventureInsetBorder(u8 windowId)
+// Use FireRed's native rounded dialogue frame OUTSIDE the text window.
+// The former pixel-drawn border was inside the window and got clipped by
+// menu text, producing broken corners and oversized gold strips.
+static void DrawAdventureBubbleFrame(u8 windowId)
 {
-    u16 width = GetWindowAttribute(windowId, WINDOW_WIDTH) * 8;
-    u16 height = GetWindowAttribute(windowId, WINDOW_HEIGHT) * 8;
-
-    if (width < 16 || height < 16)
-        return;
-
-    // Rounded dialogue-bubble outline.  Fill the entire panel first so no
-    // overworld tiles or black background can leak between menu rows.
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-
-    // Pixel-cut corners give the GBA a soft, rounded rectangle without
-    // requiring additional border tiles or clashing red vertical stripes.
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 4, 0, width - 8, 2);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 2, 2, width - 4, 2);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 0, 4, 2, height - 8);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), width - 2, 4, 2, height - 8);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 2, height - 4, width - 4, 2);
-    FillWindowPixelRect(windowId, PIXEL_FILL(7), 4, height - 2, width - 8, 2);
+    DrawDialogFrameWithCustomTileAndPalette(windowId, FALSE,
+        DLG_WINDOW_BASE_TILE_NUM, DLG_WINDOW_PALETTE_NUM);
 }
 
 
@@ -527,7 +514,7 @@ void DrawMultichoiceMenuInternal(u8 left, u8 top, u8 multichoiceId, bool8 ignore
         // New windows have transparent/undefined pixels. Always paint the
         // complete background before printing text or drawing the inset frame.
         // Otherwise the previous room and black BG show through between rows.
-        DrawAdventureInsetBorder(windowId);
+        DrawAdventureBubbleFrame(windowId);
         CopyWindowToVram(windowId, COPYWIN_GFX);
     }
     else
@@ -625,7 +612,7 @@ static void UpdateAdventureHelp(u8 id)
             message = sHelp_SelectExp;
     }
 
-    DrawAdventureInsetBorder(sAdventureHelpWindow);
+    DrawAdventureBubbleFrame(sAdventureHelpWindow);
     AddTextPrinterParameterized(sAdventureHelpWindow, FONT_NORMAL, message, 8, 2, TEXT_SKIP_DRAW, NULL);
     CopyWindowToVram(sAdventureHelpWindow, COPYWIN_FULL);
 }
@@ -634,6 +621,7 @@ static void CloseAdventureHelp(void)
 {
     if (sAdventureHelpActive)
     {
+        ClearDialogWindowAndFrameToTransparent(sAdventureHelpWindow, TRUE);
         ClearToTransparentAndRemoveWindow(sAdventureHelpWindow);
         RestoreDeluxeMenuPalette();
         sAdventureHelpActive = FALSE;
@@ -1141,6 +1129,8 @@ static void Task_HandleMultichoiceInput(u8 taskId)
                 }
                 if (IsAdventureMultichoice(tMultichoiceId))
                     CloseAdventureHelp();
+                if (IsAdventureMultichoice(tMultichoiceId))
+                    ClearDialogWindowAndFrameToTransparent(tWindowId, TRUE);
                 ClearToTransparentAndRemoveWindow(tWindowId);
                 DestroyTask(taskId);
                 ScriptContext_Enable();
