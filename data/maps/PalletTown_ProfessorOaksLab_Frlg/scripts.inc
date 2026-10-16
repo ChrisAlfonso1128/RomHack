@@ -1068,8 +1068,10 @@ PalletTown_ProfessorOaksLab_EventScript_BulbasaurBall::
 	lock
 	faceplayer
 	setvar PLAYER_STARTER_NUM, 0
-	setvar PLAYER_STARTER_SPECIES, SPECIES_HONEDGE
-	setvar RIVAL_STARTER_SPECIES, SPECIES_IMPIDIMP
+	setvar VAR_0x8004, 0
+	specialvar PLAYER_STARTER_SPECIES, GetDynamicStarterSpecies
+	setvar VAR_0x8004, 2
+	specialvar RIVAL_STARTER_SPECIES, GetDynamicStarterSpecies
 	setvar RIVAL_STARTER_ID, LOCALID_CHARMANDER_BALL
 	goto_if_ge VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_LastPokeBall
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 2, PalletTown_ProfessorOaksLab_EventScript_ConfirmStarterChoice
@@ -1211,8 +1213,10 @@ PalletTown_ProfessorOaksLab_EventScript_SquirtleBall::
 	lock
 	faceplayer
 	setvar PLAYER_STARTER_NUM, 1
-	setvar PLAYER_STARTER_SPECIES, SPECIES_TRAPINCH
-	setvar RIVAL_STARTER_SPECIES, SPECIES_HONEDGE
+	setvar VAR_0x8004, 1
+	specialvar PLAYER_STARTER_SPECIES, GetDynamicStarterSpecies
+	setvar VAR_0x8004, 0
+	specialvar RIVAL_STARTER_SPECIES, GetDynamicStarterSpecies
 	setvar RIVAL_STARTER_ID, LOCALID_BULBASAUR_BALL
 	goto_if_ge VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_LastPokeBall
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 2, PalletTown_ProfessorOaksLab_EventScript_ConfirmStarterChoice
@@ -1224,8 +1228,10 @@ PalletTown_ProfessorOaksLab_EventScript_CharmanderBall::
 	lock
 	faceplayer
 	setvar PLAYER_STARTER_NUM, 2
-	setvar PLAYER_STARTER_SPECIES, SPECIES_IMPIDIMP
-	setvar RIVAL_STARTER_SPECIES, SPECIES_TRAPINCH
+	setvar VAR_0x8004, 2
+	specialvar PLAYER_STARTER_SPECIES, GetDynamicStarterSpecies
+	setvar VAR_0x8004, 1
+	specialvar RIVAL_STARTER_SPECIES, GetDynamicStarterSpecies
 	setvar RIVAL_STARTER_ID, LOCALID_SQUIRTLE_BALL
 	goto_if_ge VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_LastPokeBall
 	goto_if_eq VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 2, PalletTown_ProfessorOaksLab_EventScript_ConfirmStarterChoice
