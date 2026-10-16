@@ -82,7 +82,7 @@ PalletTown_PlayersHouse_2F_EventScript_ExpSaved::
     goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_Text_ExpSharePrompt::
-    .string "Choose how experience is shared.\\n"
+    .string "Choose how experience is shared.\n"
     .string "This setting can change anytime.$"
 
 PalletTown_PlayersHouse_2F_Text_ExpSaved::
@@ -218,20 +218,20 @@ PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
     end
 
 PalletTown_PlayersHouse_2F_Text_ConfirmSettings::
-    .string "Your POKeMON generation choices\\n"
-    .string "will be permanent after you leave.\\p"
+    .string "Your POKeMON generation choices\n"
+    .string "will be permanent after you leave.\p"
     .string "Confirm your adventure settings?$"
 
 PalletTown_PlayersHouse_2F_Text_SettingsLocked::
-    .string "Adventure settings confirmed!\\n"
+    .string "Adventure settings confirmed!\n"
     .string "Your generation is now locked.$"
 
 PalletTown_PlayersHouse_2F_Text_ReviewSettings::
-    .string "Review your settings using the\\n"
+    .string "Review your settings using the\n"
     .string "notice in your room.$"
 
 PalletTown_PlayersHouse_2F_Text_GenLocked::
-    .string "Your generation is locked.\\n"
+    .string "Your generation is locked.\n"
     .string "Other options may still change.$"
 
 PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs:
