@@ -24,3 +24,7 @@ Branch: `qol-move-effectiveness`
 - Current revision: six separate multiplier tiers and the requested colors.
 
 Future changes should be documented here alongside the source changes.
+
+### Trapinch starter-only move override
+- In Oak's Lab starter gift script, selecting Trapinch sets the newly received party Pokémon's first two move slots to **Bite** and **Mud-Slap** immediately after `givemon`.
+- Applies only to the player's Trapinch starter choice (`PLAYER_STARTER_NUM == 1`), not wild Trapinch, rival Trapinch, or species learnsets. Build and gameplay verification pending.
