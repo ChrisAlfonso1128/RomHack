@@ -79,3 +79,10 @@ Centralize validation and compatibility logic. Do NOT use compile-time P_GEN_N_P
 
 - Corrected bedroom confirmation to branch on symbolic `NO` and normalized event-dialogue newline/paragraph escapes in the staircase prompt.
 - **Pre-test blockers:** Generation-only modes can still encounter disallowed species when an area/trainer lacks eligible authored entries. Generation-specific rival/Gym/Elite Four rosters, starter and static encounter coverage, EXP Share behavior, and compile validation remain incomplete. The code is not ready to certify for physical testing.
+
+## Approved boss-team design policy (2026-10-15)
+- Gym Leaders and Elite Four retain their established type specialty across all generation settings.
+- `Generation Only`: use exclusively species introduced in the selected generation; `Generation Unlocked`: use species introduced in that generation or any earlier generation; `All`: unrestricted species pool.
+- Match intended encounter difficulty using levels, moves, abilities, items, evolution stage, and team size while respecting the selected generation and specialist type.
+- Audit eligible species counts for each boss type and generation before generating teams. Scarce combinations must be identified explicitly rather than silently breaking generation or type restrictions; the exact fallback design for insufficient species is not yet approved.
+- This is a design specification, not a claim that the complete teams have been implemented.
