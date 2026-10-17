@@ -1670,3 +1670,18 @@ PalletTown_ProfessorOaksLab_Text_RivalIllCompleteThePokedex::
 	.string "ONE ISLAND first…\p"
 	.string "Anyways, I'm outta here!$"
 
+
+// Development-only Battle Lab coordinator.
+// Phase 1: entrance placeholder; no warp until a dedicated lab layout is integrated.
+PalletTown_ProfessorOaksLab_EventScript_BattleLabCoordinator::
+    lock
+    faceplayer
+    msgbox PalletTown_ProfessorOaksLab_Text_BattleLabCoordinator
+    release
+    end
+
+PalletTown_ProfessorOaksLab_Text_BattleLabCoordinator::
+    .string "BATTLE LAB: Training grounds are\\n"
+    .string "being prepared for test battles.\\p"
+    .string "GYM, ELITE FOUR, and special\\n"
+    .string "battle checks will go here.$"
