@@ -124,6 +124,14 @@ PalletTown_PlayersHouse_2F_EventScript_GenLocked::
 
 PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     lockall
+    // Battle Lab test branch: bypass incomplete generation setup to allow exit.
+    // Defaults preserve the expansion's all-generation availability.
+    setvar VAR_ADVENTURE_SETTINGS_CONFIRMED, 1
+    releaseall
+    end
+
+PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings_Legacy::
+    lockall
     goto_if_eq VAR_ADVENTURE_GEN_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_RequireSettings
     goto_if_eq VAR_ADVENTURE_EXP_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_RequireSettings
     msgbox PalletTown_PlayersHouse_2F_Text_ConfirmSettings, MSGBOX_DEFAULT
