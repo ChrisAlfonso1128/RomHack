@@ -1,9 +1,11 @@
 name: Build FireRed expansion
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+      - feature/battle-testing-lab
     paths-ignore:
       - "**/*.md"
       - "docs/**"
