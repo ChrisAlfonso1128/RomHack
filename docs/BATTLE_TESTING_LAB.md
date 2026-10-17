@@ -1,27 +1,25 @@
-# Battle Testing Lab (development branch)
+# Battle Test Lab — Development Branch
 
-Status: Basic explorable test room added, with an Oak's Lab entry NPC and a return guide. It currently reuses the 13x10 FRLG rival-house layout and has no trainer battles, test team stations, or unique map tiles yet. Source changes have not been compiled or emulator-tested.
+Branch: `feature/battle-testing-lab` (does not modify `main` or `dev/romhack-integration`).
 
-## Access point
-An added scientist coordinator stands in Oak's Lab at map coordinates (12, 8). Talking to this NPC warps to BattleTestLab (5, 6). A scientist guide inside at (6, 4) returns the player to Oak's Lab (11, 8). This is intentionally added only to feature/battle-testing-lab (based on dev/romhack-integration); do not merge to main or release builds.
+## Prototype implemented
+- An Oak's Lab scientist was shifted down one tile; talking to them warps to the room.
+- Larger indoor room reuses the Indigo Plateau Pokemon Center 1F layout (25x18); the tiles themselves are not custom.
+- Twelve repeatable battle NPCs: Brock, Misty, Lt Surge, Erika, Koga, Sabrina, Blaine, Giovanni, and four Elite Four slots represented by the current Lorelei, Bruno, Agatha, and Lance sprites.
+- Exit scientist returns the player to Oak's Lab; a healer restores the party; a supplier offers Rare Candies, Max Revives, and Full Restores; test-team scientist provides six level-55 Pokemon.
+- Repeatability uses `cleartrainerflag` before each `trainerbattle_single` encounter to allow replay and avoids the original leader reward event scripts.
 
-## Intended room
-- Dedicated indoor testing map with a safe return warp to Oak's Lab.
-- Eight repeatable Gym Leader stations and four repeatable Elite Four stations.
-- Preparation station: balanced test party presets, level presets, healing and PP recovery.
-- Mechanic station: Mega Ring + stones, G-Max eligibility, Tera Orb/access, battle rule checks.
-- Each lab opponent should call the same canonical trainer party as the actual story encounter, not a duplicate fork.
-- Battle reset with no badge/story rewards and no permanent trainer-defeated flags.
-- Test fixed Mythicals: Marshadow, Diancie, Volcanion, Chill Drive Genesect (Techno Blast).
-- Disable Z-Moves for the designed gameplay; test one-gimmick-per-side rule only after implementation.
+## Important limitations
+- The twelve encounters currently use **existing canonical FireRed trainer IDs/parties** in `src/data/trainers_frlg.party`. They DO NOT yet use the planned custom teams or Mythical aces Marshadow, Diancie, Volcanion, and Chill Drive Genesect.
+- No battle gimmicks are specially enabled for these encounters yet.
+- Test-team NPC gives monsters every time; there is no duplicate protection and party/PC capacity still applies. Using it repeatedly may fill storage.
+- NPC locations use an existing room layout and **have not been emulator-tested** for wall/furniture collisions; adjust if blocked. Existing layout warp tiles are not used for lab exit: speak to the exit scientist.
+- Lab is test-branch-only. Staircase generation-menu bypass remains a temporary test-only workaround.
+- No GBA build has been verified for this latest NPC phase.
 
-## Safe sequence
-1. Compile and verify the Oak's Lab scientist and two-way scripted warps in-game.
-2. Replace the reused indoor room layout with a dedicated, appropriately sized Battle Lab tilemap when trainer stations are ready.
-3. Provide repeatable battle scripts for 12 trainer slots.
-4. Supply fixed balanced team presets and mechanic access, with restoration/reset controls.
-5. Test gimmick behaviors and generation-restricted party variants.
-6. Compile and run the FireRed build, and test in an emulator.
-
-## Current caveats
-The source has not been compiled or emulator-tested as part of this initial scaffold. The coordinator is deliberately only a placeholder. Keep work isolated on feature/battle-testing-lab.
+## Next validation
+1. GitHub Actions: make firered, inspect compiler/linker failures.
+2. Enter the lab from Oak's Lab; verify player spawn and all 16 NPC placements.
+3. Fight each boss twice and verify reset. Check defeat/whiteout behavior.
+4. Test healer, items, and level-55 party.
+5. Replace canonical trainer parties with the designed 8 Gym and 4 Elite Four configurations and dedicated trainer gimmicks, without affecting release gameplay.
