@@ -36,6 +36,8 @@
 #include "battle_ai_util.h"
 #include "event_data.h"
 #include "constants/vars.h"
+#include "constants/map_groups.h"
+#include "event_data.h"
 #include "link.h"
 #include "malloc.h"
 #include "berry.h"
@@ -5630,6 +5632,11 @@ enum Obedience GetAttackerObedienceForAction(void)
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK))
         return OBEYS;
     if (BattlerHasAi(gBattlerAttacker))
+        return OBEYS;
+
+    // Battle Lab playtests ignore badge obedience without granting story badges.
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BATTLE_TEST_LAB)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_BATTLE_TEST_LAB))
         return OBEYS;
 
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && GetBattlerPosition(gBattlerAttacker) == B_POSITION_PLAYER_RIGHT)
