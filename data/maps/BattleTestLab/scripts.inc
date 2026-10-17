@@ -12,6 +12,6 @@ BattleTestLab_EventScript_ExitGuide::
     end
 
 BattleTestLab_Text_ExitGuide::
-    .string "This is the BATTLE TEST LAB.\\p"
-    .string "Trainer stations are coming soon.\\p"
+    .string "This is the BATTLE TEST LAB.\p"
+    .string "Trainer stations are coming soon.\p"
     .string "Returning to OAK's LAB now.$"
