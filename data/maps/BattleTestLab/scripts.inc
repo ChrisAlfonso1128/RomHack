@@ -152,3 +152,24 @@ BattleTestLab_EventScript_Supplies::
 BattleTestLab_Text_Supplies::
     .string "Test supplies issued. Keep your\\n"
     .string "party ready for repeat battles.$"
+
+BattleTestLab_EventScript_TestTeam::
+    lock
+    faceplayer
+    msgbox BattleTestLab_Text_TestTeamIntro
+    givemon SPECIES_LUCARIO, 55
+    givemon SPECIES_GYARADOS, 55
+    givemon SPECIES_GARDEVOIR, 55
+    givemon SPECIES_EXCADRILL, 55
+    givemon SPECIES_VENUSAUR, 55
+    givemon SPECIES_ROTOM_WASH, 55
+    msgbox BattleTestLab_Text_TestTeamGiven
+    release
+    end
+
+BattleTestLab_Text_TestTeamIntro::
+    .string "Here is a balanced LV55 test team.\\p"
+    .string "Make room first, or use your PC.$"
+
+BattleTestLab_Text_TestTeamGiven::
+    .string "Team issued! Test with care.$"
