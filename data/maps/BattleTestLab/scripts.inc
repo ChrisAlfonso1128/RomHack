@@ -150,7 +150,7 @@ BattleTestLab_EventScript_Supplies::
     end
 
 BattleTestLab_Text_Supplies::
-    .string "Test supplies issued. Keep your\\n"
+    .string "Test supplies issued. Keep your\n"
     .string "party ready for repeat battles.$"
 
 BattleTestLab_EventScript_TestTeam::
@@ -168,7 +168,7 @@ BattleTestLab_EventScript_TestTeam::
     end
 
 BattleTestLab_Text_TestTeamIntro::
-    .string "Here is a balanced LV55 test team.\\p"
+    .string "Here is a balanced LV55 test team.\p"
     .string "Make room first, or use your PC.$"
 
 BattleTestLab_Text_TestTeamGiven::
