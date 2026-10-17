@@ -156,6 +156,7 @@ BattleTestLab_Text_Supplies::
 BattleTestLab_EventScript_TestTeam::
     lock
     faceplayer
+    setflag FLAG_SYS_POKEMON_GET
     msgbox BattleTestLab_Text_TestTeamIntro
     givemon SPECIES_LUCARIO, 55
     givemon SPECIES_GYARADOS, 55
