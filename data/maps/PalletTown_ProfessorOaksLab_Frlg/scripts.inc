@@ -1671,17 +1671,16 @@ PalletTown_ProfessorOaksLab_Text_RivalIllCompleteThePokedex::
 	.string "Anyways, I'm outta here!$"
 
 
-// Development-only Battle Lab coordinator.
-// Phase 1: entrance placeholder; no warp until a dedicated lab layout is integrated.
+// Development-only Battle Lab entrance. Talk to this scientist to visit the test room.
 PalletTown_ProfessorOaksLab_EventScript_BattleLabCoordinator::
     lock
     faceplayer
     msgbox PalletTown_ProfessorOaksLab_Text_BattleLabCoordinator
+    closemessage
+    warp MAP_BATTLE_TEST_LAB, 5, 6
+    waitstate
     release
     end
 
 PalletTown_ProfessorOaksLab_Text_BattleLabCoordinator::
-    .string "BATTLE LAB: Training grounds are\\n"
-    .string "being prepared for test battles.\\p"
-    .string "GYM, ELITE FOUR, and special\\n"
-    .string "battle checks will go here.$"
+    .string "BATTLE LAB: Come see the test room!$"
