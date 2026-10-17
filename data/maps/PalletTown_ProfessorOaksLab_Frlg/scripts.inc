@@ -1675,6 +1675,7 @@ PalletTown_ProfessorOaksLab_Text_RivalIllCompleteThePokedex::
 PalletTown_ProfessorOaksLab_EventScript_BattleLabCoordinator::
     lock
     faceplayer
+    setflag FLAG_SYS_POKEMON_GET
     msgbox PalletTown_ProfessorOaksLab_Text_BattleLabCoordinator
     closemessage
     warp MAP_BATTLE_TEST_LAB, 12, 15
