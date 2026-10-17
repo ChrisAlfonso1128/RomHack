@@ -1677,7 +1677,7 @@ PalletTown_ProfessorOaksLab_EventScript_BattleLabCoordinator::
     faceplayer
     msgbox PalletTown_ProfessorOaksLab_Text_BattleLabCoordinator
     closemessage
-    warp MAP_BATTLE_TEST_LAB, 5, 6
+    warp MAP_BATTLE_TEST_LAB, 12, 15
     waitstate
     release
     end
