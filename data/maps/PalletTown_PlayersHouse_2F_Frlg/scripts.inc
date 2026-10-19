@@ -26,6 +26,7 @@ PalletTown_PlayersHouse_2F_EventScript_NES::
 
 PalletTown_PlayersHouse_2F_EventScript_Sign::
 	lockall
+	goto_if_eq VAR_ADVENTURE_SETTINGS_CONFIRMED, 1, PalletTown_PlayersHouse_2F_EventScript_SettingsExit
 	goto PalletTown_PlayersHouse_2F_EventScript_AdventureSettings
 
 PalletTown_PlayersHouse_2F_Text_PlayedWithNES::
