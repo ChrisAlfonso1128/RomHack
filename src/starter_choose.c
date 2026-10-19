@@ -111,87 +111,20 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
     {8, 4},
 };
 
-// A Rock > Flying > Fighting > Rock advantage cycle, without standard starters.
-// Columns: Rock, Flying, Fighting. BST values are first-stage base stat totals.
-// A generation-only selection must remain playable even when its pool is sparse.
-struct StarterCandidate
+// The three story starters are fixed regardless of generation selection.
+// Generation filters still govern the rest of the adventure.
+static const u16 sStarterMon[STARTER_MON_COUNT] =
 {
-    u16 species;
-    u16 bst;
+    SPECIES_HONEDGE,
+    SPECIES_TRAPINCH,
+    SPECIES_IMPIDIMP,
 };
-
-static const struct StarterCandidate sUnconventionalStarters[9][STARTER_MON_COUNT] =
-{
-    {{SPECIES_GEODUDE, 300},   {SPECIES_DODUO, 310},     {SPECIES_MACHOP, 305}},
-    {{SPECIES_LARVITAR, 300},  {SPECIES_NATU, 320},      {SPECIES_TYROGUE, 210}},
-    {{SPECIES_ARON, 330},      {SPECIES_TAILLOW, 270},   {SPECIES_MAKUHITA, 237}},
-    {{SPECIES_CRANIDOS, 350},  {SPECIES_STARLY, 245},    {SPECIES_RIOLU, 285}},
-    {{SPECIES_ROGGENROLA, 280},{SPECIES_PIDOVE, 264},    {SPECIES_TIMBURR, 305}},
-    {{SPECIES_BINACLE, 306},   {SPECIES_FLETCHLING, 278},{SPECIES_PANCHAM, 348}},
-    {{SPECIES_ROCKRUFF, 280},  {SPECIES_PIKIPEK, 265},   {SPECIES_CRABRAWLER, 338}},
-    {{SPECIES_ROLYCOLY, 240},  {SPECIES_ROOKIDEE, 245},  {SPECIES_CLOBBOPUS, 310}},
-    {{SPECIES_NACLI, 280},     {SPECIES_WATTREL, 280},   {SPECIES_FLAMIGO, 500}},
-};
-
-// Prefer three near-equal BSTs from the enabled generations. Each species
-// remains from an allowed generation; the triangle is preserved by its column.
-static u16 GetDynamicStarterForSlot(u8 slot)
-{
-    u16 mask = GetGenerationSelectionMask();
-    u32 bestScore = 0xFFFFFFFF;
-    u8 bestGen = 0;
-    u8 rock, flying, fighting;
-    u8 selected[3] = {0, 0, 0};
-
-    if (slot >= STARTER_MON_COUNT)
-        slot = 0;
-    for (rock = 0; rock < 9; rock++)
-    {
-        if (!(mask & (1 << rock)))
-            continue;
-        for (flying = 0; flying < 9; flying++)
-        {
-            if (!(mask & (1 << flying)))
-                continue;
-            for (fighting = 0; fighting < 9; fighting++)
-            {
-                u16 min, max;
-                u32 score;
-                if (!(mask & (1 << fighting)))
-                    continue;
-                min = sUnconventionalStarters[rock][0].bst;
-                max = min;
-                if (sUnconventionalStarters[flying][1].bst < min)
-                    min = sUnconventionalStarters[flying][1].bst;
-                if (sUnconventionalStarters[flying][1].bst > max)
-                    max = sUnconventionalStarters[flying][1].bst;
-                if (sUnconventionalStarters[fighting][2].bst < min)
-                    min = sUnconventionalStarters[fighting][2].bst;
-                if (sUnconventionalStarters[fighting][2].bst > max)
-                    max = sUnconventionalStarters[fighting][2].bst;
-                // Penalize very high BST choices, and prefer a cohesive trio
-                // when statistical balance is otherwise tied.
-                score = (max - min) * 100 + max / 10;
-                if (rock != flying) score += 3;
-                if (flying != fighting) score += 3;
-                if (rock != fighting) score += 3;
-                if (score < bestScore)
-                {
-                    bestScore = score;
-                    selected[0] = rock;
-                    selected[1] = flying;
-                    selected[2] = fighting;
-                }
-            }
-        }
-    }
-    bestGen = selected[slot];
-    return sUnconventionalStarters[bestGen][slot].species;
-}
 
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
-    return GetDynamicStarterForSlot(chosenStarterId);
+    if (chosenStarterId >= STARTER_MON_COUNT)
+        chosenStarterId = 0;
+    return sStarterMon[chosenStarterId];
 }
 
 // Script special: VAR_0x8004 is the desired slot; returns a species ID.
