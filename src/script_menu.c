@@ -485,12 +485,13 @@ static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenu
 static bool8 IsAdventureMultichoice(u8 id);
 
 // Use FireRed's native rounded dialogue frame OUTSIDE the text window.
-// The former pixel-drawn border was inside the window and got clipped by
-// menu text, producing broken corners and oversized gold strips.
+// Use FireRed's compact one-tile menu frame rather than the large dialogue
+// frame. The latter reaches three tiles into adjacent areas and creates
+// oversized gold corners on the small Adventure Settings panels.
 static void DrawAdventureBubbleFrame(u8 windowId)
 {
-    DrawDialogFrameWithCustomTileAndPalette(windowId, FALSE,
-        DLG_WINDOW_BASE_TILE_NUM, DLG_WINDOW_PALETTE_NUM);
+    DrawStdFrameWithCustomTileAndPalette(windowId, FALSE,
+        STD_WINDOW_BASE_TILE_NUM, STD_WINDOW_PALETTE_NUM);
 }
 
 
@@ -621,7 +622,7 @@ static void CloseAdventureHelp(void)
 {
     if (sAdventureHelpActive)
     {
-        ClearDialogWindowAndFrameToTransparent(sAdventureHelpWindow, TRUE);
+        ClearStdWindowAndFrameToTransparent(sAdventureHelpWindow, TRUE);
         ClearToTransparentAndRemoveWindow(sAdventureHelpWindow);
         RestoreDeluxeMenuPalette();
         sAdventureHelpActive = FALSE;
@@ -1130,7 +1131,7 @@ static void Task_HandleMultichoiceInput(u8 taskId)
                 if (IsAdventureMultichoice(tMultichoiceId))
                     CloseAdventureHelp();
                 if (IsAdventureMultichoice(tMultichoiceId))
-                    ClearDialogWindowAndFrameToTransparent(tWindowId, TRUE);
+                    ClearStdWindowAndFrameToTransparent(tWindowId, TRUE);
                 ClearToTransparentAndRemoveWindow(tWindowId);
                 DestroyTask(taskId);
                 ScriptContext_Enable();
