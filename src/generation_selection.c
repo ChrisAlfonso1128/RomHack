@@ -124,3 +124,26 @@ bool8 IsSpeciesAllowedByGeneration(u16 species)
         return speciesGeneration <= generation;
     return speciesGeneration == generation;
 }
+
+
+bool8 IsAdventureGenerationEnabled(u8 generation)
+{
+    if (generation < 1 || generation > 9)
+        return FALSE;
+    return (GetGenerationSelectionMask() & (1 << (generation - 1))) != 0;
+}
+
+u16 GetAdventureBattleMechanicsMask(void)
+{
+    u16 saved = VarGet(VAR_ADVENTURE_BATTLE_MECHANICS);
+    if (!(saved & ADVENTURE_MECHANICS_SAVED))
+        return ADVENTURE_MECHANICS_ALL;
+    return saved & ADVENTURE_MECHANICS_ALL;
+}
+
+bool8 IsAdventureBattleMechanicEnabled(u16 mechanicBit)
+{
+    if (mechanicBit == 0 || (mechanicBit & ~ADVENTURE_MECHANICS_ALL))
+        return FALSE;
+    return (GetAdventureBattleMechanicsMask() & mechanicBit) == mechanicBit;
+}
