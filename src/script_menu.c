@@ -90,6 +90,10 @@ static const u8 *const sBattleMechanicsDetails[] =
     COMPOUND_STRING("Save your battle mechanics.\nUse A to toggle choices."),
 };
 
+static void ApplyDeluxeMenuPalette(void);
+static void RestoreDeluxeMenuPalette(void);
+static const u8 sDeluxeHeaderTextColors[] = {4, 5, 7};
+
 static void DrawBattleMechanicsMenu(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
@@ -844,7 +848,6 @@ static void RestoreDeluxeMenuPalette(void)
     }
 }
 
-static const u8 sDeluxeHeaderTextColors[] = {4, 5, 7};
 static const u8 *const sDeluxeSelectedCount[] =
 {
     COMPOUND_STRING("0/9"), COMPOUND_STRING("1/9"), COMPOUND_STRING("2/9"),
