@@ -131,7 +131,12 @@ PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     goto_if_eq VAR_RESULT, NO, PalletTown_PlayersHouse_2F_EventScript_ReviewSettings
     setvar VAR_ADVENTURE_SETTINGS_CONFIRMED, 1
     msgbox PalletTown_PlayersHouse_2F_Text_SettingsLocked, MSGBOX_DEFAULT
-    releaseall
+    @ Complete the stair transition here instead of making the player
+    @ re-enter a coordinate trigger on the warp tile.
+    closemessage
+    fadescreen FADE_TO_BLACK
+    warp MAP_PALLET_TOWN_PLAYERS_HOUSE_1F, 2, 0, 0
+    waitstate
     end
 
 PalletTown_PlayersHouse_2F_EventScript_RequireSettings::
