@@ -21,6 +21,7 @@
 #include "constants/flags.h"
 #include "constants/items.h"
 #include "constants/moves.h"
+#include "constants/vars.h"
 
 static enum MaxPowerTier GetMaxPowerTier(enum Move move);
 
@@ -123,6 +124,9 @@ bool32 CanDynamax(enum BattlerId battler)
 bool32 IsGigantamaxed(enum BattlerId battler)
 {
     struct Pokemon *mon = GetBattlerMon(battler);
+    u16 saved = VarGet(VAR_ADVENTURE_BATTLE_MECHANICS);
+    if (!TESTING && (saved & 0x8000) && !(saved & (1 << 2)))
+        return FALSE;
     if ((gSpeciesInfo[gBattleMons[battler].species].isGigantamax) && GetMonData(mon, MON_DATA_GIGANTAMAX_FACTOR))
         return TRUE;
     return FALSE;

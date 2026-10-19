@@ -56,7 +56,12 @@ PalletTown_PlayersHouse_2F_EventScript_AdventureMenu::
     switch VAR_RESULT
     case 0, PalletTown_PlayersHouse_2F_EventScript_GenFirst
     case 1, PalletTown_PlayersHouse_2F_EventScript_ExpShare
+    case 2, PalletTown_PlayersHouse_2F_EventScript_BattleMechanics
     goto PalletTown_PlayersHouse_2F_EventScript_SettingsExit
+
+PalletTown_PlayersHouse_2F_EventScript_BattleMechanics::
+    multichoice 1, 1, MULTI_ADVENTURE_BATTLE_MECHANICS, FALSE
+    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
 
 PalletTown_PlayersHouse_2F_EventScript_ExpShare::
     multichoice 1, 1, MULTI_ADVENTURE_EXP_SHARE, FALSE

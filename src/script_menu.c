@@ -59,10 +59,147 @@ static void Task_GenerationChecklist(u8 taskId);
 static void OpenGenerationChecklist(void);
 static void Task_DeluxeExpMenu(u8 taskId);
 static void OpenDeluxeExpMenu(u8 defaultChoice);
+static void Task_BattleMechanicsMenu(u8 taskId);
+static void OpenBattleMechanicsMenu(void);
 static void Task_HandleYesNoInput(u8 taskId);
 static void Task_HandleMultichoiceGridInput(u8 taskId);
 static void DrawMultichoiceMenuDynamic(u8 left, u8 top, u8 argc, struct ListMenuItem *items, bool8 ignoreBPress, u32 initialRow, u8 maxBeforeScroll, u32 callbackSet);
 static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos);
+// Saved selection has bit 15 set; zero-initialized saves enable all four.
+#define MECHANICS_SAVED 0x8000
+#define MECHANICS_DEFAULT 0x000F
+#define tMechanicsList data[0]
+#define tMechanicsHelp data[1]
+#define tMechanicsCursor data[2]
+#define tMechanicsMask data[3]
+
+static const u8 *const sBattleMechanicsLabels[] =
+{
+    COMPOUND_STRING("MEGA EVOLUTION"),
+    COMPOUND_STRING("DYNAMAX"),
+    COMPOUND_STRING("GIGANTAMAX"),
+    COMPOUND_STRING("TERASTALLIZATION"),
+    COMPOUND_STRING("DONE"),
+};
+static const u8 *const sBattleMechanicsDetails[] =
+{
+    COMPOUND_STRING("Mega Evolve eligible Pokemon\nduring battle."),
+    COMPOUND_STRING("Enlarge Pokemon and use\nMax Moves. Needed for G-Max."),
+    COMPOUND_STRING("Special forms and G-Max moves.\nRequires Dynamax."),
+    COMPOUND_STRING("Change type with a Tera Orb\nduring battle."),
+    COMPOUND_STRING("Save your battle mechanics.\nUse A to toggle choices."),
+};
+
+static void DrawBattleMechanicsMenu(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    u8 i;
+    FillWindowPixelBuffer(tMechanicsList, PIXEL_FILL(1));
+    FillWindowPixelRect(tMechanicsList, PIXEL_FILL(7), 0, 0, 240, 2);
+    FillWindowPixelRect(tMechanicsList, PIXEL_FILL(4), 0, 2, 240, 18);
+    FillWindowPixelRect(tMechanicsList, PIXEL_FILL(7), 0, 20, 240, 2);
+    AddTextPrinterParameterized3(tMechanicsList, FONT_NORMAL, 8, 2,
+        sDeluxeHeaderTextColors, TEXT_SKIP_DRAW, COMPOUND_STRING("BATTLE MECHANICS"));
+    for (i = 0; i < 5; i++)
+    {
+        u8 y = 24 + i * 18;
+        if (tMechanicsCursor == i)
+            FillWindowPixelRect(tMechanicsList, PIXEL_FILL(6), 3, y, 234, 18);
+        AddTextPrinterParameterized(tMechanicsList, FONT_NORMAL,
+            i == tMechanicsCursor ? COMPOUND_STRING(">") : COMPOUND_STRING(" "),
+            7, y, TEXT_SKIP_DRAW, NULL);
+        if (i < 4)
+        {
+            FillWindowPixelRect(tMechanicsList, PIXEL_FILL(7), 25, y + 2, 12, 12);
+            FillWindowPixelRect(tMechanicsList, PIXEL_FILL(1), 26, y + 3, 10, 10);
+            if (tMechanicsMask & (1 << i))
+                AddTextPrinterParameterized(tMechanicsList, FONT_NORMAL,
+                    COMPOUND_STRING("X"), 26, y, TEXT_SKIP_DRAW, NULL);
+        }
+        AddTextPrinterParameterized(tMechanicsList, FONT_NORMAL,
+            sBattleMechanicsLabels[i], i < 4 ? 46 : 27, y, TEXT_SKIP_DRAW, NULL);
+    }
+    FillWindowPixelRect(tMechanicsList, PIXEL_FILL(7), 0, 115, 240, 2);
+    CopyWindowToVram(tMechanicsList, COPYWIN_FULL);
+    FillWindowPixelBuffer(tMechanicsHelp, PIXEL_FILL(1));
+    FillWindowPixelRect(tMechanicsHelp, PIXEL_FILL(7), 0, 0, 240, 2);
+    AddTextPrinterParameterized(tMechanicsHelp, FONT_NORMAL,
+        sBattleMechanicsDetails[tMechanicsCursor], 8, 3, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(tMechanicsHelp, COPYWIN_FULL);
+}
+
+static void CloseBattleMechanicsMenu(u8 taskId, bool8 save)
+{
+    s16 *data = gTasks[taskId].data;
+    if (save)
+    {
+        VarSet(VAR_ADVENTURE_BATTLE_MECHANICS, MECHANICS_SAVED | (tMechanicsMask & MECHANICS_DEFAULT));
+        gSpecialVar_Result = 0;
+    }
+    else
+        gSpecialVar_Result = MULTI_B_PRESSED;
+    ClearToTransparentAndRemoveWindow(tMechanicsHelp);
+    ClearToTransparentAndRemoveWindow(tMechanicsList);
+    RestoreDeluxeMenuPalette();
+    DestroyTask(taskId);
+    ScriptContext_Enable();
+}
+
+static void Task_BattleMechanicsMenu(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    if (gPaletteFade.active)
+        return;
+    if (JOY_NEW(DPAD_UP))
+        tMechanicsCursor = (tMechanicsCursor + 4) % 5;
+    else if (JOY_NEW(DPAD_DOWN))
+        tMechanicsCursor = (tMechanicsCursor + 1) % 5;
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        CloseBattleMechanicsMenu(taskId, FALSE);
+        return;
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        if (tMechanicsCursor == 4)
+        {
+            CloseBattleMechanicsMenu(taskId, TRUE);
+            return;
+        }
+        tMechanicsMask ^= 1 << tMechanicsCursor;
+        if (tMechanicsCursor == 1 && !(tMechanicsMask & (1 << 1)))
+            tMechanicsMask &= ~(1 << 2);
+        if (tMechanicsCursor == 2 && (tMechanicsMask & (1 << 2)))
+            tMechanicsMask |= (1 << 1);
+    }
+    else
+        return;
+    DrawBattleMechanicsMenu(taskId);
+}
+
+static void OpenBattleMechanicsMenu(void)
+{
+    struct WindowTemplate listTemplate = CreateWindowTemplate(0, 0, 0, 30, 15, 15, 100);
+    struct WindowTemplate helpTemplate = CreateWindowTemplate(0, 0, 15, 30, 5, 15, 600);
+    u8 taskId = CreateTask(Task_BattleMechanicsMenu, 80);
+    s16 *data = gTasks[taskId].data;
+    u16 saved = VarGet(VAR_ADVENTURE_BATTLE_MECHANICS);
+    tMechanicsList = AddWindow(&listTemplate);
+    tMechanicsHelp = AddWindow(&helpTemplate);
+    PutWindowTilemap(tMechanicsList);
+    PutWindowTilemap(tMechanicsHelp);
+    tMechanicsCursor = 0;
+    tMechanicsMask = (saved & MECHANICS_SAVED) ? saved & MECHANICS_DEFAULT : MECHANICS_DEFAULT;
+    ApplyDeluxeMenuPalette();
+    DrawBattleMechanicsMenu(taskId);
+}
+#undef tMechanicsList
+#undef tMechanicsHelp
+#undef tMechanicsCursor
+#undef tMechanicsMask
+
 static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId);
 static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId);
 static void CreatePCMultichoice(void);
@@ -135,6 +272,14 @@ bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPre
             return FALSE;
         gSpecialVar_Result = 0xFF;
         OpenGenerationChecklist();
+        return TRUE;
+    }
+    if (multichoiceId == MULTI_ADVENTURE_BATTLE_MECHANICS)
+    {
+        if (FuncIsActiveTask(Task_BattleMechanicsMenu))
+            return FALSE;
+        gSpecialVar_Result = 0xFF;
+        OpenBattleMechanicsMenu();
         return TRUE;
     }
     if (multichoiceId == MULTI_ADVENTURE_EXP_SHARE)
@@ -576,6 +721,7 @@ static const u8 sHelp_Classic[] = _("CLASSIC: Participants and\nExp. Share holde
 static const u8 sHelp_Off[] = _("OFF: Only battle participants\ngain EXP. No party sharing.");
 static const u8 sHelp_SelectGen[] = _("Pick the Pokemon generation\nfor this adventure.");
 static const u8 sHelp_SelectExp[] = _("Choose how EXP is shared.\nYou can change this later.");
+static const u8 sHelp_SelectMechanics[] = _("Select battle transformations.\nAll four begin enabled.");
 static const u8 sHelp_Exit[] = _("Return to your room. Both\nsettings are needed to leave.");
 
 static const u8 *const sAdventureGenFirstHelp[] = {sHelp_Gen1, sHelp_Gen2, sHelp_Gen3, sHelp_Gen4, sHelp_Gen5, sHelp_More};
@@ -616,6 +762,8 @@ static void UpdateAdventureHelp(u8 id)
             message = sHelp_SelectGen;
         else if (cursor == 1)
             message = sHelp_SelectExp;
+        else if (cursor == 2)
+            message = sHelp_SelectMechanics;
     }
 
     DrawAdventureBubbleFrame(sAdventureHelpWindow);
