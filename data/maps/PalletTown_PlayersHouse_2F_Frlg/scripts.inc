@@ -23,8 +23,7 @@ PalletTown_PlayersHouse_2F_FirstWarpIn::
 PalletTown_PlayersHouse_2F_EventScript_NES::
     lockall
     msgbox PalletTown_PlayersHouse_2F_Text_HmLabPrompt, MSGBOX_YESNO
-    compare VAR_RESULT, YES
-    goto_if_eq PalletTown_PlayersHouse_2F_EventScript_HmLabWarp
+    goto_if_eq VAR_RESULT, YES, PalletTown_PlayersHouse_2F_EventScript_HmLabWarp
     releaseall
     end
 
@@ -218,8 +217,7 @@ PalletTown_PlayersHouse_2F_EventScript_HmLabWarp::
 HmTestLab_EventScript_Return::
     lockall
     msgbox HmTestLab_Text_Return, MSGBOX_YESNO
-    compare VAR_RESULT, YES
-    goto_if_eq HmTestLab_EventScript_Exit
+    goto_if_eq VAR_RESULT, YES, HmTestLab_EventScript_Exit
     releaseall
     end
 
