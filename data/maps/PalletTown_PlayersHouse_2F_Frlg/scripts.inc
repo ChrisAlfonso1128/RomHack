@@ -21,8 +21,12 @@ PalletTown_PlayersHouse_2F_FirstWarpIn::
 	end
 
 PalletTown_PlayersHouse_2F_EventScript_NES::
-	msgbox PalletTown_PlayersHouse_2F_Text_PlayedWithNES, MSGBOX_SIGN
-	end
+    lockall
+    msgbox PalletTown_PlayersHouse_2F_Text_HmLabPrompt, MSGBOX_YESNO
+    compare VAR_RESULT, YES
+    goto_if_eq PalletTown_PlayersHouse_2F_EventScript_HmLabWarp
+    releaseall
+    end
 
 PalletTown_PlayersHouse_2F_EventScript_Sign::
 	lockall
@@ -200,3 +204,38 @@ PalletTown_PlayersHouse_2F_Text_HmTestDesk::
     .string "HM TEST LAB\p"
     .string "Field move testing is being built.\n"
     .string "No badges have been changed.$"
+
+PalletTown_PlayersHouse_2F_Text_HmLabPrompt::
+    .string "HM TEST LAB\\pTeleport to the testing room?$"
+
+PalletTown_PlayersHouse_2F_EventScript_HmLabWarp::
+    closemessage
+    fadescreen FADE_TO_BLACK
+    warp MAP_ROUTE23_UNUSED_HOUSE, 3, 5
+    waitstate
+    end
+
+HmTestLab_EventScript_Return::
+    lockall
+    msgbox HmTestLab_Text_Return, MSGBOX_YESNO
+    compare VAR_RESULT, YES
+    goto_if_eq HmTestLab_EventScript_Exit
+    releaseall
+    end
+
+HmTestLab_EventScript_Exit::
+    closemessage
+    fadescreen FADE_TO_BLACK
+    warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 6, 6
+    waitstate
+    end
+
+HmTestLab_Text_Return::
+    .string "HM TEST LAB\\pReturn to your bedroom?$"
+
+HmTestLab_EventScript_Station::
+    msgbox HmTestLab_Text_Station, MSGBOX_SIGN
+    end
+
+HmTestLab_Text_Station::
+    .string "HM FIELD TEST\\pMore challenge stations coming soon.$"
