@@ -130,9 +130,11 @@ PalletTown_PlayersHouse_2F_EventScript_GenLocked::
 
 PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     lockall
-    goto_if_eq VAR_ADVENTURE_GEN_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_RequireSettings
-    goto_if_eq VAR_ADVENTURE_EXP_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_RequireSettings
-    @ Confirm automatically only when stepping onto the stairs.
+    @ If the player skipped either required menu, offer defaults at the stairs.
+    goto_if_eq VAR_ADVENTURE_GEN_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_OfferDefaults
+    goto_if_eq VAR_ADVENTURE_EXP_CHOSEN, 0, PalletTown_PlayersHouse_2F_EventScript_OfferDefaults
+PalletTown_PlayersHouse_2F_EventScript_FinalizeSettings::
+    @ Settings become final only on the stairs.
     setvar VAR_ADVENTURE_SETTINGS_CONFIRMED, 1
     @ Complete the stair transition here instead of making the player
     @ re-enter a coordinate trigger on the warp tile.
@@ -142,16 +144,22 @@ PalletTown_PlayersHouse_2F_EventScript_ConfirmSettings::
     waitstate
     end
 
-PalletTown_PlayersHouse_2F_EventScript_RequireSettings::
+PalletTown_PlayersHouse_2F_EventScript_OfferDefaults::
     applymovement LOCALID_PLAYER, PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs
     waitmovement 0
-    msgbox PalletTown_PlayersHouse_2F_Text_RequiredSettings, MSGBOX_DEFAULT
-    goto PalletTown_PlayersHouse_2F_EventScript_AdventureMenu
+    msgbox PalletTown_PlayersHouse_2F_Text_DefaultSettingsPrompt, MSGBOX_DEFAULT
+    yesnobox 20, 8
+    goto_if_eq VAR_RESULT, NO, PalletTown_PlayersHouse_2F_EventScript_SettingsExit
+    @ Unselected generations use the existing all-generations default (0).
+    @ Unselected EXP Share uses the existing Modern default (0).
+    setvar VAR_ADVENTURE_GEN_CHOSEN, 1
+    setvar VAR_ADVENTURE_EXP_CHOSEN, 1
+    goto PalletTown_PlayersHouse_2F_EventScript_FinalizeSettings
 
-PalletTown_PlayersHouse_2F_Text_RequiredSettings::
-    .string "Before leaving, choose a POKeMON\n"
-    .string "generation AND an EXP mode.\p"
-    .string "Use the menu to set both options.$"
+PalletTown_PlayersHouse_2F_Text_DefaultSettingsPrompt::
+    .string "Continue with default settings?\\p"
+    .string "All generations and Modern EXP\\n"
+    .string "Share will be used if not chosen.$"
 
 PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
     applymovement LOCALID_PLAYER, PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs
