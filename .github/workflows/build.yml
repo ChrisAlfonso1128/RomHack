@@ -1,4 +1,5 @@
 name: Build FireRed expansion
+# Rebuild testing branch after dev integration (HM Test Lab not yet implemented).
 
 on:
   push:
