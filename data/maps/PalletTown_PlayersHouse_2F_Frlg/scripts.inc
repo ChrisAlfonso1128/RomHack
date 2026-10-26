@@ -188,3 +188,15 @@ PalletTown_PlayersHouse_2F_Text_GenLocked::
 PalletTown_PlayersHouse_2F_Movement_StepAwayFromStairs:
     walk_down
     step_end
+
+@ HM test access point (prototype). Does not grant badges or bypass story gates.
+PalletTown_PlayersHouse_2F_EventScript_HmTestDesk::
+    lockall
+    msgbox PalletTown_PlayersHouse_2F_Text_HmTestDesk, MSGBOX_DEFAULT
+    releaseall
+    end
+
+PalletTown_PlayersHouse_2F_Text_HmTestDesk::
+    .string "HM TEST LAB\\p"
+    .string "Field move testing is being built.\\n"
+    .string "No badges have been changed.$"
