@@ -205,7 +205,8 @@ PalletTown_PlayersHouse_2F_Text_HmTestDesk::
     .string "No badges have been changed.$"
 
 PalletTown_PlayersHouse_2F_Text_HmLabPrompt::
-    .string "HM TEST LAB\\p" + "\n    .string "Teleport to the testing room?$"
+    .string "HM TEST LAB\p"
+    .string "Teleport to the testing room?$"
 
 PalletTown_PlayersHouse_2F_EventScript_HmLabWarp::
     closemessage
@@ -229,11 +230,14 @@ HmTestLab_EventScript_Exit::
     end
 
 HmTestLab_Text_Return::
-    .string "HM TEST LAB\\p" + "\n    .string "Return to your bedroom?$"
+    .string "HM TEST LAB\p"
+    .string "Return to your bedroom?$"
 
 HmTestLab_EventScript_Station::
     msgbox HmTestLab_Text_Station, MSGBOX_SIGN
     end
 
 HmTestLab_Text_Station::
-    .string "HM FIELD TEST\\pMore challenge stations coming soon.$"
+    .string "HM FIELD TEST\p"
+    .string "More challenge stations coming soon.$"
+
