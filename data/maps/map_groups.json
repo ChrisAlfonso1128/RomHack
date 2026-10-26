@@ -1084,7 +1084,8 @@
     "Route18_EastEntrance_2F_Frlg"
   ],
   "gMapGroup_IndoorRoute22_Frlg": [
-    "Route22_NorthEntrance_Frlg"
+    "Route22_NorthEntrance_Frlg",
+    "Route23_UnusedHouse"
   ],
   "gMapGroup_IndoorRoute25_Frlg": [
     "Route25_SeaCottage_Frlg"
