@@ -197,6 +197,6 @@ PalletTown_PlayersHouse_2F_EventScript_HmTestDesk::
     end
 
 PalletTown_PlayersHouse_2F_Text_HmTestDesk::
-    .string "HM TEST LAB\\p"
-    .string "Field move testing is being built.\\n"
+    .string "HM TEST LAB\p"
+    .string "Field move testing is being built.\n"
     .string "No badges have been changed.$"
