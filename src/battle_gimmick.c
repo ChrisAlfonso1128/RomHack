@@ -6,6 +6,8 @@
 #include "battle_gimmick.h"
 #include "battle_z_move.h"
 #include "battle_setup.h"
+#include "event_data.h"
+#include "constants/vars.h"
 #include "battle_util.h"
 #include "item.h"
 #include "palette.h"
@@ -36,6 +38,19 @@ void AssignUsableGimmicks(void)
 // Returns whether a battler is able to use a gimmick. Checks consumption and gimmick specific functions.
 bool32 CanActivateGimmick(enum BattlerId battler, enum Gimmick gimmick)
 {
+    u16 saved = VarGet(VAR_ADVENTURE_BATTLE_MECHANICS);
+    u16 mask = (saved & 0x8000) ? (saved & 0x000F) : 0x000F;
+    if (!TESTING)
+    {
+        if (gimmick == GIMMICK_MEGA && !(mask & (1 << 0)))
+            return FALSE;
+        if (gimmick == GIMMICK_DYNAMAX && !(mask & (1 << 1)))
+            return FALSE;
+        if (gimmick == GIMMICK_TERA && !(mask & (1 << 3)))
+            return FALSE;
+        if (gimmick == GIMMICK_Z_MOVE)
+            return FALSE;
+    }
     return gGimmicksInfo[gimmick].CanActivate != NULL && gGimmicksInfo[gimmick].CanActivate(battler);
 }
 
