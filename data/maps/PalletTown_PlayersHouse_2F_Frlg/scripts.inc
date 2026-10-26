@@ -157,8 +157,8 @@ PalletTown_PlayersHouse_2F_EventScript_OfferDefaults::
     goto PalletTown_PlayersHouse_2F_EventScript_FinalizeSettings
 
 PalletTown_PlayersHouse_2F_Text_DefaultSettingsPrompt::
-    .string "Continue with default settings?\\p"
-    .string "All generations and Modern EXP\\n"
+    .string "Continue with default settings?\p"
+    .string "All generations and Modern EXP\n"
     .string "Share will be used if not chosen.$"
 
 PalletTown_PlayersHouse_2F_EventScript_ReviewSettings::
