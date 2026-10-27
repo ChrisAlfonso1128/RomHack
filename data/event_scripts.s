@@ -834,6 +834,7 @@ gStdScripts_End::
 	.include "data/maps/Route21_South_Frlg/scripts.inc"
 	.include "data/maps/Route22_Frlg/scripts.inc"
 	.include "data/maps/Route23_Frlg/scripts.inc"
+	.include "data/maps/Route23_UnusedHouse/scripts.inc"
 	.include "data/maps/Route24_Frlg/scripts.inc"
 	.include "data/maps/Route25_Frlg/scripts.inc"
 	.include "data/maps/OneIsland_KindleRoad_Frlg/scripts.inc"
