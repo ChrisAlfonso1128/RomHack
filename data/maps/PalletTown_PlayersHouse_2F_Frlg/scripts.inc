@@ -299,11 +299,11 @@ HmTestLab_EventScript_GrantItems::
     end
 
 HmTestLab_Text_Badges::
-    .string "Grant all eight badges?\\n"
+    .string "Grant all eight badges?\n"
     .string "Use a disposable test save.$"
 
 HmTestLab_Text_ResetBadges::
-    .string "Clear all eight badges?\\n"
+    .string "Clear all eight badges?\n"
     .string "This changes your save.$"
 
 HmTestLab_Text_Granted::
@@ -313,7 +313,7 @@ HmTestLab_Text_Cleared::
     .string "All badges cleared.$"
 
 HmTestLab_Text_Items::
-    .string "Receive all eight HM items?\\n"
+    .string "Receive all eight HM items?\n"
     .string "Bag space is required.$"
 
 HmTestLab_Text_ItemsGranted::
