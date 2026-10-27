@@ -241,3 +241,80 @@ HmTestLab_Text_Station::
     .string "HM FIELD TEST\p"
     .string "More challenge stations coming soon.$"
 
+
+@ Lab-only test controls. Badge state is changed only after explicit confirmation.
+HmTestLab_EventScript_Badges::
+    lockall
+    msgbox HmTestLab_Text_Badges, MSGBOX_YESNO
+    goto_if_eq VAR_RESULT, YES, HmTestLab_EventScript_GrantBadges
+    msgbox HmTestLab_Text_ResetBadges, MSGBOX_YESNO
+    goto_if_eq VAR_RESULT, YES, HmTestLab_EventScript_ClearBadges
+    releaseall
+    end
+
+HmTestLab_EventScript_GrantBadges::
+    setflag FLAG_BADGE01_GET
+    setflag FLAG_BADGE02_GET
+    setflag FLAG_BADGE03_GET
+    setflag FLAG_BADGE04_GET
+    setflag FLAG_BADGE05_GET
+    setflag FLAG_BADGE06_GET
+    setflag FLAG_BADGE07_GET
+    setflag FLAG_BADGE08_GET
+    msgbox HmTestLab_Text_Granted, MSGBOX_DEFAULT
+    releaseall
+    end
+
+HmTestLab_EventScript_ClearBadges::
+    clearflag FLAG_BADGE01_GET
+    clearflag FLAG_BADGE02_GET
+    clearflag FLAG_BADGE03_GET
+    clearflag FLAG_BADGE04_GET
+    clearflag FLAG_BADGE05_GET
+    clearflag FLAG_BADGE06_GET
+    clearflag FLAG_BADGE07_GET
+    clearflag FLAG_BADGE08_GET
+    msgbox HmTestLab_Text_Cleared, MSGBOX_DEFAULT
+    releaseall
+    end
+
+HmTestLab_EventScript_Items::
+    lockall
+    msgbox HmTestLab_Text_Items, MSGBOX_YESNO
+    goto_if_eq VAR_RESULT, YES, HmTestLab_EventScript_GrantItems
+    releaseall
+    end
+
+HmTestLab_EventScript_GrantItems::
+    additem ITEM_HM01, 1
+    additem ITEM_HM02, 1
+    additem ITEM_HM03, 1
+    additem ITEM_HM04, 1
+    additem ITEM_HM05, 1
+    additem ITEM_HM06, 1
+    additem ITEM_HM07, 1
+    additem ITEM_HM08, 1
+    msgbox HmTestLab_Text_ItemsGranted, MSGBOX_DEFAULT
+    releaseall
+    end
+
+HmTestLab_Text_Badges::
+    .string "Grant all eight badges?\\n"
+    .string "Use a disposable test save.$"
+
+HmTestLab_Text_ResetBadges::
+    .string "Clear all eight badges?\\n"
+    .string "This changes your save.$"
+
+HmTestLab_Text_Granted::
+    .string "All badges enabled.$"
+
+HmTestLab_Text_Cleared::
+    .string "All badges cleared.$"
+
+HmTestLab_Text_Items::
+    .string "Receive all eight HM items?\\n"
+    .string "Bag space is required.$"
+
+HmTestLab_Text_ItemsGranted::
+    .string "HM items added where possible.$"
