@@ -33,7 +33,7 @@
       "y": 4,
       "elevation": 3,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "HmTestLab_EventScript_Station"
+      "script": "HmTestLab_EventScript_Badges"
     },
     {
       "type": "sign",
@@ -41,7 +41,7 @@
       "y": 4,
       "elevation": 3,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "HmTestLab_EventScript_Station"
+      "script": "HmTestLab_EventScript_Items"
     }
   ]
 }
