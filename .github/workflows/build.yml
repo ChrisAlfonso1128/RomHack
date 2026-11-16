@@ -1,5 +1,5 @@
 name: Build FireRed expansion
-# Rebuild testing branch after dev integration (HM Test Lab not yet implemented).
+# Rebuild HM Test Lab test ROM and refresh downloadable artifact.
 
 on:
   push:
