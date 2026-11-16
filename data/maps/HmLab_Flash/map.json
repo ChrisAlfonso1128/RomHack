@@ -17,7 +17,26 @@
   "connections": null,
   "object_events": [],
   "warp_events": [],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 4,
+      "y": 8,
+      "elevation": 3,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "HmLab_Flash_EventScript_Return"
+    },
+    {
+      "type": "trigger",
+      "x": 5,
+      "y": 8,
+      "elevation": 3,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "HmLab_Flash_EventScript_Return"
+    }
+  ],
   "bg_events": [
     {
       "type": "sign",
