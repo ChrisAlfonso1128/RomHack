@@ -1085,7 +1085,14 @@
   ],
   "gMapGroup_IndoorRoute22_Frlg": [
     "Route22_NorthEntrance_Frlg",
-    "Route23_UnusedHouse"
+    "Route23_UnusedHouse",
+    "HmLab_Cut",
+    "HmLab_Flash",
+    "HmLab_Fly",
+    "HmLab_Strength",
+    "HmLab_Surf",
+    "HmLab_RockSmash",
+    "HmLab_Waterfall"
   ],
   "gMapGroup_IndoorRoute25_Frlg": [
     "Route25_SeaCottage_Frlg"
