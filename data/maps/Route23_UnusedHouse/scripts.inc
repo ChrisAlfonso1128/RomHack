@@ -1,5 +1,4 @@
 Route23_UnusedHouse_MapScripts::
-    map_script MAP_SCRIPT_ON_TRANSITION, HmTestLab_EventScript_Welcome
     .byte 0
 
 HmTestLab_EventScript_Welcome::
