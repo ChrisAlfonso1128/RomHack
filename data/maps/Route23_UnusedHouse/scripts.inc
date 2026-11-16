@@ -8,7 +8,7 @@ HmTestLab_EventScript_Welcome::
     end
 
 HmTestLab_Text_Welcome::
-    .string "HM TEST LAB\\p"
+    .string "HM TEST LAB\p"
     .string "Enter the seven-room HM course?\n"
     .string "Choose YES to begin with CUT.$"
 
