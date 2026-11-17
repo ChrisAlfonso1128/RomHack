@@ -211,7 +211,7 @@ PalletTown_PlayersHouse_2F_Text_HmLabPrompt::
 PalletTown_PlayersHouse_2F_EventScript_HmLabWarp::
     closemessage
     fadescreen FADE_TO_BLACK
-    warp MAP_HM_LAB_CUT, 3, 5
+    warp MAP_ROUTE23_UNUSED_HOUSE, 3, 5
     waitstate
     end
 
